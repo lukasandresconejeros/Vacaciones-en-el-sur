@@ -12,32 +12,37 @@
 
   <style>
     :root{
-      /* Sunset palette (vivo pero suave) */
+      /* Brand */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
       --sun3:#7c3aed;
       --sun4:#ffd36a;
 
-      --ink:#16151a;
-      --muted:#5a5564;
+      --brand-grad: linear-gradient(135deg, var(--sun2), var(--sun1), var(--sun4));
+      --brand-grad-2: linear-gradient(135deg, rgba(255,61,119,.55), rgba(255,122,24,.45), rgba(124,58,237,.35));
 
-      --card: rgba(255,255,255,.82);
-      --card2: rgba(255,255,255,.90);
+      /* Text */
+      --ink:#16151a;
+      --muted:#4f4a59;
+
+      /* Surfaces */
+      --card: rgba(255,255,255,.86);
+      --card2: rgba(255,255,255,.92);
       --border: rgba(22,21,26,.10);
 
-      --shadow: 0 16px 50px rgba(22,21,26,.10);
-      --shadow2: 0 10px 24px rgba(22,21,26,.10);
+      /* Shadows */
+      --shadow: 0 18px 60px rgba(22,21,26,.12);
+      --shadow2: 0 12px 28px rgba(22,21,26,.10);
 
       --radius: 18px;
 
-      /* Botones calmados (sin “dolor visual”) */
-      --btn-ink:#1b1620;
-      --btn-bg: rgba(255,255,255,.88);
-      --btn-bd: rgba(22,21,26,.12);
-      --btn-shadow: 0 12px 28px rgba(22,21,26,.12);
+      /* Buttons */
+      --btn-ghost-bg: rgba(255,255,255,.72);
+      --btn-ghost-bd: rgba(22,21,26,.12);
 
-      --accent-soft: rgba(255,122,24,.10);
-      --accent-soft2: rgba(255,61,119,.08);
+      /* Focus */
+      --ring: rgba(255,61,119,.16);
+      --ring2: rgba(255,122,24,.14);
     }
 
     *{ box-sizing:border-box; }
@@ -56,7 +61,7 @@
       content:"";
       position:fixed;
       inset:-25%;
-      z-index:-1;
+      z-index:-2;
       opacity:.55;
       filter: blur(44px);
       pointer-events:none;
@@ -76,6 +81,23 @@
       0%{ transform: translate3d(0,0,0) scale(1); }
       50%{ transform: translate3d(3%, -2%, 0) scale(1.03); }
       100%{ transform: translate3d(0,0,0) scale(1); }
+    }
+
+    /* Grain suave (quita “plano”) */
+    .grain{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      opacity:.06;
+      mix-blend-mode:multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      background-repeat:repeat;
+      background-size:140px 140px;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      body::before, body::after{ animation:none; }
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -102,7 +124,7 @@
       width:42px; height:42px;
       border-radius:999px;
       background: conic-gradient(from 220deg, var(--sun1), var(--sun2), var(--sun3), var(--sun4), var(--sun1));
-      box-shadow: 0 12px 30px rgba(255,122,24,.20);
+      box-shadow: 0 14px 34px rgba(255,61,119,.20);
       display:grid; place-items:center;
       border:1px solid rgba(22,21,26,.10);
       flex:0 0 auto;
@@ -120,7 +142,7 @@
       font-size:13px;
       letter-spacing:.12em;
       text-transform:uppercase;
-      font-weight:600;
+      font-weight:700;
       line-height:1.2;
     }
     .brand small{
@@ -147,9 +169,10 @@
       white-space:nowrap;
     }
     nav a:hover{
-      background: rgba(255,122,24,.10);
+      background: rgba(255,61,119,.10);
       transform: translateY(-1px);
     }
+    nav a:focus-visible{ outline:none; box-shadow: 0 0 0 4px var(--ring); }
 
     /* Mobile menu button */
     .menu-btn{
@@ -194,7 +217,7 @@
     .drawer-head{
       padding:14px 16px;
       display:flex; justify-content:space-between; align-items:center;
-      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.16), rgba(255,61,119,.10));
+      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.16), rgba(255,61,119,.12));
       border-bottom:1px solid rgba(22,21,26,.08);
     }
     .drawer-head b{
@@ -222,7 +245,7 @@
       border-radius:16px;
       border:1px solid rgba(22,21,26,.10);
       background: rgba(255,255,255,.86);
-      font-weight:600;
+      font-weight:700;
       color:#2b2832;
     }
     .drawer-link:active{ transform: translateY(1px); }
@@ -237,8 +260,10 @@
     .hero{ padding:52px 0 22px; }
     .hero-box{
       border-radius: 26px;
-      background: rgba(255,255,255,.72);
-      border:1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.66)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.16), rgba(255,61,119,.14), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       box-shadow: var(--shadow);
       padding:24px;
       overflow:hidden;
@@ -249,15 +274,78 @@
       position:absolute;
       inset:-2px;
       z-index:0;
-      opacity:.45;
+      opacity:.42;
       background:
         radial-gradient(520px 320px at 10% 10%, rgba(255,122,24,.48), transparent 60%),
         radial-gradient(560px 360px at 90% 20%, rgba(255,61,119,.34), transparent 62%),
         radial-gradient(520px 420px at 55% 120%, rgba(124,58,237,.18), transparent 62%);
-      filter: blur(40px);
+      filter: blur(42px);
       pointer-events:none;
     }
     .hero-content{ position:relative; z-index:1; }
+
+    /* Layout hero: video + texto */
+    .hero-layout{
+      display:grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap:18px;
+      align-items:center;
+      grid-template-areas:"media text";
+    }
+    .hero-media{ grid-area:media; }
+    .hero-text{ grid-area:text; }
+
+    @media (max-width: 980px){
+      .hero-layout{
+        grid-template-columns:1fr;
+        grid-template-areas:"media" "text";
+      }
+    }
+
+    .video-frame{
+      position:relative;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid transparent;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.56), rgba(255,255,255,.30)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.38), rgba(255,61,119,.28), rgba(124,58,237,.20)) border-box;
+      box-shadow: 0 22px 60px rgba(22,21,26,.16);
+      transform: translateZ(0);
+    }
+    .video-frame::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(700px 320px at 20% 0%, rgba(255,211,106,.14), transparent 55%);
+      opacity:.9;
+    }
+    .video-frame video{
+      display:block;
+      width:100%;
+      aspect-ratio: 16/9;
+      object-fit:cover;
+      background:#0b0b0f;
+    }
+    .video-badge{
+      position:absolute;
+      left:12px; top:12px;
+      z-index:2;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      color:#221f29;
+      background: rgba(255,255,255,.82);
+      border:1px solid rgba(22,21,26,.10);
+      box-shadow: 0 14px 34px rgba(22,21,26,.12);
+      backdrop-filter: blur(10px);
+      user-select:none;
+    }
 
     .kicker{
       display:inline-flex; align-items:center; gap:10px;
@@ -270,13 +358,13 @@
     .dot{
       width:10px; height:10px;
       border-radius:999px;
-      background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
-      box-shadow: 0 0 0 6px rgba(255,122,24,.10);
+      background: var(--brand-grad);
+      box-shadow: 0 0 0 6px rgba(255,61,119,.10);
     }
     .hero-title{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:44px;
+      font-size:40px;
       line-height:1.06;
       letter-spacing:.01em;
     }
@@ -312,17 +400,19 @@
       border-radius:999px;
       font-size:12px;
       color:#2b2832;
-      background: rgba(255,255,255,.76);
+      background: rgba(255,255,255,.70);
       border:1px solid rgba(22,21,26,.08);
       white-space:nowrap;
     }
 
-    /* Grupo / Colegio / Empresa (arriba, explicado) */
+    /* Grupo / Colegio / Empresa */
     .group-hero{
       margin-top:14px;
       border-radius: 22px;
-      background: rgba(255,255,255,.80);
-      border: 1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.74)) padding-box,
+        linear-gradient(135deg, rgba(255,61,119,.18), rgba(255,122,24,.14), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       box-shadow: var(--shadow2);
       padding:16px;
       display:flex;
@@ -332,7 +422,7 @@
     }
     .group-hero .icon{
       width:46px; height:46px; border-radius:16px;
-      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.18), rgba(255,61,119,.10));
+      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.18), rgba(255,61,119,.12));
       border:1px solid rgba(22,21,26,.08);
       display:grid; place-items:center;
       font-size:20px;
@@ -345,7 +435,7 @@
       letter-spacing:.16em;
       text-transform:uppercase;
       color:#2b2832;
-      font-weight:800;
+      font-weight:900;
     }
     .group-hero p{
       margin:8px 0 0;
@@ -364,40 +454,53 @@
       border:0;
       border-radius: 14px;
       padding:10px 14px;
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       cursor:pointer;
       display:inline-flex;
       gap:10px;
       align-items:center;
       justify-content:center;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease, background .12s ease;
       user-select:none;
       white-space:nowrap;
       line-height:1.1;
     }
     .btn:active{ transform: translateY(1px); }
+    .btn:focus-visible{ outline:none; box-shadow: 0 0 0 4px var(--ring); }
 
+    /* CTA real */
     .btn-primary{
-      color:var(--btn-ink);
-      background: var(--btn-bg);
-      border:1px solid var(--btn-bd);
-      box-shadow: var(--btn-shadow);
+      color:#fff;
+      background: var(--brand-grad);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:
+        0 16px 36px rgba(255,61,119,.22),
+        0 12px 26px rgba(22,21,26,.14);
+      text-shadow: 0 10px 24px rgba(0,0,0,.18);
     }
     .btn-primary:hover{
-      border-color: rgba(255,122,24,.26);
-      background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,122,24,.06), rgba(255,61,119,.05));
+      transform: translateY(-1px);
+      filter: saturate(1.03) brightness(1.02);
+      box-shadow:
+        0 18px 42px rgba(255,61,119,.26),
+        0 14px 30px rgba(22,21,26,.16);
     }
+
     .btn-ghost{
       color:#2b2832;
-      background: rgba(255,255,255,.76);
-      border:1px solid rgba(22,21,26,.10);
+      background: var(--btn-ghost-bg);
+      border:1px solid var(--btn-ghost-bd);
+      box-shadow: 0 10px 22px rgba(22,21,26,.08);
     }
-    .btn-ghost:hover{ background: rgba(255,122,24,.10); }
+    .btn-ghost:hover{
+      background: linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,61,119,.07), rgba(255,122,24,.06));
+      transform: translateY(-1px);
+    }
 
     /* SECTIONS */
     section{ padding:36px 0; }
-    section[id]{ scroll-margin-top: 88px; } /* evita que el header tape el título */
+    section[id]{ scroll-margin-top: 88px; }
     .section-head{
       display:flex;
       justify-content:space-between;
@@ -410,8 +513,19 @@
       font-size:18px;
       letter-spacing:.18em;
       text-transform:uppercase;
-      font-weight:700;
+      font-weight:800;
       color:#2b2832;
+      position:relative;
+      padding-bottom:10px;
+    }
+    .section-head h2::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:0;
+      width:76px; height:3px;
+      border-radius:999px;
+      background: var(--brand-grad);
+      opacity:.9;
     }
     .section-head p{
       margin:0;
@@ -428,7 +542,7 @@
     }
     @media (max-width: 980px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
-      .hero-title{ font-size:36px; }
+      .hero-title{ font-size:34px; }
       .group-hero .cta{ margin-left:0; width:100%; }
     }
     @media (max-width: 640px){
@@ -441,8 +555,10 @@
     }
 
     .card{
-      background: var(--card);
-      border:1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.80)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.18), rgba(255,61,119,.14), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       border-radius: var(--radius);
       box-shadow: var(--shadow2);
       padding:16px;
@@ -451,24 +567,33 @@
       min-height: 260px;
       min-width:0;
       overflow:hidden;
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
     }
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(22,21,26,.14);
+      filter: saturate(1.02);
+    }
+
     .tag{
       width:max-content;
       font-size:11px;
       letter-spacing:.14em;
       text-transform:uppercase;
-      font-weight:800;
+      font-weight:900;
       padding:6px 10px;
       border-radius:999px;
-      background: rgba(255,122,24,.12);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.80), rgba(255,255,255,.70)) padding-box,
+        linear-gradient(135deg, rgba(255,61,119,.28), rgba(255,122,24,.22), rgba(124,58,237,.16)) border-box;
+      border:1px solid transparent;
       color:#2b2832;
-      border:1px solid rgba(255,122,24,.18);
       margin-bottom:10px;
     }
     .card h3{
       margin:0;
       font-size:17px;
-      font-weight:700;
+      font-weight:800;
       color:#221f29;
       line-height:1.25;
     }
@@ -482,7 +607,7 @@
     .meta .mini{
       font-size:12px;
       color:#2b2832;
-      background: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.82);
       border:1px solid rgba(22,21,26,.08);
       padding:6px 10px;
       border-radius:999px;
@@ -505,7 +630,7 @@
       gap:10px;
       color:#221f29;
       font-size:13px;
-      font-weight:600;
+      font-weight:700;
     }
     .actions{
       margin-top:12px;
@@ -517,13 +642,15 @@
     .actions .btn{ flex:0 0 auto; }
     @media (max-width: 640px){
       .actions{ gap:8px; }
-      .actions .btn{ flex:1 1 auto; } /* botones anchos pero NO gigantes */
+      .actions .btn{ flex:1 1 auto; }
     }
 
     /* Alojamiento */
     .stay{
-      background: rgba(255,255,255,.80);
-      border:1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.76)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.16), rgba(255,61,119,.12), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding:18px;
@@ -552,11 +679,11 @@
     .stay-item{
       border-radius: 18px;
       border:1px solid rgba(22,21,26,.08);
-      background: rgba(255,255,255,.90);
+      background: rgba(255,255,255,.88);
       padding:14px;
       min-width:0;
     }
-    .stay-item b{ display:block; font-size:13px; color:#221f29; }
+    .stay-item b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .stay-item span{ display:block; margin-top:4px; font-size:12.5px; color:#3c3646; line-height:1.5; }
     .stay-actions{
       margin-top:14px;
@@ -579,8 +706,10 @@
     }
     @media (max-width: 980px){ .about-grid{ grid-template-columns:1fr; } }
     .box{
-      background: rgba(255,255,255,.80);
-      border:1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.76)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.14), rgba(255,61,119,.12), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       border-radius: 22px;
       box-shadow: var(--shadow2);
       padding:18px;
@@ -590,7 +719,7 @@
       font-size:13px;
       letter-spacing:.18em;
       text-transform:uppercase;
-      font-weight:800;
+      font-weight:900;
       color:#2b2832;
     }
     .box p{
@@ -607,17 +736,19 @@
     }
     .value{
       border:1px solid rgba(22,21,26,.08);
-      background: rgba(255,255,255,.90);
+      background: rgba(255,255,255,.88);
       border-radius: 16px;
       padding:12px;
     }
-    .value b{ display:block; font-size:13px; color:#221f29; }
+    .value b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.55; }
 
     /* Alianza */
     .ally{
-      background: rgba(255,255,255,.80);
-      border:1px solid rgba(22,21,26,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.76)) padding-box,
+        linear-gradient(135deg, rgba(255,122,24,.16), rgba(255,61,119,.12), rgba(124,58,237,.10)) border-box;
+      border:1px solid transparent;
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding:18px;
@@ -653,14 +784,14 @@
     }
     .ally .bullets li{
       border:1px solid rgba(22,21,26,.08);
-      background: rgba(255,255,255,.90);
+      background: rgba(255,255,255,.88);
       border-radius: 16px;
       padding:12px;
       color:#3c3646;
       font-size:13px;
       line-height:1.55;
     }
-    .ally .bullets b{ color:#221f29; }
+    .ally .bullets b{ color:#221f29; font-weight:900; }
 
     /* Form inputs */
     label{
@@ -668,22 +799,31 @@
       font-size:12px;
       color:var(--muted);
       margin:10px 0 6px;
+      font-weight:600;
     }
     input, textarea, select{
       width:100%;
       padding:12px;
       border-radius:14px;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid transparent;
       outline:none;
       font-size:14px;
-      background:#fff;
       color:#221f29;
       min-width:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.88)) padding-box,
+        linear-gradient(135deg, rgba(22,21,26,.12), rgba(22,21,26,.06)) border-box;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+      transition: box-shadow .12s ease, background .12s ease;
     }
+    input::placeholder, textarea::placeholder{ color: rgba(79,74,89,.65); }
     textarea{ min-height:96px; resize:vertical; }
+
     input:focus, textarea:focus, select:focus{
-      border-color: rgba(255,122,24,.45);
-      box-shadow: 0 0 0 4px rgba(255,122,24,.14);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.90)) padding-box,
+        var(--brand-grad-2) border-box;
+      box-shadow: 0 0 0 4px var(--ring), 0 0 0 8px var(--ring2);
     }
 
     /* Footer */
@@ -720,7 +860,7 @@
       display:flex;
       justify-content:space-between;
       gap:10px;
-      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.16), rgba(255,61,119,.10));
+      background: linear-gradient(135deg, rgba(255,211,106,.32), rgba(255,122,24,.16), rgba(255,61,119,.12));
     }
     .modal-head h4{
       margin:0;
@@ -810,6 +950,8 @@
 </head>
 
 <body>
+  <div class="grain" aria-hidden="true"></div>
+
   <header>
     <div class="container">
       <div class="nav">
@@ -821,7 +963,6 @@
           </div>
         </a>
 
-        <!-- Desktop nav -->
         <nav aria-label="Navegación principal">
           <ul>
             <li><a href="#tours-fluviales">Tours fluviales</a></li>
@@ -832,7 +973,6 @@
           </ul>
         </nav>
 
-        <!-- Mobile menu button -->
         <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
       </div>
     </div>
@@ -863,40 +1003,61 @@
       <div class="hero">
         <div class="hero-box">
           <div class="hero-content">
-            <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
 
-            <h2 class="hero-title">
-              Vacaciones en el Sur<br>
-              de <span class="script">Chile</span>
-            </h2>
-
-            <p class="hero-sub">
-              Ríos, humedales, castillos, selva valdiviana y rutas full day.
-              Tú envías la solicitud aquí y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
-            </p>
-
-            <div class="hero-row">
-              <span class="pill">✅ Sin redirección</span>
-              <span class="pill">⚡ Respuesta rápida</span>
-              <span class="pill">🧾 Solicitud al sistema</span>
-
-              <button class="btn btn-ghost" onclick="scrollToSection('tours-fluviales')">Ver tours</button>
-              <button class="btn btn-ghost" onclick="scrollToSection('alojamiento')">Ver alojamiento</button>
-            </div>
-
-            <!-- GRUPOS / COLEGIOS / EMPRESAS -->
-            <div class="group-hero" id="grupos">
-              <div class="icon">👥</div>
-              <div>
-                <h3>Si vienes con grupo, colegio o empresa</h3>
-                <p>
-                  Un grupo necesita organización y alguien confiable al otro lado.
-                  Te ayudamos a planificar con calma (ruta, horarios, puntos clave y coordinación) para que tú te despreocupes
-                  y el grupo solo venga a disfrutar.
-                </p>
+            <div class="hero-layout">
+              <!-- VIDEO -->
+              <div class="hero-media">
+                <div class="video-frame">
+                  <div class="video-badge">🎥 Valdivia en movimiento</div>
+                  <video
+                    src="video/video.mp4"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                  ></video>
+                </div>
               </div>
-              <div class="cta">
-                <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+
+              <!-- TEXTO -->
+              <div class="hero-text">
+                <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
+
+                <h2 class="hero-title">
+                  Vacaciones en el Sur<br>
+                  de <span class="script">Chile</span>
+                </h2>
+
+                <p class="hero-sub">
+                  Ríos, humedales, castillos, selva valdiviana y rutas full day.
+                  Tú envías la solicitud aquí y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
+                </p>
+
+                <div class="hero-row">
+                  <span class="pill">✅ Sin redirección</span>
+                  <span class="pill">⚡ Respuesta rápida</span>
+                  <span class="pill">🧾 Solicitud al sistema</span>
+
+                  <button class="btn btn-ghost" onclick="scrollToSection('tours-fluviales')">Ver tours</button>
+                  <button class="btn btn-ghost" onclick="scrollToSection('alojamiento')">Ver alojamiento</button>
+                </div>
+
+                <!-- GRUPOS / COLEGIOS / EMPRESAS -->
+                <div class="group-hero" id="grupos">
+                  <div class="icon">👥</div>
+                  <div>
+                    <h3>Si vienes con grupo, colegio o empresa</h3>
+                    <p>
+                      Un grupo necesita organización y alguien confiable al otro lado.
+                      Te ayudamos a planificar con calma (ruta, horarios, puntos clave y coordinación) para que tú te despreocupes
+                      y el grupo solo venga a disfrutar.
+                    </p>
+                  </div>
+                  <div class="cta">
+                    <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -937,9 +1098,7 @@
 
         <div class="stay">
           <h3>Tenemos estas opciones de alojamiento</h3>
-          <p>
-            Sin catálogo infinito. Tú mandas tu solicitud y te respondemos con alternativas que calzan contigo.
-          </p>
+          <p>Sin catálogo infinito. Tú mandas tu solicitud y te respondemos con alternativas que calzan contigo.</p>
 
           <div class="stay-list">
             <div class="stay-item">
@@ -1062,9 +1221,7 @@
             <div style="height:10px"></div>
 
             <h3>Propósito</h3>
-            <p>
-              Crecer entregando valor en lo que hacemos, a nuestros colaboradores y entorno.
-            </p>
+            <p>Crecer entregando valor en lo que hacemos, a nuestros colaboradores y entorno.</p>
           </div>
 
           <div class="box">
@@ -1088,7 +1245,6 @@
               </div>
             </div>
 
-            <!-- Botones al final (se quedan) -->
             <div class="modal-actions" style="margin-top:14px;">
               <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
               <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
@@ -1447,7 +1603,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
           </div>
           <p class="desc">${t.descripcion || "—"}</p>
           <div class="price">
-            ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:600;">Precio a consultar</span>`}
+            ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:700;">Precio a consultar</span>`}
           </div>
           <div class="actions">
             <button class="btn btn-primary" onclick='openReserve(${JSON.stringify({ tipo: label, nombre: t.nombre, id: t.id })})'>Reservar</button>
@@ -1726,12 +1882,9 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     document.getElementById("menuBtn").addEventListener("click", openDrawer);
     document.getElementById("drawerClose").addEventListener("click", closeDrawer);
     document.querySelectorAll("[data-drawer-link]").forEach(a => {
-      a.addEventListener("click", () => {
-        closeDrawer();
-      });
+      a.addEventListener("click", () => closeDrawer());
     });
 
-    // Prevent accidental horizontal overflow
     window.addEventListener("resize", () => {
       document.documentElement.style.overflowX = "hidden";
       document.body.style.overflowX = "hidden";
@@ -1741,3 +1894,5 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
   </script>
 </body>
 </html>
+
+
