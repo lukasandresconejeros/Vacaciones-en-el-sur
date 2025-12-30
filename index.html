@@ -12,7 +12,6 @@
 
   <style>
     :root{
-      /* Sunset / tourism palette */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
       --sun3:#7c3aed;
@@ -28,11 +27,16 @@
 
       --radius: 18px;
 
-      /* Buttons (less saturated / easier on eyes) */
+      /* Buttons (calm / not eye-killing) */
       --btn-ink:#1b1620;
-      --btn-bg: rgba(255,255,255,.86);
+      --btn-bg: rgba(255,255,255,.88);
       --btn-bd: rgba(22,21,26,.12);
       --btn-shadow: 0 14px 34px rgba(22,21,26,.12);
+
+      --btn-accent: rgba(255,122,24,.18);
+      --btn-accent2: rgba(255,61,119,.14);
+
+      --headerH: 78px;
     }
 
     *{ box-sizing:border-box; }
@@ -78,7 +82,8 @@
 
     /* Header */
     header{
-      position:sticky; top:0; z-index:30;
+      position:fixed; top:0; left:0; right:0;
+      z-index:50;
       background: rgba(255,255,255,.72);
       backdrop-filter: blur(10px);
       border-bottom:1px solid rgba(22,21,26,.08);
@@ -86,8 +91,7 @@
     .nav{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 0;
-      gap:14px;
-      flex-wrap:wrap;
+      gap:12px;
     }
 
     .brand{
@@ -101,6 +105,7 @@
       box-shadow: 0 12px 30px rgba(255,122,24,.20);
       display:grid; place-items:center;
       border:1px solid rgba(22,21,26,.10);
+      flex: 0 0 auto;
     }
     .logo span{
       font-family:"Satisfy", cursive;
@@ -116,21 +121,36 @@
       letter-spacing:.12em;
       text-transform:uppercase;
       font-weight:600;
+      line-height:1.2;
     }
     .brand small{
       display:block;
       margin-top:2px;
       font-size:12px;
       color:var(--muted);
+      line-height:1.2;
     }
 
-    nav{ max-width:100%; }
-    nav ul{
-      display:flex; gap:12px;
-      list-style:none; padding:0; margin:0;
-      flex-wrap:wrap;
-      justify-content:flex-end;
+    .nav-right{
+      display:flex;
+      gap:10px;
       align-items:center;
+      justify-content:flex-end;
+      min-width: 360px;
+    }
+
+    nav{
+      max-width: 520px;
+      overflow:auto hidden;
+      scrollbar-width:none;
+    }
+    nav::-webkit-scrollbar{ display:none; }
+    nav ul{
+      display:flex; gap:10px;
+      list-style:none; padding:0; margin:0;
+      align-items:center;
+      flex-wrap:nowrap;
+      white-space:nowrap;
     }
     nav a{
       font-size:13px;
@@ -138,15 +158,56 @@
       padding:8px 10px;
       border-radius:999px;
       transition: background .15s ease, transform .15s ease;
-      white-space:nowrap;
+      border:1px solid transparent;
     }
     nav a:hover{
       background: rgba(255,122,24,.10);
       transform: translateY(-1px);
     }
 
+    .mode-btn{
+      border:1px solid rgba(22,21,26,.10);
+      background: rgba(255,255,255,.75);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:#2b2832;
+      cursor:pointer;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .mode-dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(90,85,100,.45);
+      box-shadow: 0 0 0 4px rgba(90,85,100,.10);
+    }
+    .mode-btn[data-on="true"] .mode-dot{
+      background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
+      box-shadow: 0 0 0 6px rgba(255,122,24,.14);
+    }
+
+    /* Scroller (page) */
+    #scroller{
+      height: 100vh;
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding-top: var(--headerH);
+      scroll-behavior:smooth;
+    }
+
+    /* Step sections */
+    [data-step]{
+      min-height: calc(100vh - var(--headerH));
+      padding: 44px 0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+
     /* Hero */
-    .hero{ padding:56px 0 26px; }
     .hero-box{
       border-radius: 26px;
       background: rgba(255,255,255,.70);
@@ -212,7 +273,7 @@
     .hero-row{
       margin-top:16px;
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
       align-items:center;
     }
@@ -229,7 +290,7 @@
       border:1px solid rgba(22,21,26,.08);
     }
 
-    /* Groups box right under hero */
+    /* Groups block under hero */
     .group-hero{
       margin-top:14px;
       border-radius: 22px;
@@ -253,7 +314,7 @@
     }
     .group-hero h3{
       margin:0;
-      font-size:14px;
+      font-size:13px;
       letter-spacing:.14em;
       text-transform:uppercase;
       color:#2b2832;
@@ -264,8 +325,7 @@
       color:#3c3646;
       font-size:13px;
       line-height:1.6;
-      max-width:80ch;
-      white-space:pre-line;
+      max-width:78ch;
     }
     .group-hero .cta{
       margin-left:auto;
@@ -287,6 +347,7 @@
       transition: transform .12s ease, filter .12s ease, background .12s ease, border-color .12s ease;
       user-select:none;
       white-space:nowrap;
+      flex: 0 0 auto; /* IMPORTANT: prevent tall stretching */
     }
     .btn:active{ transform: translateY(1px); }
 
@@ -299,7 +360,6 @@
     .btn-primary:hover{
       border-color: rgba(255,122,24,.26);
       background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,122,24,.06), rgba(255,61,119,.05));
-      filter: none;
     }
 
     .btn-ghost{
@@ -309,8 +369,7 @@
     }
     .btn-ghost:hover{ background: rgba(255,122,24,.10); }
 
-    /* Sections */
-    section{ padding:38px 0; }
+    /* Section heads */
     .section-head{
       display:flex;
       justify-content:space-between;
@@ -332,7 +391,7 @@
       font-size:13px;
     }
 
-    /* Cards grid */
+    /* Cards grid (desktop) */
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -347,7 +406,7 @@
       padding:16px;
       display:flex;
       flex-direction:column;
-      min-height:unset; /* ✅ mejor para mobile */
+      min-height:unset; /* avoid forced height */
     }
     .tag{
       width:max-content;
@@ -387,7 +446,6 @@
       margin:10px 0 0;
       color:#3c3646;
       font-size:13px;
-      flex:1 1 auto;
     }
     .price{
       margin-top:10px;
@@ -398,11 +456,19 @@
       font-size:13px;
       font-weight:500;
     }
+
+    /* ✅ ACTIONS: grid 2 cols, no flex-grow => NO GIANT BUTTONS */
     .actions{
       margin-top:12px;
-      display:flex;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
       gap:10px;
-      flex-wrap:wrap;
+    }
+    .actions .btn{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 14px;
+      flex: 0 0 auto; /* key fix */
     }
 
     /* Alojamiento */
@@ -493,7 +559,6 @@
     .value b{ display:block; font-size:13px; color:#221f29; }
     .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; }
 
-    /* Footer */
     footer{
       padding:26px 0 52px;
       text-align:center;
@@ -510,7 +575,7 @@
       align-items:center;
       justify-content:center;
       padding:18px;
-      z-index:60;
+      z-index:80;
       backdrop-filter: blur(6px);
     }
     .modal{
@@ -520,6 +585,8 @@
       border-radius: 24px;
       box-shadow: 0 24px 70px rgba(22,21,26,.18);
       overflow:hidden;
+      max-height: 86vh;
+      overflow-y:auto;
     }
     .modal-head{
       padding:14px 16px;
@@ -528,6 +595,9 @@
       justify-content:space-between;
       gap:10px;
       background: linear-gradient(135deg, rgba(255,211,106,.35), rgba(255,122,24,.18), rgba(255,61,119,.12));
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
     .modal-head h4{
       margin:0;
@@ -619,65 +689,96 @@
       padding:12px 14px;
       box-shadow: 0 18px 40px rgba(22,21,26,.14);
       display:none;
-      z-index:80;
+      z-index:90;
       color:#221f29;
       font-size:13px;
       max-width:92vw;
       text-align:center;
     }
 
-    /* ✅ Mobile polish */
+    /* Step dots */
+    .dots{
+      position:fixed;
+      right:14px;
+      top: calc(var(--headerH) + 12px);
+      z-index:60;
+      display:none;
+      gap:8px;
+      flex-direction:column;
+      padding:10px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      border:1px solid rgba(22,21,26,.08);
+      backdrop-filter: blur(8px);
+    }
+    .dots button{
+      width:10px; height:10px;
+      border-radius:999px;
+      border:0;
+      cursor:pointer;
+      background: rgba(90,85,100,.35);
+      box-shadow: 0 0 0 5px rgba(90,85,100,.08);
+    }
+    .dots button.active{
+      background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
+      box-shadow: 0 0 0 7px rgba(255,122,24,.14);
+    }
+    html.step-mode .dots{ display:flex; }
+
+    /* Responsive */
     @media (max-width: 980px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
       .hero-title{ font-size:36px; }
       .group-hero .cta{ margin-left:0; width:100%; }
+      .nav-right{ min-width:auto; }
     }
-    @media (max-width: 720px){
-      nav ul{
-        flex-wrap:nowrap;
-        overflow-x:auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom:6px;
-        gap:10px;
-        justify-content:flex-start;
-      }
-      nav ul::-webkit-scrollbar{ height:0; }
+
+    @media (max-width: 760px){
       .brand{ min-width:auto; }
-      .hero{ padding:36px 0 18px; }
-      .hero-box{ padding:18px; border-radius:22px; }
+      .nav-right{ gap:8px; }
+      .mode-btn{ padding:7px 9px; }
       .hero-title{ font-size:32px; }
-      .hero-row{ gap:10px; }
-      .pill{ font-size:11.5px; }
-      .group-hero{ padding:14px; gap:12px; }
-      .group-hero .icon{ width:42px; height:42px; border-radius:14px; }
-      .group-hero p{ font-size:13px; }
-      .btn{ padding:12px 14px; }
-      .actions .btn{ flex:1 1 160px; } /* mejor wrap */
+
+      /* ✅ Mobile: tours as horizontal carousel (no endless vertical scroll) */
+      .grid{
+        display:flex;
+        gap:12px;
+        overflow-x:auto;
+        overflow-y:hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+      }
+      .grid::-webkit-scrollbar{ display:none; }
+      .card{
+        flex: 0 0 86%;
+        scroll-snap-align: start;
+      }
+
+      .actions{
+        grid-template-columns: 1fr 1fr; /* keep 2 buttons, not stacked huge */
+      }
+      .actions .btn{
+        padding:10px 10px;
+        font-size:13px;
+      }
+
       .stay-list{ grid-template-columns:1fr; }
       .about-grid{ grid-template-columns:1fr; }
+      .dots{ right:10px; }
     }
-    @media (max-width: 560px){
-      .grid{ grid-template-columns:1fr; }
-      .actions{ flex-direction:column; }
-      .actions .btn{ width:100%; }
-      .group-hero .cta{ flex-direction:column; }
-      .group-hero .cta .btn{ width:100%; }
-      .hero-row .btn{ width:100%; }
-      .stay-actions{ flex-direction:column; align-items:stretch; }
-      .stay-actions .btn{ width:100%; }
-      .modal{ width: min(680px, 98vw); border-radius:20px; }
-      .modal-body{ padding:14px; }
-      .modal-actions{ flex-direction:column; align-items:stretch; }
-      .modal-actions .btn{ width:100%; }
+
+    @media (max-width: 380px){
+      .actions{ grid-template-columns: 1fr; } /* ultra small: 1 col but normal height */
     }
   </style>
 </head>
 
 <body>
-  <header>
+  <header id="header">
     <div class="container">
       <div class="nav">
-        <a class="brand" href="#inicio" aria-label="Vacaciones en el Sur">
+        <a class="brand" href="#inicio" aria-label="Vacaciones en el Sur" onclick="navTo('inicio'); return false;">
           <div class="logo"><span>V</span></div>
           <div>
             <h1>Vacaciones en el Sur</h1>
@@ -685,23 +786,34 @@
           </div>
         </a>
 
-        <nav aria-label="Navegación">
-          <ul>
-            <li><a href="#tours-fluviales">Tours fluviales</a></li>
-            <li><a href="#tours-terrestres">Tours terrestres</a></li>
-            <li><a href="#alojamiento">Alojamiento</a></li>
-            <li><a href="#quienes-somos">Quiénes somos</a></li>
-          </ul>
-        </nav>
+        <div class="nav-right">
+          <nav aria-label="Navegación">
+            <ul>
+              <li><a href="#tours-fluviales" onclick="navTo('tours-fluviales'); return false;">Tours fluviales</a></li>
+              <li><a href="#tours-terrestres" onclick="navTo('tours-terrestres'); return false;">Tours terrestres</a></li>
+              <li><a href="#alojamiento" onclick="navTo('alojamiento'); return false;">Alojamiento</a></li>
+              <li><a href="#quienes-somos" onclick="navTo('quienes-somos'); return false;">Quiénes somos</a></li>
+            </ul>
+          </nav>
+
+          <!-- ✅ Step mode toggle -->
+          <button class="mode-btn" id="modeBtn" type="button" data-on="true" title="Activa/desactiva navegación paso a paso">
+            <span class="mode-dot"></span>
+            <span id="modeText">Paso a paso: ON</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <main id="inicio">
-    <div class="container">
+  <!-- Dots -->
+  <div class="dots" id="dots" aria-label="Navegación por secciones"></div>
+
+  <div id="scroller">
+    <main class="container">
 
       <!-- HERO -->
-      <div class="hero">
+      <section id="inicio" data-step>
         <div class="hero-box">
           <div class="hero-content">
             <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
@@ -721,18 +833,19 @@
               <span class="pill">⚡ Respuesta rápida</span>
               <span class="pill">🧾 Solicitud al sistema</span>
 
-              <button class="btn btn-ghost" onclick="scrollToSection('tours-fluviales')">Ver tours</button>
-              <button class="btn btn-ghost" onclick="scrollToSection('alojamiento')">Ver alojamiento</button>
+              <button class="btn btn-ghost" onclick="navTo('tours-fluviales')">Ver tours</button>
+              <button class="btn btn-ghost" onclick="navTo('alojamiento')">Ver alojamiento</button>
             </div>
 
-            <!-- Groups -->
             <div class="group-hero" id="grupos">
               <div class="icon">👥</div>
               <div>
                 <h3>Si vienes con un grupo, colegio o empresa</h3>
-                <p>Sabemos que un evento importante necesita organización, tiempo y alguien en quien confiar.
-En Vacaciones del Sur te ayudamos a planificar todo con calma, para que tú te despreocupes y tus invitados solo se dediquen a disfrutar.
-Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bien pensada, a tu ritmo y a la medida de tu grupo.</p>
+                <p>
+                  Sabemos que un evento importante necesita organización, tiempo y alguien en quien confiar.
+                  En Vacaciones del Sur te ayudamos a planificar todo con calma, para que tú te despreocupes y tu grupo solo se dedique a disfrutar.
+                  Agenda una reunión y armamos juntos una experiencia a tu ritmo y a la medida.
+                </p>
               </div>
               <div class="cta">
                 <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
@@ -741,32 +854,38 @@ Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bi
 
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- FLUVIALES -->
-      <section id="tours-fluviales">
+      <section id="tours-fluviales" data-step>
         <div class="section-head">
           <div>
             <h2>Tours fluviales</h2>
             <p>Valdivia por agua: castillos, santuarios, humedales, postales.</p>
+          </div>
+          <div class="note" style="text-align:right;">
+            <span id="hintFluvial" style="display:none;">👉 Desliza para ver más</span>
           </div>
         </div>
         <div class="grid" id="grid-fluviales"></div>
       </section>
 
       <!-- TERRESTRES -->
-      <section id="tours-terrestres">
+      <section id="tours-terrestres" data-step>
         <div class="section-head">
           <div>
             <h2>Tours terrestres</h2>
             <p>Full day, termas, parques y rutas: naturaleza + cultura.</p>
+          </div>
+          <div class="note" style="text-align:right;">
+            <span id="hintTerr" style="display:none;">👉 Desliza para ver más</span>
           </div>
         </div>
         <div class="grid" id="grid-terrestres"></div>
       </section>
 
       <!-- ALOJAMIENTO -->
-      <section id="alojamiento">
+      <section id="alojamiento" data-step>
         <div class="section-head">
           <div>
             <h2>Alojamiento</h2>
@@ -799,13 +918,13 @@ Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bi
             <button class="btn btn-primary" onclick="openReserve({ tipo:'Alojamiento', nombre:'Solicitud de alojamiento', id:'stay-1' })">
               Solicitar alojamiento
             </button>
-            <span class="note">* Se envía al sistema (webhook). No redirecciona.</span>
+            <span class="note">✅ Se envía al sistema. Luego te contactamos por WhatsApp.</span>
           </div>
         </div>
       </section>
 
       <!-- QUIÉNES SOMOS -->
-      <section id="quienes-somos">
+      <section id="quienes-somos" data-step>
         <div class="section-head">
           <div>
             <h2>Quiénes somos</h2>
@@ -858,16 +977,20 @@ Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bi
               </div>
             </div>
 
-            <!-- ✅ (sin botones aquí, sección solo informativa) -->
+            <div class="modal-actions" style="margin-top:14px;">
+              <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+              <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
+            </div>
           </div>
         </div>
+
+        <footer>
+          © <span id="year"></span> Vacaciones en el Sur — Región de los Ríos
+        </footer>
       </section>
 
-      <footer>
-        © <span id="year"></span> Vacaciones en el Sur — Región de los Ríos
-      </footer>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <!-- MODAL: RESERVA -->
   <div class="backdrop" id="reserveBackdrop" aria-hidden="true">
@@ -901,7 +1024,7 @@ Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bi
         </div>
 
         <label for="r_msg">Mensaje (opcional)</label>
-        <textarea id="r_msg" placeholder="Ej: disponibilidad / dudas / detalles"></textarea>
+        <textarea id="r_msg" placeholder="Ej: disponibilidad / dudas / vamos con niños"></textarea>
 
         <div class="modal-actions">
           <button class="btn btn-primary" onclick="submitReserve()">Enviar solicitud</button>
@@ -1002,7 +1125,7 @@ Agenda una reunión o háblanos por WhatsApp y armamos juntos una experiencia bi
         nivel: "Servicio guiado",
         descripcion: "Navegación hacia los castillos españoles de Corral y Mancera.",
         detallado:
-`navegación en barco Neptuno por los ríos de Valdivia hasta la desembocadura en bahia de Corral, visitando los castillos españoles de Corral y Mancera.
+`Navegación en barco Neptuno por los ríos de Valdivia hasta la desembocadura en bahía de Corral, visitando los castillos españoles de Corral y Mancera.
 Incluye almuerzo y once a bordo y relato histórico con servicio guiado.`,
         duracion_horas: 5,
         origen: "Valdivia",
@@ -1017,7 +1140,7 @@ Incluye almuerzo y once a bordo y relato histórico con servicio guiado.`,
         nivel: "Servicio guiado",
         descripcion: "Santuario Carlos Anwandter + Punucapa + degustaciones.",
         detallado:
-`El tour a Punucapa ofrece navegación hacia el Santuario Natural Carlos Anwandter, visita de la pintoresca localidad de Punucapa, degustaciones, suave caminata, feria costumbrista, visita a la iglesia de la virgen de la candelaria, sale desde Valdivia.  Servicio guiado.`,
+`El tour a Punucapa ofrece navegación hacia el Santuario Natural Carlos Anwandter, visita de la pintoresca localidad de Punucapa, degustaciones, suave caminata, feria costumbrista, visita a la iglesia de la virgen de la candelaria. Sale desde Valdivia. Servicio guiado.`,
         duracion_horas: 3.5,
         origen: "Valdivia",
         destino: "Punucapa, Santuario Carlos Anwandter",
@@ -1046,7 +1169,7 @@ Servicio guiado a bordo del barco Calle Calle con énfasis en la historia de la 
         nivel: "Servicio guiado",
         descripcion: "Humedales del Santuario Carlos Anwandter, flora y fauna.",
         detallado:
-`navegación visitarás humedales de Valdivia dentro del Santuario de la Naturaleza Carlos Anwandter, disfrutando de paisajes y observación de flora y fauna con servicio guiado.`,
+`Navegación por humedales de Valdivia dentro del Santuario de la Naturaleza Carlos Anwandter, disfrutando de paisajes y observación de flora y fauna con servicio guiado.`,
         duracion_horas: 1.5,
         origen: "Valdivia",
         destino: "Humedales y Santuario Carlos Anwandter",
@@ -1078,7 +1201,7 @@ Combina senderos suaves con tiempo para fotos y descanso en medio de la selva pa
         descripcion: "Aguas cálidas + barro terapéutico + río Rañintulelfu.",
         detallado:
 `Sumérgete en piscinas termales de aguas cálidas, barro terapéutico y el sonido del río Rañintulelfu.
-Es un lugar poco masivo, ideal para relajarse sin multitudes ni filas, combinando aguas termales y entorno natural.`,
+Es un lugar poco masivo, ideal para relajarse sin multitudes ni filas.`,
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1092,7 +1215,7 @@ Es un lugar poco masivo, ideal para relajarse sin multitudes ni filas, combinand
         descripcion: "Centro + Jardín Botánico + Castillo de Niebla.",
         detallado:
 `Recorre los principales puntos de Valdivia, visita el Jardín Botánico y termina en el Castillo de Niebla.
-Es una experiencia que mezcla cultura, patrimonio e historia con naturaleza y breves caminatas en pasarelas y senderos.`,
+Mezcla cultura, patrimonio e historia con naturaleza y breves caminatas.`,
         duracion_horas: 6,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1105,8 +1228,8 @@ Es una experiencia que mezcla cultura, patrimonio e historia con naturaleza y br
         tipo: "Full day trekking",
         descripcion: "Laguna Pichi + saltos + Futrono. Intensidad media.",
         detallado:
-`Explora el Parque Futangue con un trekking hacia la Laguna Pichi, visita los Saltos de Riñinahue y Nilahue y termina con el encanto de Futrono.
-Es una jornada de aventura con caminatas de intensidad media y paisajes de montaña y bosque.`,
+`Explora el Parque Futangue con un trekking hacia la Laguna Pichi, visita los Saltos de Riñinahue y Nilahue y termina en Futrono.
+Aventura con caminatas de intensidad media y paisajes de montaña y bosque.`,
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1119,8 +1242,8 @@ Es una jornada de aventura con caminatas de intensidad media y paisajes de monta
         tipo: "Full day naturaleza",
         descripcion: "Bosque valdiviano + caminata al Alerce Milenario.",
         detallado:
-`La excursión permite adentrarse en el bosque valdiviano del Parque Alerce Costero y realizar una caminata por senderos que llevan al Alerce Milenario, un árbol con miles de años de antigüedad.
-Es una experiencia de conexión con la naturaleza en un paisaje de paz y majestuosidad.`,
+`Adéntrate en el bosque valdiviano del Parque Alerce Costero y camina por senderos que llevan al Alerce Milenario.
+Conexión total con naturaleza en un paisaje de paz y majestuosidad.`,
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1133,8 +1256,8 @@ Es una experiencia de conexión con la naturaleza en un paisaje de paz y majestu
         tipo: "Full day cultura y naturaleza",
         descripcion: "City tour + almuerzo típico + mirador cerro Oncol.",
         detallado:
-`La excursión mezcla un city tour por Valdivia con una visita al Parque Oncol.
-Luego de un almuerzo típico se explora la selva valdiviana y se asciende al mirador del cerro Oncol para obtener vistas panorámicas, finalizando con un regreso pintoresco por la costa.`,
+`Mezcla un city tour por Valdivia con una visita al Parque Oncol.
+Tras un almuerzo típico se explora la selva valdiviana y se asciende al mirador del cerro Oncol.`,
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1147,8 +1270,8 @@ Luego de un almuerzo típico se explora la selva valdiviana y se asciende al mir
         tipo: "Full day termas",
         descripcion: "Piscinas termales y pasarelas rojas en PN Villarrica.",
         detallado:
-`Las Termas Geométricas son un complejo termal ubicado dentro del Parque Nacional Villarrica.
-Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas termales entre treinta y cinco y cuarenta y dos grados, ofreciendo una experiencia de relajación en medio de la naturaleza.`,
+`Complejo termal dentro del Parque Nacional Villarrica.
+Pasarelas de madera roja conectan piscinas de 35° a 42°: relajación en plena naturaleza.`,
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
         max_personas: 15,
@@ -1158,6 +1281,9 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
     ];
 
     /***** Utils *****/
+    const scroller = document.getElementById("scroller");
+    const header = document.getElementById("header");
+
     const fmtCLP = (n) => {
       if (n === null || n === undefined || n === "") return "";
       try { return "$" + Number(n).toLocaleString("es-CL"); } catch { return "$" + n; }
@@ -1171,10 +1297,6 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       window.__toastTimer = setTimeout(()=> t.style.display="none", 3400);
     }
 
-    function scrollToSection(id){
-      document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" });
-    }
-
     function normalizePhone(raw){
       const s = String(raw || "").trim();
       if(!s) return "";
@@ -1186,6 +1308,22 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       return "+" + digits;
     }
 
+    function syncHeaderH(){
+      const h = header.offsetHeight || 78;
+      document.documentElement.style.setProperty("--headerH", h + "px");
+    }
+
+    function isMobile(){
+      return window.matchMedia("(max-width: 760px)").matches;
+    }
+
+    function setCarouselHints(){
+      const show = isMobile();
+      document.getElementById("hintFluvial").style.display = show ? "inline" : "none";
+      document.getElementById("hintTerr").style.display = show ? "inline" : "none";
+    }
+
+    /***** Cards *****/
     function cardHTML(t, label){
       const meta = [];
       if (t.duracion_horas) meta.push(`⏱️ ${t.duracion_horas} h`);
@@ -1198,19 +1336,25 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       if (t.precio_adulto) price.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
       if (t.precio_nino) price.push(`Niño: ${fmtCLP(t.precio_nino)}`);
 
+      const safePayload = JSON.stringify({ tipo: label, nombre: t.nombre, id: t.id }).replace(/'/g, "&apos;");
+
       return `
         <div class="card">
           <div class="tag">${label}</div>
           <h3>${t.nombre}</h3>
+
           <div class="meta">
             ${meta.map(m => `<span class="mini">${m}</span>`).join("")}
           </div>
+
           <p class="desc">${t.descripcion || "—"}</p>
+
           <div class="price">
             ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:500;">Precio a consultar</span>`}
           </div>
+
           <div class="actions">
-            <button class="btn btn-primary" onclick='openReserve(${JSON.stringify({ tipo: label, nombre: t.nombre, id: t.id })})'>Reservar</button>
+            <button class="btn btn-primary" onclick='openReserve(${safePayload})'>Reservar</button>
             <button class="btn btn-ghost" onclick='openInfo(${JSON.stringify(t)}, ${JSON.stringify(label)})'>Más información</button>
           </div>
         </div>
@@ -1219,19 +1363,33 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
 
     function render(){
       document.getElementById("year").textContent = new Date().getFullYear();
-      document.getElementById("grid-fluviales").innerHTML = TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
-      document.getElementById("grid-terrestres").innerHTML = TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
+
+      document.getElementById("grid-fluviales").innerHTML =
+        TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
+
+      document.getElementById("grid-terrestres").innerHTML =
+        TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
+    }
+
+    /***** Modals state helper (avoid step-scroll blocking inside modal) *****/
+    function setModalOpen(open){
+      document.documentElement.classList.toggle("modal-open", open);
+    }
+    function anyModalOpen(){
+      const r = document.getElementById("reserveBackdrop").style.display === "flex";
+      const i = document.getElementById("infoBackdrop").style.display === "flex";
+      const m = document.getElementById("meetBackdrop").style.display === "flex";
+      return r || i || m;
     }
 
     /***** Reserva modal *****/
     let selected = null;
+
     function openReserve(payload){
       selected = payload;
-      const b = document.getElementById("reserveBackdrop");
-      const meta = document.getElementById("reserveMeta");
-      const note = document.getElementById("reserveNote");
 
-      meta.innerHTML = `
+      document.getElementById("reserveTitle").textContent = (payload?.tipo || "Solicitud") + " — " + (payload?.nombre || "");
+      document.getElementById("reserveMeta").innerHTML = `
         <span class="chip">📌 ${payload.tipo || "Solicitud"}</span>
         <span class="chip">🗺️ ${payload.nombre || "—"}</span>
       `;
@@ -1242,20 +1400,25 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       document.getElementById("r_fecha").value = "";
       document.getElementById("r_msg").value = "";
 
-      note.textContent = WEBHOOK_URL
+      document.getElementById("reserveNote").textContent = WEBHOOK_URL
         ? "✅ Se enviará tu solicitud al sistema. Luego te contactamos por WhatsApp."
         : "⚠️ Falta configurar WEBHOOK_URL en el código.";
 
+      const b = document.getElementById("reserveBackdrop");
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      setModalOpen(true);
       setTimeout(() => document.getElementById("r_nombre").focus(), 80);
     }
+
     function closeReserve(){
       const b = document.getElementById("reserveBackdrop");
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
       selected = null;
+      setModalOpen(false);
     }
+
     async function submitReserve(){
       const nombre = (document.getElementById("r_nombre").value || "").trim();
       const telRaw = (document.getElementById("r_tel").value || "").trim();
@@ -1297,9 +1460,10 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
 
     /***** Info modal *****/
     let infoSelected = null;
+
     function openInfo(t, label){
       infoSelected = { ...t, label };
-      const b = document.getElementById("infoBackdrop");
+
       document.getElementById("infoTitle").textContent = t.nombre;
       document.getElementById("infoSubtitle").textContent = label;
 
@@ -1315,15 +1479,20 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       document.getElementById("infoMeta").innerHTML = meta.map(x => `<span class="chip">${x}</span>`).join("");
       document.getElementById("infoBody").textContent = t.detallado || "Sin detalle aún.";
 
+      const b = document.getElementById("infoBackdrop");
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      setModalOpen(true);
     }
+
     function closeInfo(){
       const b = document.getElementById("infoBackdrop");
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
       infoSelected = null;
+      setModalOpen(false);
     }
+
     function infoReserve(){
       if(!infoSelected) return;
       closeInfo();
@@ -1332,7 +1501,6 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
 
     /***** Meeting modal *****/
     function openMeeting(){
-      const b = document.getElementById("meetBackdrop");
       document.getElementById("m_nombre").value = "";
       document.getElementById("m_tel").value = "";
       document.getElementById("m_dia").value = "";
@@ -1342,15 +1510,20 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
         ? "✅ Se enviará tu agenda al sistema. Te confirmamos por WhatsApp."
         : "⚠️ Falta configurar WEBHOOK_URL en el código.";
 
+      const b = document.getElementById("meetBackdrop");
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      setModalOpen(true);
       setTimeout(() => document.getElementById("m_nombre").focus(), 80);
     }
+
     function closeMeeting(){
       const b = document.getElementById("meetBackdrop");
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
+      setModalOpen(false);
     }
+
     async function submitMeeting(){
       const nombre = (document.getElementById("m_nombre").value || "").trim();
       const telRaw = (document.getElementById("m_tel").value || "").trim();
@@ -1388,7 +1561,153 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
       }
     }
 
-    // close on click outside + ESC
+    /***** ✅ STEP MODE (point by point) *****/
+    const modeBtn = document.getElementById("modeBtn");
+    const modeText = document.getElementById("modeText");
+    const steps = Array.from(document.querySelectorAll("[data-step]"));
+    const dots = document.getElementById("dots");
+
+    let stepMode = true;               // default ON
+    let stepIndex = 0;
+    let lock = false;
+    let touchStartY = null;
+
+    function buildDots(){
+      dots.innerHTML = "";
+      steps.forEach((s, idx) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.title = s.id || ("Sección " + (idx+1));
+        b.addEventListener("click", () => goToStep(idx));
+        dots.appendChild(b);
+      });
+      updateDots();
+    }
+
+    function updateDots(){
+      const arr = Array.from(dots.querySelectorAll("button"));
+      arr.forEach((b, i) => b.classList.toggle("active", i === stepIndex));
+    }
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function nearestStepIndex(){
+      const y = scroller.scrollTop;
+      let best = 0;
+      let bestDist = Infinity;
+      steps.forEach((s, i) => {
+        const d = Math.abs(s.offsetTop - y);
+        if(d < bestDist){ bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    function goToStep(i){
+      stepIndex = clamp(i, 0, steps.length - 1);
+      scroller.scrollTo({ top: steps[stepIndex].offsetTop, behavior:"smooth" });
+      updateDots();
+    }
+
+    function navTo(id){
+      const idx = steps.findIndex(s => s.id === id);
+      if(idx >= 0 && stepMode){
+        goToStep(idx);
+      }else{
+        const el = document.getElementById(id);
+        if(!el) return;
+        scroller.scrollTo({ top: el.offsetTop, behavior:"smooth" });
+      }
+    }
+
+    function setStepMode(on){
+      stepMode = !!on;
+      document.documentElement.classList.toggle("step-mode", stepMode);
+
+      modeBtn.dataset.on = stepMode ? "true" : "false";
+      modeText.textContent = stepMode ? "Paso a paso: ON" : "Paso a paso: OFF";
+
+      if(stepMode){
+        stepIndex = nearestStepIndex();
+        updateDots();
+      }
+    }
+
+    function tryLock(){
+      if(lock) return false;
+      lock = true;
+      setTimeout(()=> lock=false, 650);
+      return true;
+    }
+
+    function onWheel(e){
+      if(!stepMode) return;
+      if(anyModalOpen()) return;              // let modal scroll
+      e.preventDefault();
+      if(!tryLock()) return;
+
+      const dy = e.deltaY || 0;
+      if(dy > 8) goToStep(stepIndex + 1);
+      else if(dy < -8) goToStep(stepIndex - 1);
+    }
+
+    function onTouchStart(e){
+      if(!stepMode) return;
+      if(anyModalOpen()) return;
+      if(e.touches && e.touches.length) touchStartY = e.touches[0].clientY;
+    }
+
+    function onTouchMove(e){
+      if(!stepMode) return;
+      if(anyModalOpen()) return;
+      // block native vertical scroll so you can't "flick to the end"
+      e.preventDefault();
+    }
+
+    function onTouchEnd(e){
+      if(!stepMode) return;
+      if(anyModalOpen()) return;
+      if(touchStartY === null) return;
+
+      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : null;
+      if(endY === null) { touchStartY = null; return; }
+
+      const diff = touchStartY - endY;
+      touchStartY = null;
+
+      if(Math.abs(diff) < 55) return;
+      if(!tryLock()) return;
+
+      if(diff > 0) goToStep(stepIndex + 1);
+      else goToStep(stepIndex - 1);
+    }
+
+    function onKey(e){
+      if(!stepMode) return;
+      if(anyModalOpen()) return;
+      if(["ArrowDown","PageDown"," "].includes(e.key)){
+        e.preventDefault();
+        if(!tryLock()) return;
+        goToStep(stepIndex + 1);
+      }
+      if(["ArrowUp","PageUp"].includes(e.key)){
+        e.preventDefault();
+        if(!tryLock()) return;
+        goToStep(stepIndex - 1);
+      }
+    }
+
+    function onScroll(){
+      // keep dots synced even if user toggles OFF then scrolls normally
+      const idx = nearestStepIndex();
+      if(idx !== stepIndex){
+        stepIndex = idx;
+        updateDots();
+      }
+    }
+
+    modeBtn.addEventListener("click", () => setStepMode(!stepMode));
+
+    // Close on click outside + ESC
     document.addEventListener("click", (e) => {
       const r = document.getElementById("reserveBackdrop");
       const i = document.getElementById("infoBackdrop");
@@ -1399,9 +1718,31 @@ Destacan por sus pasarelas de madera roja que conectan varias piscinas de aguas 
     });
     document.addEventListener("keydown", (e) => {
       if(e.key==="Escape"){ closeReserve(); closeInfo(); closeMeeting(); }
+      onKey(e);
     });
 
+    // Important: non-passive to prevent scroll
+    scroller.addEventListener("wheel", onWheel, { passive:false });
+    scroller.addEventListener("touchstart", onTouchStart, { passive:true });
+    scroller.addEventListener("touchmove", onTouchMove, { passive:false });
+    scroller.addEventListener("touchend", onTouchEnd, { passive:true });
+    scroller.addEventListener("scroll", onScroll, { passive:true });
+
+    // Init
+    syncHeaderH();
+    setCarouselHints();
     render();
+    buildDots();
+    setStepMode(true);
+
+    window.addEventListener("resize", () => {
+      syncHeaderH();
+      setCarouselHints();
+      if(stepMode){
+        // keep in current step after resize
+        scroller.scrollTo({ top: steps[stepIndex].offsetTop, behavior:"instant" });
+      }
+    });
   </script>
 </body>
 </html>
