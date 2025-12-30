@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vacaciones en el Sur — Turismo en Valdivia</title>
+  <meta name="description" content="Tours fluviales y terrestres en Valdivia y la Región de los Ríos. Reserva rápida por WhatsApp." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #fbfbfb;
+      --paper: #ffffff;
+      --text: #141414;
+      --muted: #5a5a5a;
+      --line: #e9e9e9;
+
+      /* “mismos” vibes del sitio: verde + café */
+      --olive: #2f7a3e;
+      --olive-2: #3c9a50;
+      --brown: #7b4f1d;
+
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --shadow-2: 0 18px 45px rgba(0,0,0,.10);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.45;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{
+      width:min(1120px, 92vw);
+      margin:0 auto;
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:20;
+      background:rgba(251,251,251,.86);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:220px;
+    }
+    .brand-mark{
+      width:38px; height:38px;
+      border-radius:999px;
+      border:2px solid var(--olive);
+      display:grid; place-items:center;
+      font-weight:700;
+      color:var(--olive);
+    }
+    .brand h1{
+      font-size:14px; margin:0;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-weight:600;
+    }
+    .brand small{
+      display:block;
+      font-size:12px; color:var(--muted);
+      margin-top:2px;
+      letter-spacing:.02em;
+    }
+    nav ul{
+      display:flex; gap:18px;
+      list-style:none; padding:0; margin:0;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      font-size:13px;
+      color:#222;
+      opacity:.9;
+      padding:8px 10px;
+      border-radius:999px;
+    }
+    nav a:hover{
+      background:#fff;
+      box-shadow:0 2px 10px rgba(0,0,0,.05);
+    }
+
+    /* Hero */
+    .hero{
+      padding:64px 0 34px;
+      text-align:center;
+    }
+    .kicker{
+      color:var(--olive);
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+    .hero-title{
+      font-family:"Playfair Display", serif;
+      font-size:44px;
+      margin:0;
+    }
+    .hero-sub{
+      margin:10px auto 0;
+      max-width:820px;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .hero-banner{
+      margin:28px auto 0;
+      max-width:920px;
+      background:linear-gradient(135deg, rgba(47,122,62,.10), rgba(123,79,29,.08));
+      border:1px solid rgba(47,122,62,.16);
+      border-radius:var(--radius);
+      padding:18px 18px;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      text-align:left;
+      box-shadow:var(--shadow);
+    }
+    .hero-badge{
+      flex:0 0 auto;
+      background:rgba(47,122,62,.12);
+      color:var(--olive);
+      border:1px solid rgba(47,122,62,.18);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .hero-banner p{ margin:0; color:#2b2b2b; font-size:14px; }
+
+    /* Sections */
+    section{ padding:44px 0; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .section-head h2{
+      margin:0;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-weight:500;
+      font-size:22px;
+    }
+    .section-head .hint{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Grid cards */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns:repeat(2, 1fr); }
+      .hero-title{ font-size:36px; }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns:1fr; }
+      .hero-title{ font-size:30px; }
+      nav ul{ gap:10px; }
+      .brand{ min-width:auto; }
+    }
+
+    .card{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      transition:transform .15s ease, box-shadow .15s ease;
+      min-height:280px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow-2);
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:600;
+      color:#fff;
+      background:var(--olive-2);
+      padding:6px 10px;
+      border-radius:999px;
+      width:max-content;
+    }
+    .card h3{
+      margin:0;
+      font-size:18px;
+      font-weight:600;
+      line-height:1.2;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:#fcfcfc;
+      border-radius:999px;
+      padding:6px 10px;
+    }
+    .desc{
+      color:#3a3a3a;
+      font-size:13px;
+      margin:0;
+      flex:1 1 auto;
+    }
+    .price{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color:#222;
+      font-size:13px;
+    }
+    .price strong{ font-weight:600; }
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:4px;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:600;
+      font-size:13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn-primary{
+      background:var(--brown);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(123,79,29,.18);
+    }
+    .btn-primary:hover{ opacity:.94; }
+    .btn-ghost{
+      background:#fff;
+      border:1px solid var(--line);
+      color:#222;
+    }
+    .btn-ghost:hover{ box-shadow:0 8px 18px rgba(0,0,0,.06); }
+
+    /* Accommodation */
+    .paper{
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .zones{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin:12px 0 0;
+    }
+
+    /* Footer */
+    footer{
+      padding:26px 0 60px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:60;
+    }
+    .modal{
+      width:min(560px, 96vw);
+      background:var(--paper);
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.35);
+      box-shadow:0 30px 80px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .modal-head{
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:10px;
+    }
+    .modal-head h4{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:600;
+      color:#222;
+    }
+    .modal-head p{ margin:8px 0 0; color:var(--muted); font-size:12px; }
+    .x{
+      border:1px solid var(--line);
+      background:#fff;
+      width:38px; height:38px;
+      border-radius:12px;
+      cursor:pointer;
+      display:grid; place-items:center;
+      font-size:18px;
+      line-height:1;
+    }
+    .modal-body{ padding:16px 18px 18px; }
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin:10px 0 6px;
+    }
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      outline:none;
+      font-size:14px;
+      background:#fff;
+    }
+    input:focus{ border-color:rgba(47,122,62,.45); box-shadow:0 0 0 4px rgba(47,122,62,.10); }
+    .modal-actions{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* WhatsApp floating */
+    .wa-float{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:56px; height:56px;
+      border-radius:999px;
+      background:#25D366;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      z-index:50;
+      cursor:pointer;
+      border:0;
+    }
+    .wa-float:hover{ opacity:.95; }
+    .wa-float svg{ width:26px; height:26px; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#inicio">
+          <div class="brand-mark">V</div>
+          <div>
+            <h1>Vacaciones en el Sur</h1>
+            <small>Turismo • Región de los Ríos</small>
+          </div>
+        </a>
+
+        <nav>
+          <ul>
+            <li><a href="#tours-fluviales">Tours fluviales</a></li>
+            <li><a href="#tours-terrestres">Tours terrestres</a></li>
+            <li><a href="#alojamiento">Alojamiento</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <div class="container">
+      <div class="hero">
+        <div class="kicker">Operador turístico • Región de los Ríos</div>
+        <h2 class="hero-title">Vacaciones en el Sur de Chile</h2>
+        <p class="hero-sub">
+          Valdivia, Punucapa, humedales, castillos, selva valdiviana, ríos y lagos.
+          Una región para navegar lento, caminar bonito y volver con la cabeza en paz (y el carrete en la cámara).
+        </p>
+
+        <div class="hero-banner">
+          <div class="hero-badge">Reserva rápida</div>
+          <p>
+            Elige un tour, aprieta <b>Reservar</b>, deja tu <b>nombre</b> y <b>teléfono</b>.
+            Te llevamos directo a WhatsApp para coordinar al tiro. (Webhook listo para conectar después.)
+          </p>
+        </div>
+      </div>
+
+      <!-- Tours Fluviales -->
+      <section id="tours-fluviales">
+        <div class="section-head">
+          <div>
+            <h2>Tours fluviales</h2>
+            <p class="hint">Valdivia por agua: castillos, santuarios, humedales, postales.</p>
+          </div>
+        </div>
+        <div class="grid" id="grid-fluviales"></div>
+      </section>
+
+      <!-- Tours Terrestres -->
+      <section id="tours-terrestres">
+        <div class="section-head">
+          <div>
+            <h2>Tours terrestres</h2>
+            <p class="hint">Full day, termas, parques y rutas: lo mejor de la región (sin desorden).</p>
+          </div>
+        </div>
+        <div class="grid" id="grid-terrestres"></div>
+      </section>
+
+      <!-- Alojamiento -->
+      <section id="alojamiento">
+        <div class="section-head">
+          <div>
+            <h2>Alojamiento</h2>
+            <p class="hint">Sin catálogo aquí (todavía). Te coordinamos por WhatsApp según zona y fechas.</p>
+          </div>
+        </div>
+
+        <div class="paper">
+          <p style="margin:0;color:#2f2f2f;font-size:14px;">
+            Tenemos opciones de alojamiento en distintos sectores de Valdivia y alrededores.
+            Tú nos dices <b>zona</b>, <b>fechas</b> y <b>capacidad</b>, y te respondemos con alternativas reales para reservar.
+          </p>
+
+          <div class="zones" id="zones"></div>
+
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="openReserve({ tipo:'Alojamiento', nombre:'Alojamiento (según zona y fechas)' })">
+              Reservar alojamiento
+            </button>
+            <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general' })">
+              Consultar
+            </button>
+          </div>
+
+          <p class="note">
+            * Al enviar te abrimos WhatsApp con un mensaje listo. Cuando tengas webhook, esto también puede disparar tu flujo.
+          </p>
+        </div>
+      </section>
+
+      <!-- Contacto -->
+      <section id="contacto">
+        <div class="section-head">
+          <div>
+            <h2>Contacto</h2>
+            <p class="hint">Lo más rápido: WhatsApp. Lo más formal: webhook (cuando lo conectes).</p>
+          </div>
+        </div>
+
+        <div class="paper">
+          <p style="margin:0;color:#2f2f2f;font-size:14px;">
+            Si vienes con familia, grupo, colegio o empresa: agenda por WhatsApp y lo dejamos listo.
+          </p>
+          <div style="margin-top:14px;">
+            <button class="btn btn-primary" onclick="openWhatsAppDirect('Hola, quiero cotizar un tour (grupo/empresa). ¿Me ayudas?')">
+              Abrir WhatsApp
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="year"></span> Vacaciones en el Sur — Región de los Ríos</div>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <h4 id="modalTitle">Reservar</h4>
+          <p id="modalSubtitle">Completa nombre y teléfono. Te llevamos directo a WhatsApp.</p>
+        </div>
+        <button class="x" onclick="closeModal()" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="meta" id="selectedMeta" style="margin-bottom:8px;"></div>
+
+        <label for="nombre">Nombre</label>
+        <input id="nombre" placeholder="Tu nombre" autocomplete="name" />
+
+        <label for="telefono">Teléfono (WhatsApp)</label>
+        <input id="telefono" placeholder="+56 9 1234 5678" autocomplete="tel" />
+
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="submitReserve()">Enviar y abrir WhatsApp</button>
+          <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+        </div>
+
+        <div class="note" id="modalNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <button class="wa-float" title="WhatsApp" onclick="openWhatsAppDirect('Hola, quiero información para reservar.')" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path fill="currentColor" d="M19.11 17.56c-.24-.12-1.4-.69-1.62-.77-.22-.08-.38-.12-.54.12-.16.24-.62.77-.76.93-.14.16-.28.18-.52.06-.24-.12-1-.37-1.91-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.41-.54-.42l-.46-.01c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.65.58.25 1.03.4 1.38.51.58.18 1.11.15 1.53.09.47-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28Z"/>
+      <path fill="currentColor" fill-rule="evenodd" d="M16 3C8.82 3 3 8.69 3 15.71c0 2.22.61 4.29 1.67 6.09L3.6 29l7.43-1.93c1.76.96 3.79 1.51 5.97 1.51 7.18 0 13-5.69 13-12.71C30 8.69 24.18 3 16 3Zm0 22.9c-2 0-3.87-.57-5.44-1.56l-.39-.24-4.41 1.15 1.18-4.23-.26-.42A10.22 10.22 0 0 1 5.78 15.7C5.78 10.2 10.34 5.74 16 5.74S26.22 10.2 26.22 15.7 21.66 25.9 16 25.9Z" clip-rule="evenodd"/>
+    </svg>
+  </button>
+
+  <script>
+    /***** ✅ CONFIG RÁPIDA (cámbialo tú) *****/
+    const WHATSAPP_BUSINESS = "569XXXXXXXX"; // <-- tu número (sin +) ej: 56998765432
+    const WEBHOOK_URL = ""; // <-- pega tu webhook acá cuando lo tengas (POST). Si está vacío, no manda nada.
+
+    /***** ✅ DATA (sacado de tu Excel) *****/
+    const TOURS_FLUVIALES = [
+      {
+        "id": "fluv-1",
+        "nombre": "Corral-Mancera",
+        "nivel": "Servicio guiado",
+        "descripcion": "navegación en barco Neptuno por los ríos de Valdivia…",
+        "detallado": "navegación en barco Neptuno por los ríos de Valdivia…",
+        "duracion_horas": 5,
+        "origen": "Valdivia",
+        "destino": "Castillos de Corral y Mancera",
+        "incluye_comidas": "Almuerzo y once a bordo",
+        "precio_adulto": 35000,
+        "precio_nino": 28000
+      },
+      {
+        "id": "fluv-2",
+        "nombre": "Punucapa",
+        "nivel": "Servicio guiado",
+        "descripcion": "navegación en embarcaciones de alto estándar…",
+        "detallado": "navegación en embarcaciones de alto estándar…",
+        "duracion_horas": 3.5,
+        "origen": "Valdivia",
+        "destino": "Punucapa, Santuario de la Naturaleza Carlos Anwandter",
+        "incluye_comidas": "Degustaciones",
+        "precio_adulto": 12000,
+        "precio_nino": 9600
+      },
+      {
+        "id": "fluv-3",
+        "nombre": "Isla Teja - City tour",
+        "nivel": "Servicio guiado",
+        "descripcion": "Recorrido por los principales ríos y puentes…",
+        "detallado": "Recorrido por los principales ríos y puentes de Valdivia…",
+        "duracion_horas": 1,
+        "origen": "Valdivia",
+        "destino": "Isla Teja y ríos de Valdivia",
+        "incluye_comidas": "",
+        "precio_adulto": 5000,
+        "precio_nino": 4000
+      },
+      {
+        "id": "fluv-4",
+        "nombre": "Santuario-Humedales",
+        "nivel": "Servicio guiado",
+        "descripcion": "navegación visitarás humedales de Valdivia…",
+        "detallado": "navegación visitarás humedales de Valdivia dentro del Santuario…",
+        "duracion_horas": 1.5,
+        "origen": "Valdivia",
+        "destino": "Humedales de Valdivia, Santuario de la Naturaleza",
+        "incluye_comidas": "",
+        "precio_adulto": 5000,
+        "precio_nino": 4000
+      }
+    ];
+
+    const TOURS_TERRESTRES = [
+      {
+        "id": "terr-1",
+        "nombre": "Reserva Huilo Huilo",
+        "tipo": "Full day naturaleza",
+        "descripcion": "Explora la Reserva Biológica Huilo Huilo…",
+        "detallado": "Explora la Reserva Biológica Huilo Huilo visitando sus principales atractivos…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 60000,
+        "precio_nino": 55000
+      },
+      {
+        "id": "terr-2",
+        "nombre": "Termas Huilo-Huilo",
+        "tipo": "Full day termas",
+        "descripcion": "Sumérgete en piscinas termales de aguas cálidas…",
+        "detallado": "Sumérgete en piscinas termales de aguas cálidas en un entorno natural…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 67000,
+        "precio_nino": 62000
+      },
+      {
+        "id": "terr-3",
+        "nombre": "City Tour Valdivia-Niebla",
+        "tipo": "City tour cultural",
+        "descripcion": "Recorre los principales puntos de Valdivia…",
+        "detallado": "Recorre los principales puntos de Valdivia, visita Niebla y su historia…",
+        "duracion_horas": 6,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 20000,
+        "precio_nino": 15000
+      },
+      {
+        "id": "terr-4",
+        "nombre": "Parque Futangue",
+        "tipo": "Full day trekking",
+        "descripcion": "Explora el Parque Futangue con un trekking…",
+        "detallado": "Explora el Parque Futangue con un trekking hacia miradores y senderos…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 64000,
+        "precio_nino": 59000
+      },
+      {
+        "id": "terr-5",
+        "nombre": "Parque Alerce Costero",
+        "tipo": "Full day naturaleza",
+        "descripcion": "La excursión permite adentrarse en el bosque…",
+        "detallado": "La excursión permite adentrarse en el bosque valdiviano y conocer alerces…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 64000,
+        "precio_nino": 59000
+      },
+      {
+        "id": "terr-6",
+        "nombre": "Parque Oncol",
+        "tipo": "Full day cultura y naturaleza",
+        "descripcion": "La excursión mezcla un city tour por Valdivia…",
+        "detallado": "La excursión mezcla un city tour por Valdivia, almuerzo y visita al parque…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 50000,
+        "precio_nino": 45000
+      },
+      {
+        "id": "terr-7",
+        "nombre": "Termas Geométricas",
+        "tipo": "Full day termas",
+        "descripcion": "Gran parte del día se pasa en las piscinas…",
+        "detallado": "Gran parte del día se pasa en las piscinas termales y pasarelas…",
+        "duracion_horas": 13,
+        "horarios_salida": "",
+        "origen": "",
+        "transporte": "",
+        "incluye_comidas": "",
+        "tipo_comidas": "",
+        "dificultad": "",
+        "apto_tercera_edad": "",
+        "opera_dias": "lunes a domingo",
+        "max_personas": 15,
+        "precio_adulto": 80000,
+        "precio_nino": 75000
+      }
+    ];
+
+    const ALOJ_ZONAS = ["Collico","Estación","Isla Teja"];
+
+    /***** Render *****/
+    const fmtCLP = (n) => {
+      if (n === null || n === undefined || n === "") return "";
+      try { return "$" + Number(n).toLocaleString("es-CL"); } catch { return "$" + n; }
+    };
+
+    const el = (tag, attrs={}, children=[]) => {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v]) => {
+        if (k === "class") node.className = v;
+        else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
+        else node.setAttribute(k, v);
+      });
+      children.forEach(c => node.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+      return node;
+    };
+
+    function buildCard(t, groupLabel){
+      const tagText = groupLabel || "IMPERDIBLE";
+
+      const meta = [];
+      if (t.duracion_horas) meta.push(`⏱️ ${t.duracion_horas} h`);
+      if (t.origen) meta.push(`📍 Salida: ${t.origen}`);
+      if (t.destino) meta.push(`🧭 Destino: ${t.destino}`);
+      if (t.tipo) meta.push(`🧩 ${t.tipo}`);
+      if (t.nivel) meta.push(`🧭 ${t.nivel}`);
+
+      const price = [];
+      if (t.precio_adulto) price.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
+      if (t.precio_nino) price.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+
+      const card = el("div", { class:"card" }, [
+        el("div", { class:"tag" }, [tagText]),
+        el("h3", {}, [t.nombre]),
+        el("div", { class:"meta" }, meta.map(m => el("span", { class:"pill" }, [m]))),
+        el("p", { class:"desc" }, [t.descripcion || "—"]),
+        el("div", { class:"price" }, price.length ? price.map(p => el("span", {}, [p])) : [el("span", { style:"color:var(--muted)" }, ["Precio a consultar"])]),
+        el("div", { class:"actions" }, [
+          el("button", { class:"btn btn-primary", onclick: () => openReserve({ tipo: groupLabel, nombre: t.nombre, id: t.id }) }, ["Reservar"]),
+          el("button", { class:"btn btn-ghost", onclick: () => alert((t.detallado || "Sin detalle aún.") ) }, ["Más información"])
+        ])
+      ]);
+      return card;
+    }
+
+    function render(){
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const fluvWrap = document.getElementById("grid-fluviales");
+      TOURS_FLUVIALES.forEach(t => fluvWrap.appendChild(buildCard(t, "Tour fluvial")));
+
+      const terrWrap = document.getElementById("grid-terrestres");
+      TOURS_TERRESTRES.forEach(t => terrWrap.appendChild(buildCard(t, "Tour terrestre")));
+
+      const zonesWrap = document.getElementById("zones");
+      ALOJ_ZONAS.forEach(z => zonesWrap.appendChild(el("span", { class:"pill" }, [z])));
+    }
+
+    /***** Modal + Submit *****/
+    let selected = null;
+
+    function openReserve(payload){
+      selected = payload;
+      const b = document.getElementById("modalBackdrop");
+      const meta = document.getElementById("selectedMeta");
+      const title = document.getElementById("modalTitle");
+      const sub = document.getElementById("modalSubtitle");
+      const note = document.getElementById("modalNote");
+
+      title.textContent = "Reservar / Consultar";
+      sub.textContent = "Nombre + teléfono. Te abrimos WhatsApp con el mensaje listo.";
+      note.textContent = WEBHOOK_URL
+        ? "Webhook activo: además de WhatsApp, se enviará un POST con la solicitud."
+        : "Webhook aún no configurado: por ahora solo WhatsApp (y listo).";
+
+      meta.innerHTML = "";
+      meta.appendChild(el("span", { class:"pill" }, [`📌 ${payload.tipo || "Solicitud"}`]));
+      meta.appendChild(el("span", { class:"pill" }, [`🗺️ ${payload.nombre || "—"}`]));
+
+      document.getElementById("nombre").value = "";
+      document.getElementById("telefono").value = "";
+
+      b.style.display = "flex";
+      b.setAttribute("aria-hidden","false");
+      setTimeout(() => document.getElementById("nombre").focus(), 60);
+    }
+
+    function closeModal(){
+      const b = document.getElementById("modalBackdrop");
+      b.style.display = "none";
+      b.setAttribute("aria-hidden","true");
+      selected = null;
+    }
+
+    function buildWhatsAppText(nombre, telefono){
+      const t = selected?.tipo ? selected.tipo : "Solicitud";
+      const item = selected?.nombre ? selected.nombre : "Consulta";
+      return `Hola! Soy ${nombre}. Quiero ${t.toLowerCase()}: ${item}. Mi teléfono es ${telefono}. ¿Me ayudas con disponibilidad y reserva?`;
+    }
+
+    function openWhatsAppDirect(text){
+      const msg = encodeURIComponent(text || "Hola! Quiero información.");
+      const url = `https://wa.me/${WHATSAPP_BUSINESS}?text=${msg}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    async function submitReserve(){
+      const nombre = (document.getElementById("nombre").value || "").trim();
+      const telefono = (document.getElementById("telefono").value || "").trim();
+
+      if (!nombre || !telefono){
+        alert("Falta nombre o teléfono.");
+        return;
+      }
+
+      const payload = {
+        source: "vacacionesenelsur_web",
+        created_at: new Date().toISOString(),
+        tipo: selected?.tipo || "Solicitud",
+        item: selected?.nombre || "Consulta",
+        item_id: selected?.id || null,
+        nombre,
+        telefono
+      };
+
+      // 1) Webhook (si lo configuras)
+      if (WEBHOOK_URL){
+        try{
+          await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type":"application/json" },
+            body: JSON.stringify(payload)
+          });
+        }catch(e){
+          // igual abre WhatsApp aunque falle el webhook
+          console.warn("Webhook falló:", e);
+        }
+      }
+
+      // 2) WhatsApp al tiro
+      const text = buildWhatsAppText(nombre, telefono);
+      closeModal();
+      openWhatsAppDirect(text);
+    }
+
+    // Close modal clicking outside
+    document.addEventListener("click", (e) => {
+      const b = document.getElementById("modalBackdrop");
+      if (b.style.display === "flex" && e.target === b) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    render();
+  </script>
+</body>
+</html>
+
+
