@@ -11,6 +11,75 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&family=Satisfy&display=swap" rel="stylesheet">
 
   <style>
+    /* === FIX SIMETRÍA HERO (video y panel derecho mismo alto) === */
+:root{
+  --heroH: clamp(620px, 72vh, 780px); /* ajusta si quieres */
+}
+
+/* En desktop: ambos lados misma altura */
+.hero-grid{
+  align-items: stretch;
+}
+
+.hero-media,
+.hero-side{
+  height: var(--heroH);
+}
+
+/* El video ocupa TODO el alto del HERO */
+.video-card{
+  height: 100%;
+}
+
+.video-wrap{
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  aspect-ratio: auto;   /* apaga el 9/16 cuando estás en desktop */
+}
+
+/* El panel derecho se convierte en un “cuadro” del mismo alto */
+.side-card{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: rgba(255,255,255,.84);
+  border: 1px solid rgba(20,19,26,.10);
+  border-radius: 22px;
+  box-shadow: var(--shadow2);
+  overflow: hidden; /* importante para que no se “salga” */
+}
+
+/* Arriba: intro fijo */
+.side-top{
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(20,19,26,.08);
+}
+
+/* Abajo: contenido ajustable (si se pasa, scroll interno) */
+.side-scroll{
+  padding: 14px 16px 16px;
+  overflow: auto;
+  min-height: 0;
+}
+
+/* Scroll bonito (opcional) */
+.side-scroll::-webkit-scrollbar{ width: 10px; }
+.side-scroll::-webkit-scrollbar-thumb{
+  background: rgba(20,19,26,.14);
+  border-radius: 999px;
+  border: 3px solid rgba(255,255,255,.75);
+}
+
+/* En móvil: no fuerces altura (stack normal) */
+@media (max-width: 980px){
+  .hero-media, .hero-side{ height: auto; }
+  .video-wrap{ aspect-ratio: 9/16; height: auto; }
+  .side-card{ height: auto; }
+  .side-scroll{ overflow: visible; }
+}
+
     :root{
       --sun1:#ff7a18;
       --sun2:#ff3d77;
@@ -987,95 +1056,104 @@
   <main id="inicio">
     <div class="container">
 
-      <!-- HERO -->
-      <div class="hero">
-        <div class="hero-box">
-          <div class="hero-content">
+   <div class="hero">
+  <div class="hero-box">
+    <div class="hero-content">
 
-            <div class="hero-grid">
+      <div class="hero-grid">
 
-              <!-- MEDIA (izquierda) -->
-              <div class="hero-media">
-                <div class="video-card">
-                  <div class="video-wrap">
-                    <video id="heroVideo" playsinline controls preload="metadata"></video>
-                    <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
-                    <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
-                  </div>
-                  <p class="video-hint">
-                    Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
-                  </p>
-                </div>
+        <!-- IZQUIERDA: VIDEO -->
+        <div class="hero-media">
+          <div class="video-card">
+            <div class="video-wrap">
+              <video id="heroVideo" playsinline controls preload="metadata"></video>
+              <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
+              <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
+            </div>
+            <p class="video-hint">
+              Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
+            </p>
+          </div>
+        </div>
+
+        <!-- DERECHA: MISMO ALTO QUE EL VIDEO -->
+        <div class="hero-side">
+          <div class="side-card">
+
+            <!-- TOP (fijo) -->
+            <div class="side-top">
+              <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
+              <h2 class="hero-title">
+                Vacaciones en el Sur<br>
+                de <span class="script">Chile</span>
+              </h2>
+              <p class="hero-sub">
+                Ríos, humedales, castillos, selva valdiviana y rutas full day.
+                Tú envías la solicitud acá y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
+              </p>
+            </div>
+
+            <!-- SCROLL (si el contenido no cabe, se ajusta aquí) -->
+            <div class="side-scroll" id="quienes-somos">
+              <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
+                Quiénes somos
+              </h2>
+              <div class="title-line" style="margin:10px 0 6px;"></div>
+              <div style="color:var(--muted);font-size:13.5px;line-height:1.5;margin-bottom:12px;">
+                Turismo con propósito: auténtico, accesible y memorable.
               </div>
 
-              <!-- SIDE (derecha) -->
-              <div class="hero-side">
-                <div class="intro-card">
-                  <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
-                  <h2 class="hero-title">
-                    Vacaciones en el Sur<br>
-                    de <span class="script">Chile</span>
-                  </h2>
-                  <p class="hero-sub">
-                    Ríos, humedales, castillos, selva valdiviana y rutas full day.
-                    Tú envías la solicitud acá y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
+              <div class="about-grid">
+                <div class="box">
+                  <h3>Nuestra historia</h3>
+                  <p>
+                    El sur tiene algo que no se explica con palabras: se vive.
+                    En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
+                    para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
                   </p>
-                </div>
+                  <p>
+                    Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
+                    horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
+                  </p>
 
-                <!-- QUIÉNES SOMOS (al lado del video) -->
-                <div class="about-panel" id="quienes-somos">
-                  <h2>Quiénes somos</h2>
-                  <div class="title-line" style="margin:10px 0 6px;"></div>
-                  <div class="subline">Turismo con propósito: auténtico, accesible y memorable.</div>
-
-                  <div class="about-grid">
-                    <div class="box">
-                      <h3>Nuestra historia</h3>
-                      <p>
-                        El sur tiene algo que no se explica con palabras: se vive.
-                        En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
-                        para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
-                      </p>
-                      <p>
-                        Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
-                        horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
-                      </p>
-
-                      <h3 style="margin-top:12px;">Qué hacemos</h3>
-                      <div class="values" style="margin-top:10px;">
-                        <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
-                        <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
-                        <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
-                      </div>
-                    </div>
-
-                    <div class="box">
-                      <h3>Valores</h3>
-                      <div class="values">
-                        <div class="value"><b>Colaboración</b><span>Red real con emprendimientos y partners locales.</span></div>
-                        <div class="value"><b>Compromiso</b><span>Atención humana y cumplimiento.</span></div>
-                        <div class="value"><b>Integridad</b><span>Transparencia, respeto y claridad.</span></div>
-                        <div class="value"><b>Innovación</b><span>Soluciones simples para responder rápido.</span></div>
-                      </div>
-
-                      <div class="about-cta">
-                        <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
-                        <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
-                      </div>
-
-                      <div class="about-note">
-                        Si vienes con grupo/colegio/empresa, más abajo tienes el apartado para planificar con calma.
-                      </div>
-                    </div>
+                  <h3 style="margin-top:12px;">Qué hacemos</h3>
+                  <div class="values" style="margin-top:10px;">
+                    <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
+                    <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
+                    <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
                   </div>
                 </div>
 
+                <div class="box">
+                  <h3>Valores</h3>
+                  <div class="values">
+                    <div class="value"><b>Colaboración</b><span>Red real con emprendimientos y partners locales.</span></div>
+                    <div class="value"><b>Compromiso</b><span>Atención humana y cumplimiento.</span></div>
+                    <div class="value"><b>Integridad</b><span>Transparencia, respeto y claridad.</span></div>
+                    <div class="value"><b>Innovación</b><span>Soluciones simples para responder rápido.</span></div>
+                  </div>
+
+                  <div class="about-cta">
+                    <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+                    <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
+                  </div>
+
+                  <div class="about-note">
+                    Si vienes con grupo/colegio/empresa, más abajo tienes el apartado para planificar con calma.
+                  </div>
+                </div>
               </div>
             </div>
 
           </div>
         </div>
+
       </div>
+
+    </div>
+  </div>
+</div>
+
 
       <!-- GRUPOS / COLEGIOS / EMPRESAS (debajo del HERO y antes de tours) -->
       <section id="grupos-empresas" style="padding-top:14px;">
@@ -1907,5 +1985,6 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
   </script>
 </body>
 </html>
+
 
 
