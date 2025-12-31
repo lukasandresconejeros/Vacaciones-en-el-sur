@@ -12,6 +12,9 @@
 
   <style>
     :root{
+      /* Altura hero (desktop) */
+      --heroH: clamp(620px, 72vh, 780px);
+
       /* Atardecer (acento) */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
@@ -33,10 +36,6 @@
       --shadow2: 0 10px 24px rgba(20,19,26,.10);
 
       --radius: 18px;
-
-      /* ✅ HERO: mismo porte video/panel */
-      --heroCol: clamp(360px, 34vw, 420px);
-      --heroH: clamp(640px, 74vh, 820px);
     }
 
     *{ box-sizing:border-box; }
@@ -232,7 +231,7 @@
     }
 
     /* HERO */
-    .hero{ padding:26px 0 18px; }
+    .hero{ padding:34px 0 18px; }
     .hero-box{
       border-radius: 26px;
       background: rgba(255,255,255,.76);
@@ -241,10 +240,6 @@
       padding:18px;
       overflow:hidden;
       position:relative;
-
-      /* ✅ evita el “vacío gigante” */
-      width: min(980px, 92vw);
-      margin: 0 auto;
     }
     .hero-box::before{
       content:"";
@@ -261,24 +256,19 @@
     }
     .hero-content{ position:relative; z-index:1; }
 
-    /* ✅ video y panel = mismo ancho/alto */
+    /* ✅ DEFINITIVO: 2 columnas mismo ancho + mismo alto */
     .hero-grid{
       display:grid;
-      grid-template-columns: var(--heroCol) var(--heroCol);
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
       gap:16px;
       align-items:stretch;
-      justify-content:center;
       grid-template-areas: "media side";
     }
     .hero-media{ grid-area: media; height: var(--heroH); }
     .hero-side{ grid-area: side; height: var(--heroH); min-width:0; }
 
     @media (max-width: 980px){
-      .hero-box{ width: 100%; }
-      .hero-grid{
-        grid-template-columns: 1fr;
-        grid-template-areas: "side" "media";
-      }
+      .hero-grid{ grid-template-columns: 1fr; grid-template-areas: "side" "media"; }
       .hero-media, .hero-side{ height:auto; }
     }
 
@@ -288,7 +278,7 @@
       letter-spacing:.22em;
       text-transform:uppercase;
       color:#3c3646;
-      margin-bottom:8px;
+      margin:0 0 10px;
     }
     .dot{
       width:10px; height:10px;
@@ -300,8 +290,8 @@
     .hero-title{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:42px;
-      line-height:1.04;
+      font-size:44px;
+      line-height:1.06;
       letter-spacing:.01em;
     }
     .script{
@@ -314,9 +304,9 @@
       white-space:nowrap;
     }
     .hero-sub{
-      margin:10px 0 0;
+      margin:12px 0 0;
       color:#3c3646;
-      font-size:14.5px;
+      font-size:15px;
       line-height:1.6;
     }
     .hero-sub b{ color:#221f29; }
@@ -333,6 +323,7 @@
       flex-direction:column;
       gap:10px;
       overflow:hidden;
+      min-width:0;
     }
     .video-wrap{
       position:relative;
@@ -340,11 +331,8 @@
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
       background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
-
       flex:1;
-      min-height:0;
-      height:100%;
-      aspect-ratio:auto; /* ✅ desktop: llena alto */
+      min-height:0; /* clave para que NO rompa la altura */
     }
     .video-wrap video{
       width:100%;
@@ -389,14 +377,14 @@
 
     @media (max-width: 980px){
       .hero-title{ font-size:34px; }
-      .video-wrap{ aspect-ratio: 9 / 16; height:auto; flex:0 0 auto; }
+      .video-wrap{ aspect-ratio: 9 / 16; flex:0 0 auto; }
     }
     @media (max-width: 640px){
       .hero-title{ font-size:30px; }
       .hero-box{ padding:14px; }
     }
 
-    /* ✅ Panel derecho (mismo alto, sin barra fea) */
+    /* Right side card (mismo porte que el video) */
     .side-card{
       height:100%;
       display:flex;
@@ -409,22 +397,20 @@
       overflow:hidden;
     }
     .side-top{
-      padding: 10px 16px 10px; /* ✅ sube el bloque */
+      padding:14px 16px 12px;
       border-bottom: 1px solid rgba(20,19,26,.08);
     }
     .side-scroll{
-      padding: 12px 16px 14px;
+      padding:14px 16px 16px;
       overflow:auto;
       min-height:0;
-
-      /* ✅ oculta scrollbar */
-      scrollbar-width:none;
+      flex:1;
     }
-    .side-scroll::-webkit-scrollbar{ width:0; height:0; }
-
-    /* ✅ dentro del HERO: NO 2 columnas (se aplasta) */
-    .hero-side .about-grid{
-      grid-template-columns: 1fr !important;
+    .side-scroll::-webkit-scrollbar{ width:10px; }
+    .side-scroll::-webkit-scrollbar-thumb{
+      background: rgba(20,19,26,.14);
+      border-radius:999px;
+      border:3px solid rgba(255,255,255,.75);
     }
 
     /* Buttons */
@@ -587,19 +573,13 @@
       .actions .btn{ flex:1 1 auto; }
     }
 
-    /* Quiénes somos (dentro del HERO) */
-    .about-grid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:12px;
-      min-width:0;
-    }
+    /* Quiénes somos (dentro del hero) */
     .box{
       background: rgba(255,255,255,.92);
       border:1px solid rgba(20,19,26,.08);
       border-radius: 18px;
       box-shadow: 0 10px 22px rgba(20,19,26,.06);
-      padding:12px;
+      padding:14px;
       min-width:0;
     }
     .box h3{
@@ -613,8 +593,8 @@
     .box p{
       margin:10px 0 0;
       color:#3c3646;
-      font-size:13px;
-      line-height:1.6;
+      font-size:13.5px;
+      line-height:1.65;
     }
     .values{
       margin-top:10px;
@@ -626,23 +606,16 @@
       border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.96);
       border-radius: 16px;
-      padding:10px;
+      padding:12px;
     }
     .value b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
-    .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.5; }
-
+    .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.55; }
     .about-cta{
       margin-top:12px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       align-items:center;
-    }
-    .about-note{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12.5px;
-      line-height:1.5;
     }
 
     /* Grupos/empresas */
@@ -686,6 +659,7 @@
       color:#2b2832;
       margin-bottom:8px;
     }
+
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -997,6 +971,7 @@
       <div class="hero">
         <div class="hero-box">
           <div class="hero-content">
+
             <div class="hero-grid">
 
               <!-- IZQUIERDA: VIDEO -->
@@ -1017,7 +992,7 @@
               <div class="hero-side">
                 <div class="side-card">
 
-                  <!-- TOP -->
+                  <!-- TOP (fijo) -->
                   <div class="side-top">
                     <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
                     <h2 class="hero-title">
@@ -1030,7 +1005,7 @@
                     </p>
                   </div>
 
-                  <!-- CONTENIDO -->
+                  <!-- CONTENIDO (sin “Valores”) -->
                   <div class="side-scroll" id="quienes-somos">
                     <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
                       Quiénes somos
@@ -1040,44 +1015,28 @@
                       Turismo con propósito: auténtico, accesible y memorable.
                     </div>
 
-                    <div class="about-grid">
-                      <div class="box">
-                        <h3>Nuestra historia</h3>
-                        <p>
-                          El sur tiene algo que no se explica con palabras: se vive.
-                          En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
-                          para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
-                        </p>
-                        <p>
-                          Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
-                          horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
-                        </p>
+                    <div class="box">
+                      <h3>Nuestra historia</h3>
+                      <p>
+                        El sur tiene algo que no se explica con palabras: se vive.
+                        En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
+                        para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
+                      </p>
+                      <p>
+                        Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
+                        horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
+                      </p>
 
-                        <h3 style="margin-top:12px;">Qué hacemos</h3>
-                        <div class="values" style="margin-top:10px;">
-                          <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
-                          <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
-                          <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
-                        </div>
+                      <h3 style="margin-top:12px;">Qué hacemos</h3>
+                      <div class="values" style="margin-top:10px;">
+                        <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
+                        <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
+                        <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
                       </div>
 
-                      <div class="box">
-                        <h3>Valores</h3>
-                        <div class="values">
-                          <div class="value"><b>Colaboración</b><span>Red real con emprendimientos y partners locales.</span></div>
-                          <div class="value"><b>Compromiso</b><span>Atención humana y cumplimiento.</span></div>
-                          <div class="value"><b>Integridad</b><span>Transparencia, respeto y claridad.</span></div>
-                          <div class="value"><b>Innovación</b><span>Soluciones simples para responder rápido.</span></div>
-                        </div>
-
-                        <div class="about-cta">
-                          <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
-                          <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
-                        </div>
-
-                        <div class="about-note">
-                          Si vienes con grupo/colegio/empresa, más abajo tienes el apartado para planificar con calma.
-                        </div>
+                      <div class="about-cta">
+                        <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+                        <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
                       </div>
                     </div>
                   </div>
@@ -1086,6 +1045,7 @@
               </div>
 
             </div>
+
           </div>
         </div>
       </div>
@@ -1920,5 +1880,6 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
   </script>
 </body>
 </html>
+
 
 
