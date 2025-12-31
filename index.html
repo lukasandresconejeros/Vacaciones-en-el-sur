@@ -12,34 +12,27 @@
 
   <style>
     :root{
-      /* Sunset (acento) */
+      /* Atardecer (acento) */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
       --sun3:#7c3aed;
       --sun4:#ffd36a;
 
-      /* Base pastel */
-      --bg1:#fffaf7;
-      --bg2:#fff8fd;
+      /* Base clara/pastel */
+      --bg1:#fff9f6;
+      --bg2:#fff7fb;
       --bg3:#f7fbff;
 
-      --ink:#16151a;
+      --ink:#14131a;
       --muted:#5a5564;
 
-      --card: rgba(255,255,255,.86);
-      --card2: rgba(255,255,255,.92);
-      --border: rgba(22,21,26,.10);
+      --card: rgba(255,255,255,.84);
+      --border: rgba(20,19,26,.10);
 
-      --shadow: 0 16px 50px rgba(22,21,26,.10);
-      --shadow2: 0 10px 24px rgba(22,21,26,.10);
+      --shadow: 0 16px 50px rgba(20,19,26,.10);
+      --shadow2: 0 10px 24px rgba(20,19,26,.10);
 
       --radius: 18px;
-
-      /* Botones */
-      --btn-ink:#1b1620;
-      --btn-bg: rgba(255,255,255,.90);
-      --btn-bd: rgba(22,21,26,.12);
-      --btn-shadow: 0 12px 28px rgba(22,21,26,.10);
     }
 
     *{ box-sizing:border-box; }
@@ -51,40 +44,39 @@
       background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 35%, var(--bg3) 100%);
       overflow-x:hidden;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Globos/blur (más claro, pastel) */
+    /* Globos animados (claros/pastel) */
     body::before,
     body::after{
       content:"";
       position:fixed;
-      inset:-25%;
+      inset:-28%;
       z-index:-1;
-      opacity:.38;
-      filter: blur(52px);
+      opacity:.42;
+      filter: blur(54px);
       pointer-events:none;
       animation: floaty 16s ease-in-out infinite;
       background:
-        radial-gradient(520px 380px at 16% 18%, rgba(255,122,24,.28), transparent 62%),
-        radial-gradient(620px 420px at 82% 22%, rgba(255,61,119,.20), transparent 64%),
-        radial-gradient(620px 520px at 55% 88%, rgba(124,58,237,.14), transparent 62%),
-        radial-gradient(520px 420px at 28% 78%, rgba(255,211,106,.22), transparent 64%);
+        radial-gradient(460px 340px at 16% 18%, rgba(255,122,24,.32), transparent 62%),
+        radial-gradient(620px 420px at 82% 22%, rgba(255,61,119,.22), transparent 64%),
+        radial-gradient(560px 460px at 56% 88%, rgba(124,58,237,.16), transparent 64%),
+        radial-gradient(560px 380px at 28% 78%, rgba(255,211,106,.24), transparent 64%);
     }
     body::after{
-      opacity:.22;
+      opacity:.26;
       animation-duration: 20s;
       animation-direction: reverse;
-      filter: blur(62px);
     }
     @keyframes floaty{
       0%{ transform: translate3d(0,0,0) scale(1); }
-      50%{ transform: translate3d(2.5%, -2%, 0) scale(1.03); }
+      50%{ transform: translate3d(3%, -2%, 0) scale(1.03); }
       100%{ transform: translate3d(0,0,0) scale(1); }
     }
 
     a{ color:inherit; text-decoration:none; }
-    img, svg, video{ max-width:100%; height:auto; }
+    img, svg, video{ max-width:100%; height:auto; display:block; }
     .container{ width:min(1160px, 92vw); margin:0 auto; }
 
     /* HEADER */
@@ -92,24 +84,22 @@
       position:sticky; top:0; z-index:40;
       background: rgba(255,255,255,.78);
       backdrop-filter: blur(10px);
-      border-bottom:1px solid rgba(22,21,26,.08);
+      border-bottom:1px solid rgba(20,19,26,.08);
     }
     .nav{
       display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      padding:12px 0;
+      gap:12px; padding:12px 0;
     }
     .brand{
       display:flex; align-items:center; gap:12px;
       min-width: 240px;
     }
     .logo{
-      width:42px; height:42px;
-      border-radius:999px;
+      width:42px; height:42px; border-radius:999px;
       background: conic-gradient(from 220deg, var(--sun1), var(--sun2), var(--sun3), var(--sun4), var(--sun1));
       box-shadow: 0 12px 30px rgba(255,122,24,.18);
       display:grid; place-items:center;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       flex:0 0 auto;
     }
     .logo span{
@@ -125,7 +115,7 @@
       font-size:13px;
       letter-spacing:.12em;
       text-transform:uppercase;
-      font-weight:600;
+      font-weight:700;
       line-height:1.2;
     }
     .brand small{
@@ -148,20 +138,22 @@
       color:#2b2832;
       padding:8px 10px;
       border-radius:999px;
-      transition: background .15s ease;
+      transition: background .15s ease, transform .15s ease;
       white-space:nowrap;
     }
-    nav a:hover{ background: rgba(255,122,24,.10); }
+    nav a:hover{
+      background: rgba(255,122,24,.10);
+      transform: translateY(-1px);
+    }
 
-    /* Mobile menu button */
     .menu-btn{
       display:none;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       background: rgba(255,255,255,.80);
       border-radius:14px;
       width:44px; height:44px;
       cursor:pointer;
-      box-shadow: 0 10px 22px rgba(22,21,26,.08);
+      box-shadow: 0 10px 22px rgba(20,19,26,.08);
       user-select:none;
       line-height:1;
       font-size:20px;
@@ -178,7 +170,7 @@
     /* Mobile drawer */
     .drawer-backdrop{
       position:fixed; inset:0;
-      background: rgba(22,21,26,.22);
+      background: rgba(20,19,26,.22);
       backdrop-filter: blur(6px);
       display:none;
       z-index:70;
@@ -188,16 +180,16 @@
       width:min(420px, 94vw);
       margin-left:auto;
       background: rgba(255,255,255,.94);
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       border-radius:22px;
-      box-shadow: 0 24px 70px rgba(22,21,26,.18);
+      box-shadow: 0 24px 70px rgba(20,19,26,.18);
       overflow:hidden;
     }
     .drawer-head{
       padding:14px 16px;
       display:flex; justify-content:space-between; align-items:center;
       background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
-      border-bottom:1px solid rgba(22,21,26,.08);
+      border-bottom:1px solid rgba(20,19,26,.08);
     }
     .drawer-head b{
       letter-spacing:.16em;
@@ -208,7 +200,7 @@
     .drawer-close{
       width:42px; height:42px;
       border-radius:14px;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       background: rgba(255,255,255,.78);
       cursor:pointer;
       font-size:18px;
@@ -222,9 +214,9 @@
     .drawer-link{
       padding:12px 12px;
       border-radius:16px;
-      border:1px solid rgba(22,21,26,.10);
-      background: rgba(255,255,255,.90);
-      font-weight:600;
+      border:1px solid rgba(20,19,26,.10);
+      background: rgba(255,255,255,.88);
+      font-weight:700;
       color:#2b2832;
     }
     .drawer-link:active{ transform: translateY(1px); }
@@ -236,11 +228,11 @@
     }
 
     /* HERO */
-    .hero{ padding:52px 0 22px; }
+    .hero{ padding:46px 0 18px; }
     .hero-box{
       border-radius: 26px;
-      background: rgba(255,255,255,.74);
-      border:1px solid rgba(22,21,26,.08);
+      background: rgba(255,255,255,.76);
+      border:1px solid rgba(20,19,26,.08);
       box-shadow: var(--shadow);
       padding:20px;
       overflow:hidden;
@@ -253,84 +245,32 @@
       z-index:0;
       opacity:.36;
       background:
-        radial-gradient(560px 360px at 10% 10%, rgba(255,122,24,.28), transparent 62%),
-        radial-gradient(620px 400px at 92% 18%, rgba(255,61,119,.20), transparent 64%),
-        radial-gradient(620px 520px at 55% 120%, rgba(124,58,237,.12), transparent 64%);
-      filter: blur(46px);
+        radial-gradient(520px 340px at 12% 16%, rgba(255,122,24,.30), transparent 62%),
+        radial-gradient(640px 420px at 92% 22%, rgba(255,61,119,.22), transparent 64%),
+        radial-gradient(520px 420px at 58% 120%, rgba(124,58,237,.14), transparent 66%);
+      filter: blur(48px);
       pointer-events:none;
     }
     .hero-content{ position:relative; z-index:1; }
 
     .hero-grid{
       display:grid;
-      grid-template-columns: minmax(240px, 320px) 1fr;
+      grid-template-columns: 360px 1fr;
       gap:18px;
       align-items:stretch;
+      grid-template-areas: "media copy";
     }
-    @media (max-width: 980px){
-      .hero-grid{ grid-template-columns: 1fr; }
-    }
+    .hero-media{ grid-area: media; }
+    .hero-copy{ grid-area: copy; }
 
-    /* VIDEO CARD */
-    .hero-media{
-      border-radius: 22px;
-      border:1px solid rgba(22,21,26,.10);
-      background: rgba(255,255,255,.80);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-      aspect-ratio: 9 / 16;
-      width: 100%;
-      max-width: 320px;
-      justify-self:start;
-    }
-    @media (max-width: 980px){
-      .hero-media{
-        max-width: 360px;
-        justify-self:center;
+    @media (max-width: 860px){
+      .hero-grid{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "copy"
+          "media";
       }
     }
-    .hero-media video{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-      background: #111;
-    }
-    .sound-btn{
-      position:absolute;
-      left:12px;
-      bottom:12px;
-      border:1px solid rgba(255,255,255,.22);
-      background: rgba(22,21,26,.40);
-      color:#fff;
-      border-radius:999px;
-      padding:10px 12px;
-      font-weight:700;
-      font-size:12px;
-      cursor:pointer;
-      backdrop-filter: blur(8px);
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      user-select:none;
-    }
-    .sound-btn:active{ transform: translateY(1px); }
-
-    .video-fallback{
-      position:absolute;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:14px;
-      text-align:center;
-      color:#fff;
-      background: radial-gradient(60% 60% at 50% 40%, rgba(255,122,24,.22), rgba(0,0,0,.55));
-      font-size:12.5px;
-      line-height:1.5;
-    }
-    .video-fallback b{ display:block; font-size:13px; margin-bottom:6px; }
 
     .kicker{
       display:inline-flex; align-items:center; gap:10px;
@@ -346,6 +286,7 @@
       background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
       box-shadow: 0 0 0 6px rgba(255,122,24,.10);
     }
+
     .hero-title{
       margin:0;
       font-family:"Playfair Display", serif;
@@ -353,13 +294,14 @@
       line-height:1.06;
       letter-spacing:.01em;
     }
-    .hero-title .script{
+    .script{
       font-family:"Satisfy", cursive;
       font-weight:400;
       background: linear-gradient(90deg, var(--sun1), var(--sun2), var(--sun4));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
+      white-space:nowrap;
     }
     .hero-sub{
       margin:12px 0 0;
@@ -385,17 +327,86 @@
       border-radius:999px;
       font-size:12px;
       color:#2b2832;
-      background: rgba(255,255,255,.82);
-      border:1px solid rgba(22,21,26,.08);
+      background: rgba(255,255,255,.80);
+      border:1px solid rgba(20,19,26,.08);
       white-space:nowrap;
     }
 
-    /* Grupo */
+    /* Video card */
+    .video-card{
+      height:100%;
+      border-radius:22px;
+      background: rgba(255,255,255,.84);
+      border:1px solid rgba(20,19,26,.10);
+      box-shadow: var(--shadow2);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height: 420px;
+    }
+    .video-wrap{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(20,19,26,.10);
+      background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
+      aspect-ratio: 9 / 16;
+    }
+    .video-wrap video{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      background:#111;
+    }
+
+    .video-play{
+      position:absolute;
+      left:12px; bottom:12px;
+      border:0;
+      border-radius:999px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:13px;
+      color:#fff;
+      background: linear-gradient(135deg, var(--sun1), var(--sun2));
+      box-shadow: 0 18px 40px rgba(20,19,26,.22);
+    }
+    .video-sound{
+      position:absolute;
+      right:12px; bottom:12px;
+      border:1px solid rgba(255,255,255,.26);
+      border-radius:999px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:13px;
+      color:#fff;
+      background: rgba(20,19,26,.42);
+      backdrop-filter: blur(8px);
+      display:none;
+    }
+    .video-hint{
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.45;
+      margin:0;
+    }
+    .video-hint b{ color:#221f29; }
+
+    @media (max-width: 860px){
+      .video-card{ min-height: unset; }
+      .hero-title{ font-size:32px; }
+      .hero-box{ padding:16px; }
+    }
+
+    /* Grupo / empresa */
     .group-hero{
       margin-top:14px;
       border-radius: 22px;
       background: rgba(255,255,255,.84);
-      border: 1px solid rgba(22,21,26,.08);
+      border: 1px solid rgba(20,19,26,.08);
       box-shadow: var(--shadow2);
       padding:16px;
       display:flex;
@@ -406,7 +417,7 @@
     .group-hero .icon{
       width:46px; height:46px; border-radius:16px;
       background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       display:grid; place-items:center;
       font-size:20px;
       user-select:none;
@@ -418,7 +429,7 @@
       letter-spacing:.16em;
       text-transform:uppercase;
       color:#2b2832;
-      font-weight:800;
+      font-weight:900;
     }
     .group-hero p{
       margin:8px 0 0;
@@ -431,50 +442,48 @@
       margin-left:auto;
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
     }
+    @media (max-width: 860px){
+      .group-hero .cta{ margin-left:0; width:100%; }
+    }
 
     /* Buttons */
     .btn{
       border:0;
       border-radius: 14px;
       padding:10px 14px;
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       cursor:pointer;
       display:inline-flex;
       gap:10px;
       align-items:center;
       justify-content:center;
-      transition: background .12s ease, border-color .12s ease, box-shadow .12s ease;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
       user-select:none;
       white-space:nowrap;
       line-height:1.1;
-      -webkit-font-smoothing: antialiased;
+      transform: translateZ(0);
     }
-    .btn:active{ transform: translateY(1px); }
+    .btn:active{ transform: translateY(1px) translateZ(0); }
 
-    /* Primary (sunset pero limpio) */
     .btn-primary{
       color:#fff;
-      background: linear-gradient(135deg, rgba(255,122,24,.98), rgba(255,61,119,.98));
-      border:1px solid rgba(255,122,24,.35);
-      box-shadow: 0 12px 28px rgba(255,61,119,.14);
+      background: linear-gradient(135deg, var(--sun1), var(--sun2));
+      border:1px solid rgba(20,19,26,.10);
+      box-shadow: 0 16px 34px rgba(255,61,119,.20);
     }
-    .btn-primary:hover{
-      box-shadow: 0 14px 34px rgba(255,61,119,.18);
-      border-color: rgba(255,211,106,.45);
-    }
-
     .btn-ghost{
       color:#2b2832;
-      background: rgba(255,255,255,.82);
-      border:1px solid rgba(22,21,26,.10);
-      box-shadow: 0 10px 20px rgba(22,21,26,.06);
+      background: rgba(255,255,255,.80);
+      border:1px solid rgba(20,19,26,.10);
+      box-shadow: 0 10px 20px rgba(20,19,26,.06);
     }
     .btn-ghost:hover{ background: rgba(255,122,24,.10); }
 
     /* SECTIONS */
-    section{ padding:36px 0; }
+    section{ padding:34px 0; }
     section[id]{ scroll-margin-top: 88px; }
+
     .section-head{
       display:flex;
       justify-content:space-between;
@@ -482,19 +491,31 @@
       gap:16px;
       margin-bottom:14px;
     }
-    .section-head h2{
+    .section-title{
       margin:0;
-      font-size:18px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      font-weight:700;
-      color:#2b2832;
+      font-family:"Playfair Display", serif; /* <- la letra bonita para TODOS los títulos */
+      font-size:34px;
+      line-height:1.08;
+      letter-spacing:.01em;
+      color:#221f29;
     }
-    .section-head p{
-      margin:0;
+    .section-sub{
+      margin:8px 0 0;
       color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
+      font-size:13.5px;
+      line-height:1.55;
+      max-width:80ch;
+    }
+    .title-line{
+      width:110px;
+      height:4px;
+      border-radius:999px;
+      background: linear-gradient(90deg, var(--sun4), var(--sun1), var(--sun2));
+      opacity:.75;
+      margin-top:10px;
+    }
+    @media (max-width: 700px){
+      .section-title{ font-size:28px; }
     }
 
     /* Cards grid */
@@ -503,23 +524,12 @@
       grid-template-columns: repeat(3, 1fr);
       gap:14px;
     }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-      .hero-title{ font-size:36px; }
-      .group-hero .cta{ margin-left:0; width:100%; }
-      .hero-box{ padding:18px; }
-    }
-    @media (max-width: 640px){
-      .grid{ grid-template-columns:1fr; }
-      .hero{ padding-top:40px; }
-      .hero-title{ font-size:30px; }
-      .pill{ font-size:11.5px; }
-      .btn{ padding:10px 12px; }
-    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px){ .grid{ grid-template-columns:1fr; } .btn{ padding:10px 12px; } }
 
     .card{
       background: var(--card);
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       border-radius: var(--radius);
       box-shadow: var(--shadow2);
       padding:16px;
@@ -534,7 +544,7 @@
       font-size:11px;
       letter-spacing:.14em;
       text-transform:uppercase;
-      font-weight:800;
+      font-weight:900;
       padding:6px 10px;
       border-radius:999px;
       background: rgba(255,122,24,.12);
@@ -545,7 +555,7 @@
     .card h3{
       margin:0;
       font-size:17px;
-      font-weight:700;
+      font-weight:800;
       color:#221f29;
       line-height:1.25;
     }
@@ -560,7 +570,7 @@
       font-size:12px;
       color:#2b2832;
       background: rgba(255,255,255,.90);
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       padding:6px 10px;
       border-radius:999px;
       max-width:100%;
@@ -582,7 +592,7 @@
       gap:10px;
       color:#221f29;
       font-size:13px;
-      font-weight:600;
+      font-weight:700;
     }
     .actions{
       margin-top:12px;
@@ -591,7 +601,6 @@
       flex-wrap:wrap;
       align-items:center;
     }
-    .actions .btn{ flex:0 0 auto; }
     @media (max-width: 640px){
       .actions{ gap:8px; }
       .actions .btn{ flex:1 1 auto; }
@@ -599,8 +608,8 @@
 
     /* Alojamiento */
     .stay{
-      background: rgba(255,255,255,.86);
-      border:1px solid rgba(22,21,26,.08);
+      background: rgba(255,255,255,.84);
+      border:1px solid rgba(20,19,26,.08);
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding:18px;
@@ -628,12 +637,12 @@
     @media (max-width: 980px){ .stay-list{ grid-template-columns:1fr; } }
     .stay-item{
       border-radius: 18px;
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.92);
       padding:14px;
       min-width:0;
     }
-    .stay-item b{ display:block; font-size:13px; color:#221f29; }
+    .stay-item b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .stay-item span{ display:block; margin-top:4px; font-size:12.5px; color:#3c3646; line-height:1.5; }
     .stay-actions{
       margin-top:14px;
@@ -656,8 +665,8 @@
     }
     @media (max-width: 980px){ .about-grid{ grid-template-columns:1fr; } }
     .box{
-      background: rgba(255,255,255,.86);
-      border:1px solid rgba(22,21,26,.08);
+      background: rgba(255,255,255,.84);
+      border:1px solid rgba(20,19,26,.08);
       border-radius: 22px;
       box-shadow: var(--shadow2);
       padding:18px;
@@ -667,7 +676,7 @@
       font-size:13px;
       letter-spacing:.18em;
       text-transform:uppercase;
-      font-weight:800;
+      font-weight:900;
       color:#2b2832;
     }
     .box p{
@@ -683,18 +692,18 @@
       gap:10px;
     }
     .value{
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.92);
       border-radius: 16px;
       padding:12px;
     }
-    .value b{ display:block; font-size:13px; color:#221f29; }
+    .value b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.55; }
 
     /* Alianza */
     .ally{
-      background: rgba(255,255,255,.86);
-      border:1px solid rgba(22,21,26,.08);
+      background: rgba(255,255,255,.84);
+      border:1px solid rgba(20,19,26,.08);
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding:18px;
@@ -729,7 +738,7 @@
       gap:10px;
     }
     .ally .bullets li{
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.92);
       border-radius: 16px;
       padding:12px;
@@ -750,13 +759,12 @@
       width:100%;
       padding:12px;
       border-radius:14px;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       outline:none;
       font-size:14px;
       background:#fff;
       color:#221f29;
       min-width:0;
-      -webkit-font-smoothing: antialiased;
     }
     textarea{ min-height:96px; resize:vertical; }
     input:focus, textarea:focus, select:focus{
@@ -770,13 +778,13 @@
       text-align:center;
       color:var(--muted);
       font-size:12px;
-      border-top:1px solid rgba(22,21,26,.06);
+      border-top:1px solid rgba(20,19,26,.06);
     }
 
-    /* Modal backdrops */
+    /* Modals */
     .backdrop{
       position:fixed; inset:0;
-      background: rgba(22,21,26,.22);
+      background: rgba(20,19,26,.22);
       display:none;
       align-items:center;
       justify-content:center;
@@ -787,14 +795,14 @@
     .modal{
       width:min(640px, 96vw);
       background: rgba(255,255,255,.94);
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       border-radius: 24px;
-      box-shadow: 0 24px 70px rgba(22,21,26,.18);
+      box-shadow: 0 24px 70px rgba(20,19,26,.18);
       overflow:hidden;
     }
     .modal-head{
       padding:14px 16px;
-      border-bottom:1px solid rgba(22,21,26,.08);
+      border-bottom:1px solid rgba(20,19,26,.08);
       display:flex;
       justify-content:space-between;
       gap:10px;
@@ -817,12 +825,13 @@
     .x{
       width:40px; height:40px;
       border-radius:14px;
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       background: rgba(255,255,255,.78);
       cursor:pointer;
       font-size:18px;
       line-height:1;
       flex:0 0 auto;
+      color:#221f29;
     }
     .modal-body{ padding:16px; }
     .meta-row{
@@ -834,7 +843,7 @@
     }
     .chip{
       font-size:12px;
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.88);
       border-radius:999px;
       padding:6px 10px;
@@ -859,7 +868,7 @@
       padding:12px;
       border-radius: 16px;
       background: rgba(255,255,255,.90);
-      border:1px solid rgba(22,21,26,.08);
+      border:1px solid rgba(20,19,26,.08);
       color:#3c3646;
       font-size:13px;
       line-height:1.65;
@@ -873,10 +882,10 @@
       bottom:22px;
       transform:translateX(-50%);
       background: rgba(255,255,255,.94);
-      border:1px solid rgba(22,21,26,.10);
+      border:1px solid rgba(20,19,26,.10);
       border-radius:999px;
       padding:12px 14px;
-      box-shadow: 0 18px 40px rgba(22,21,26,.14);
+      box-shadow: 0 18px 40px rgba(20,19,26,.14);
       display:none;
       z-index:80;
       color:#221f29;
@@ -914,6 +923,7 @@
     </div>
   </header>
 
+  <!-- Mobile drawer -->
   <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
     <div class="drawer" role="dialog" aria-modal="true" aria-label="Menú">
       <div class="drawer-head">
@@ -934,37 +944,17 @@
   <main id="inicio">
     <div class="container">
 
+      <!-- HERO -->
       <div class="hero">
         <div class="hero-box">
           <div class="hero-content">
+
             <div class="hero-grid">
-
-              <!-- VIDEO (vertical) -->
-              <div class="hero-media" aria-label="Video">
-                <video
-                  id="heroVideo"
-                  playsinline
-                  muted
-                  loop
-                  preload="metadata"
-                  controls
-                ></video>
-
-                <button class="sound-btn" id="soundBtn" type="button" aria-label="Activar sonido">🔊 Activar sonido</button>
-
-                <div class="video-fallback" id="videoFallback">
-                  <div>
-                    <b>No se encontró el video</b>
-                    Revisa ruta: <code style="background:rgba(255,255,255,.18);padding:2px 6px;border-radius:8px;">video/video.mp4</code><br>
-                    (misma carpeta que tu <code style="background:rgba(255,255,255,.18);padding:2px 6px;border-radius:8px;">index.html</code>)
-                  </div>
-                </div>
-              </div>
-
-              <!-- TEXTO HERO -->
-              <div>
+              <!-- COPY -->
+              <div class="hero-copy">
                 <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
 
+                <!-- ✅ ESTE TÍTULO QUEDA EXACTO -->
                 <h2 class="hero-title">
                   Vacaciones en el Sur<br>
                   de <span class="script">Chile</span>
@@ -984,6 +974,7 @@
                   <button class="btn btn-ghost" onclick="scrollToSection('alojamiento')">Ver alojamiento</button>
                 </div>
 
+                <!-- GRUPOS / COLEGIOS / EMPRESAS -->
                 <div class="group-hero" id="grupos">
                   <div class="icon">👥</div>
                   <div>
@@ -998,9 +989,23 @@
                     <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
                   </div>
                 </div>
-
               </div>
-            </div> <!-- hero-grid -->
+
+              <!-- MEDIA -->
+              <div class="hero-media">
+                <div class="video-card">
+                  <div class="video-wrap">
+                    <video id="heroVideo" playsinline controls preload="metadata"></video>
+                    <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
+                    <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
+                  </div>
+                  <p class="video-hint">
+                    Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1009,8 +1014,10 @@
       <section id="tours-fluviales">
         <div class="section-head">
           <div>
-            <h2>Tours fluviales</h2>
-            <p>Valdivia por agua: castillos, santuarios, humedales, postales.</p>
+            <!-- ✅ TODO EL TÍTULO CON LETRA BONITA (SIN MITAD/MITAD) -->
+            <h2 class="section-title">Tours fluviales</h2>
+            <div class="title-line"></div>
+            <p class="section-sub">Valdivia por agua: castillos, santuarios, humedales, postales.</p>
           </div>
         </div>
         <div class="grid" id="grid-fluviales"></div>
@@ -1020,8 +1027,10 @@
       <section id="tours-terrestres">
         <div class="section-head">
           <div>
-            <h2>Tours terrestres</h2>
-            <p>Full day, termas, parques y rutas: naturaleza + cultura.</p>
+            <!-- ✅ TODO EL TÍTULO CON LETRA BONITA -->
+            <h2 class="section-title">Tours terrestres</h2>
+            <div class="title-line"></div>
+            <p class="section-sub">Full day, termas, parques y rutas: naturaleza + cultura.</p>
           </div>
         </div>
         <div class="grid" id="grid-terrestres"></div>
@@ -1031,8 +1040,10 @@
       <section id="alojamiento">
         <div class="section-head">
           <div>
-            <h2>Alojamiento</h2>
-            <p>Opciones reales según zona, fechas y capacidad.</p>
+            <!-- ✅ SOLO “Alojamiento” (como pediste) -->
+            <h2 class="section-title">Alojamiento</h2>
+            <div class="title-line"></div>
+            <p class="section-sub">Opciones reales según zona, fechas y capacidad.</p>
           </div>
         </div>
 
@@ -1068,8 +1079,10 @@
       <section id="alianza">
         <div class="section-head">
           <div>
-            <h2>Alianza</h2>
-            <p>Para alojamientos, hoteles, tours, transporte y servicios turísticos que quieran trabajar con nosotros.</p>
+            <!-- ✅ TODO EL TÍTULO CON LETRA BONITA -->
+            <h2 class="section-title">Alianza y partners</h2>
+            <div class="title-line"></div>
+            <p class="section-sub">Para alojamientos, hoteles, tours, transporte y servicios turísticos que quieran trabajar con nosotros.</p>
           </div>
         </div>
 
@@ -1137,8 +1150,10 @@
       <section id="quienes-somos">
         <div class="section-head">
           <div>
-            <h2>Quiénes somos</h2>
-            <p>Turismo con propósito: auténtico, accesible y memorable.</p>
+            <!-- ✅ TODO EL TÍTULO CON LETRA BONITA -->
+            <h2 class="section-title">Quiénes somos</h2>
+            <div class="title-line"></div>
+            <p class="section-sub">Turismo con propósito: auténtico, accesible y memorable.</p>
           </div>
         </div>
 
@@ -1321,11 +1336,9 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    /***** ✅ CONFIG *****/
+    /***** CONFIG *****/
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
-
-    // ✅ Tu caso: carpeta /video y archivo video.mp4
-    const HERO_VIDEO_URL = "./video/video.mp4";
+    const HERO_VIDEO_URL = "video/video.mp4"; // tu carpeta actual
 
     /***** DATA *****/
     const TOURS_FLUVIALES = [
@@ -1546,7 +1559,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
           </div>
           <p class="desc">${t.descripcion || "—"}</p>
           <div class="price">
-            ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:600;">Precio a consultar</span>`}
+            ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:700;">Precio a consultar</span>`}
           </div>
           <div class="actions">
             <button class="btn btn-primary" onclick='openReserve(${JSON.stringify({ tipo: label, nombre: t.nombre, id: t.id })})'>Reservar</button>
@@ -1559,66 +1572,55 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     function render(){
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      const fl = document.getElementById("grid-fluviales");
-      fl.innerHTML = TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
+      document.getElementById("grid-fluviales").innerHTML =
+        TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
 
-      const te = document.getElementById("grid-terrestres");
-      te.innerHTML = TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
+      document.getElementById("grid-terrestres").innerHTML =
+        TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
     }
 
-    /***** HERO VIDEO (autoplay muted + activar sonido) *****/
-    async function initHeroVideo(){
+    /***** HERO VIDEO *****/
+    function initHeroVideo(){
       const v = document.getElementById("heroVideo");
-      const fallback = document.getElementById("videoFallback");
-      const soundBtn = document.getElementById("soundBtn");
+      const playBtn = document.getElementById("heroPlayBtn");
+      const soundBtn = document.getElementById("heroSoundBtn");
+      if(!v) return;
 
-      // set src
-      if(HERO_VIDEO_URL){
-        v.src = HERO_VIDEO_URL;
-      }
+      v.src = HERO_VIDEO_URL;
+      v.muted = true;
 
-      // si falla la carga -> fallback
-      v.addEventListener("error", () => {
-        fallback.style.display = "flex";
-      });
-
-      // autoplay (muted)
-      try{
-        await v.play(); // normalmente permitido si muted=true
-      }catch(e){
-        // no pasa nada: igual queda con controles para play manual
-      }
-
-      // activar sonido por click (requisito navegador)
-      soundBtn.addEventListener("click", async () => {
+      playBtn.addEventListener("click", async () => {
         try{
-          if(v.paused) await v.play();
           v.muted = false;
-          v.volume = 1;
-          soundBtn.textContent = "🔇 Silenciar";
-          showToast("Sonido activado ✅");
-        }catch(e){
-          showToast("Toca Play y luego activa sonido.");
+          await v.play();
+          playBtn.style.display = "none";
+          soundBtn.style.display = "inline-flex";
+          soundBtn.textContent = "🔊 Sonido";
+        }catch(err){
+          console.warn(err);
+          showToast("Tu navegador bloqueó la reproducción. Prueba tocando el ▶ del video.");
         }
       });
 
-      // si usuario silencia desde botón
-      soundBtn.addEventListener("dblclick", () => {
-        v.muted = true;
-        soundBtn.textContent = "🔊 Activar sonido";
+      soundBtn.addEventListener("click", () => {
+        v.muted = !v.muted;
+        soundBtn.textContent = v.muted ? "🔇 Silencio" : "🔊 Sonido";
       });
 
-      // si el usuario mutea manualmente con controles
-      v.addEventListener("volumechange", () => {
-        if(v.muted || v.volume === 0){
-          soundBtn.textContent = "🔊 Activar sonido";
-        }else{
-          soundBtn.textContent = "🔇 Silenciar";
-        }
+      v.addEventListener("play", () => {
+        playBtn.style.display = "none";
+        soundBtn.style.display = "inline-flex";
+        soundBtn.textContent = v.muted ? "🔇 Silencio" : "🔊 Sonido";
+      });
+
+      v.addEventListener("error", () => {
+        playBtn.style.display = "none";
+        soundBtn.style.display = "none";
+        showToast("No se encontró el video. Revisa la ruta: " + HERO_VIDEO_URL);
       });
     }
 
-    /***** Drawer (mobile menu) *****/
+    /***** Drawer *****/
     function openDrawer(){
       const b = document.getElementById("drawerBackdrop");
       b.style.display = "block";
@@ -1801,8 +1803,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     function clearAlliance(){
       ["a_nombre","a_email","a_localidad","a_marca","a_rubro","a_msg"].forEach(id => {
         const el = document.getElementById(id);
-        if(!el) return;
-        el.value = "";
+        if(el) el.value = "";
       });
       document.getElementById("allyNote").textContent = "";
       showToast("Listo. Formulario limpio.");
@@ -1816,14 +1817,8 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const rubro = (document.getElementById("a_rubro").value || "").trim();
       const mensaje = (document.getElementById("a_msg").value || "").trim();
 
-      if(!nombre || !email || !marca){
-        showToast("Falta nombre, correo o marca.");
-        return;
-      }
-      if(!WEBHOOK_URL){
-        showToast("Falta configurar WEBHOOK_URL.");
-        return;
-      }
+      if(!nombre || !email || !marca){ showToast("Falta nombre, correo o marca."); return; }
+      if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
       const payload = {
         event: "alliance_lead",
@@ -1876,21 +1871,10 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     // Drawer wiring
     document.getElementById("menuBtn").addEventListener("click", openDrawer);
     document.getElementById("drawerClose").addEventListener("click", closeDrawer);
-    document.querySelectorAll("[data-drawer-link]").forEach(a => {
-      a.addEventListener("click", () => closeDrawer());
-    });
-
-    // Prevent accidental horizontal overflow
-    window.addEventListener("resize", () => {
-      document.documentElement.style.overflowX = "hidden";
-      document.body.style.overflowX = "hidden";
-    });
+    document.querySelectorAll("[data-drawer-link]").forEach(a => a.addEventListener("click", closeDrawer));
 
     render();
     initHeroVideo();
   </script>
 </body>
 </html>
-
-
-
