@@ -256,7 +256,7 @@
     }
     .hero-content{ position:relative; z-index:1; }
 
-    /* ✅ DEFINITIVO: 2 columnas mismo ancho + mismo alto */
+    /* ✅ 2 columnas mismo ancho + mismo alto */
     .hero-grid{
       display:grid;
       grid-template-columns: minmax(0,1fr) minmax(0,1fr);
@@ -332,7 +332,7 @@
       border:1px solid rgba(20,19,26,.10);
       background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
       flex:1;
-      min-height:0; /* clave para que NO rompa la altura */
+      min-height:0;
     }
     .video-wrap video{
       width:100%;
@@ -899,6 +899,40 @@
       white-space:pre-line;
     }
 
+    /* ✅ Video modal vertical tipo Reels (PC) */
+    .video-modal{
+      width: min(420px, 94vw);
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      overflow:hidden;
+      background: rgba(255,255,255,.94);
+      border:1px solid rgba(20,19,26,.10);
+      box-shadow: 0 24px 70px rgba(20,19,26,.18);
+      position:relative;
+    }
+    .video-modal video{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      background:#111;
+      display:block;
+    }
+    .video-modal .vm-close{
+      position:absolute;
+      top:10px; right:10px;
+      width:42px; height:42px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.26);
+      background: rgba(20,19,26,.42);
+      color:#fff;
+      cursor:pointer;
+      font-size:18px;
+      backdrop-filter: blur(8px);
+      display:grid;
+      place-items:center;
+      z-index:2;
+    }
+
     /* Toast */
     .toast{
       position:fixed;
@@ -935,6 +969,7 @@
         <nav aria-label="Navegación principal">
           <ul>
             <li><a href="#quienes-somos">Quiénes somos</a></li>
+            <li><a href="#grupos-empresas">Grupos/Empresas</a></li>
             <li><a href="#tours-fluviales">Tours fluviales</a></li>
             <li><a href="#tours-terrestres">Tours terrestres</a></li>
             <li><a href="#alojamiento">Alojamiento</a></li>
@@ -956,6 +991,7 @@
       </div>
       <div class="drawer-body">
         <a class="drawer-link" href="#quienes-somos" data-drawer-link>Quiénes somos</a>
+        <a class="drawer-link" href="#grupos-empresas" data-drawer-link>Grupos/Empresas</a>
         <a class="drawer-link" href="#tours-fluviales" data-drawer-link>Tours fluviales</a>
         <a class="drawer-link" href="#tours-terrestres" data-drawer-link>Tours terrestres</a>
         <a class="drawer-link" href="#alojamiento" data-drawer-link>Alojamiento</a>
@@ -983,7 +1019,7 @@
                     <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
                   </div>
                   <p class="video-hint">
-                    Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
+                    Video vertical. <b>Tocas “Ver video”</b> y se abre en formato reels.
                   </p>
                 </div>
               </div>
@@ -1005,7 +1041,7 @@
                     </p>
                   </div>
 
-                  <!-- CONTENIDO (sin “Valores”) -->
+                  <!-- CONTENIDO -->
                   <div class="side-scroll" id="quienes-somos">
                     <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
                       Quiénes somos
@@ -1241,6 +1277,9 @@
         <label for="r_nombre">Nombre</label>
         <input id="r_nombre" placeholder="Tu nombre" autocomplete="name" />
 
+        <label for="r_email">Correo electrónico (opcional)</label>
+        <input id="r_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
+
         <label for="r_tel">Teléfono (WhatsApp)</label>
         <input id="r_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
@@ -1301,12 +1340,24 @@
       </div>
       <div class="modal-body">
         <div class="meta-row">
-          <span class="chip">📌 Grupo / Colegio / Empresa</span>
+          <span class="chip">📌 Colegio / Universidad / Evento / Empresa</span>
           <span class="chip">🕒 Horarios predefinidos</span>
         </div>
 
+        <label for="m_tipo">¿Qué estás organizando?</label>
+        <select id="m_tipo">
+          <option value="">Selecciona…</option>
+          <option value="Colegio">Colegio</option>
+          <option value="Universidad">Universidad</option>
+          <option value="Evento">Evento</option>
+          <option value="Empresa">Empresa</option>
+        </select>
+
         <label for="m_nombre">Nombre</label>
         <input id="m_nombre" placeholder="Tu nombre" autocomplete="name" />
+
+        <label for="m_email">Correo electrónico</label>
+        <input id="m_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
         <label for="m_tel">Teléfono (WhatsApp)</label>
         <input id="m_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
@@ -1331,7 +1382,7 @@
         </div>
 
         <label for="m_tema">Tema (opcional)</label>
-        <textarea id="m_tema" placeholder="Ej: paseo de colegio / navegación privada / empresa"></textarea>
+        <textarea id="m_tema" placeholder="Ej: paseo de colegio / navegación privada / evento corporativo"></textarea>
 
         <div class="modal-actions">
           <button class="btn btn-primary" onclick="submitMeeting()">Enviar agenda</button>
@@ -1340,6 +1391,14 @@
 
         <div class="note" id="meetNote" style="margin-top:10px;"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- ✅ MODAL: VIDEO REELS (PC / también sirve móvil) -->
+  <div class="backdrop" id="videoBackdrop" aria-hidden="true">
+    <div class="video-modal" role="dialog" aria-modal="true" aria-label="Video">
+      <button class="vm-close" type="button" onclick="closeVideo()" aria-label="Cerrar">×</button>
+      <video id="bigVideo" playsinline controls preload="metadata"></video>
     </div>
   </div>
 
@@ -1540,6 +1599,18 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       return "+" + digits;
     }
 
+    function isValidEmail(email){
+      const e = String(email || "").trim();
+      if(!e) return false;
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+    }
+
+    function orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje }){
+      const f = fecha ? fecha : "—";
+      const m = mensaje ? mensaje : "—";
+      return `${tipo} | ${item} | ${nombre} | ${telefono} | ${f} | ${m}`;
+    }
+
     function cardHTML(t, label){
       const meta = [];
       if (t.duracion_horas) meta.push(`⏱️ ${t.duracion_horas} h`);
@@ -1591,19 +1662,17 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       v.src = HERO_VIDEO_URL;
       v.muted = true;
 
+      // Botón: abrir en modal vertical (reels)
       playBtn.addEventListener("click", async () => {
         try{
-          v.muted = false;
-          await v.play();
-          playBtn.style.display = "none";
-          soundBtn.style.display = "inline-flex";
-          soundBtn.textContent = "🔊 Sonido";
+          openVideo();
         }catch(err){
           console.warn(err);
-          showToast("Tu navegador bloqueó la reproducción. Prueba tocando el ▶ del video.");
+          showToast("No se pudo abrir el video. Revisa la ruta: " + HERO_VIDEO_URL);
         }
       });
 
+      // Mantengo toggle por si el usuario reproduce inline
       soundBtn.addEventListener("click", () => {
         v.muted = !v.muted;
         soundBtn.textContent = v.muted ? "🔇 Silencio" : "🔊 Sonido";
@@ -1615,11 +1684,48 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
         soundBtn.textContent = v.muted ? "🔇 Silencio" : "🔊 Sonido";
       });
 
+      v.addEventListener("pause", () => {
+        // si pausa inline, vuelve botón
+        playBtn.style.display = "inline-flex";
+        soundBtn.style.display = "none";
+      });
+
       v.addEventListener("error", () => {
         playBtn.style.display = "none";
         soundBtn.style.display = "none";
         showToast("No se encontró el video. Revisa la ruta: " + HERO_VIDEO_URL);
       });
+    }
+
+    /***** Video modal (reels) *****/
+    function openVideo(){
+      const b = document.getElementById("videoBackdrop");
+      const big = document.getElementById("bigVideo");
+      const hero = document.getElementById("heroVideo");
+
+      // pausa el hero si estaba sonando
+      try{ hero && hero.pause(); }catch{}
+
+      big.src = HERO_VIDEO_URL;
+      big.currentTime = 0;
+      big.muted = false;
+
+      b.style.display = "flex";
+      b.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+
+      // intenta autoplay (si el navegador deja)
+      big.play().catch(()=>{});
+    }
+
+    function closeVideo(){
+      const b = document.getElementById("videoBackdrop");
+      const big = document.getElementById("bigVideo");
+      try{ big.pause(); }catch{}
+      big.src = "";
+      b.style.display = "none";
+      b.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
     }
 
     /***** Drawer *****/
@@ -1650,6 +1756,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       `;
 
       document.getElementById("r_nombre").value = "";
+      document.getElementById("r_email").value = "";
       document.getElementById("r_tel").value = "";
       document.getElementById("r_personas").value = "";
       document.getElementById("r_fecha").value = "";
@@ -1669,8 +1776,10 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       b.setAttribute("aria-hidden","true");
       selected = null;
     }
+
     async function submitReserve(){
       const nombre = (document.getElementById("r_nombre").value || "").trim();
+      const emailRaw = (document.getElementById("r_email").value || "").trim();
       const telRaw = (document.getElementById("r_tel").value || "").trim();
       const telefono = normalizePhone(telRaw);
       const personas = (document.getElementById("r_personas").value || "").trim();
@@ -1678,20 +1787,32 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const mensaje = (document.getElementById("r_msg").value || "").trim();
 
       if(!nombre || !telefono){ showToast("Falta nombre o teléfono."); return; }
+      if(emailRaw && !isValidEmail(emailRaw)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
+      const tipo = selected?.tipo || "Solicitud";
+      const item = selected?.nombre || "Consulta";
+
+      // ✅ payload ordenado (como tú lo quieres)
       const payload = {
         event: "request",
         source: "vacacionesenelsur_web",
+        form: "reserva",
         created_at: new Date().toISOString(),
-        tipo: selected?.tipo || "Solicitud",
-        item: selected?.nombre || "Consulta",
+
+        tipo,            // ej: "Tour fluvial"
+        item,            // ej: "Punucapa"
         item_id: selected?.id || null,
+
         nombre,
         telefono,
-        personas: personas || null,
+        email: emailRaw || null,
+
         fecha: fecha || null,
-        mensaje: mensaje || null
+        personas: personas || null,
+        mensaje: mensaje || null,
+
+        resumen_ordenado: orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje })
       };
 
       try{
@@ -1746,7 +1867,9 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     /***** Meeting modal *****/
     function openMeeting(){
       const b = document.getElementById("meetBackdrop");
+      document.getElementById("m_tipo").value = "";
       document.getElementById("m_nombre").value = "";
+      document.getElementById("m_email").value = "";
       document.getElementById("m_tel").value = "";
       document.getElementById("m_dia").value = "";
       document.getElementById("m_hora").value = "";
@@ -1757,34 +1880,48 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
-      setTimeout(() => document.getElementById("m_nombre").focus(), 60);
+      setTimeout(() => document.getElementById("m_tipo").focus(), 60);
     }
     function closeMeeting(){
       const b = document.getElementById("meetBackdrop");
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
     }
+
     async function submitMeeting(){
+      const grupo_tipo = (document.getElementById("m_tipo").value || "").trim();
       const nombre = (document.getElementById("m_nombre").value || "").trim();
+      const emailRaw = (document.getElementById("m_email").value || "").trim();
       const telRaw = (document.getElementById("m_tel").value || "").trim();
       const telefono = normalizePhone(telRaw);
       const dia = (document.getElementById("m_dia").value || "").trim();
       const hora = (document.getElementById("m_hora").value || "").trim();
       const tema = (document.getElementById("m_tema").value || "").trim();
 
+      if(!grupo_tipo){ showToast("Selecciona si es colegio/universidad/evento/empresa."); return; }
       if(!nombre || !telefono || !dia || !hora){ showToast("Falta nombre, teléfono, día u hora."); return; }
+      if(!emailRaw){ showToast("Falta correo."); return; }
+      if(!isValidEmail(emailRaw)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
+      // ✅ payload ordenado
       const payload = {
         event: "meeting_request",
         source: "vacacionesenelsur_web",
+        form: "reunion",
         created_at: new Date().toISOString(),
+
+        grupo_tipo,     // Colegio / Universidad / Evento / Empresa
         nombre,
         telefono,
+        email: emailRaw,
+
         dia,
         hora,
         timezone: "America/Santiago",
-        tema: tema || null
+        tema: tema || null,
+
+        resumen_ordenado: `${grupo_tipo} | ${nombre} | ${telefono} | ${emailRaw} | ${dia} ${hora} | ${tema || "—"}`
       };
 
       try{
@@ -1820,18 +1957,24 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const mensaje = (document.getElementById("a_msg").value || "").trim();
 
       if(!nombre || !email || !marca){ showToast("Falta nombre, correo o marca."); return; }
+      if(!isValidEmail(email)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
+      // ✅ payload ordenado
       const payload = {
         event: "alliance_lead",
         source: "vacacionesenelsur_web",
+        form: "alianza",
         created_at: new Date().toISOString(),
+
         nombre,
         email,
         localidad: localidad || null,
         marca,
         rubro: rubro || null,
-        mensaje: mensaje || null
+        mensaje: mensaje || null,
+
+        resumen_ordenado: `Alianza | ${marca} | ${nombre} | ${email} | ${rubro || "—"} | ${localidad || "—"}`
       };
 
       const note = document.getElementById("allyNote");
@@ -1858,15 +2001,17 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const i = document.getElementById("infoBackdrop");
       const m = document.getElementById("meetBackdrop");
       const d = document.getElementById("drawerBackdrop");
+      const v = document.getElementById("videoBackdrop");
 
       if (r.style.display==="flex" && e.target===r) closeReserve();
       if (i.style.display==="flex" && e.target===i) closeInfo();
       if (m.style.display==="flex" && e.target===m) closeMeeting();
       if (d.style.display==="block" && e.target===d) closeDrawer();
+      if (v.style.display==="flex" && e.target===v) closeVideo();
     });
     document.addEventListener("keydown", (e) => {
       if(e.key==="Escape"){
-        closeReserve(); closeInfo(); closeMeeting(); closeDrawer();
+        closeReserve(); closeInfo(); closeMeeting(); closeDrawer(); closeVideo();
       }
     });
 
@@ -1880,6 +2025,3 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
   </script>
 </body>
 </html>
-
-
-
