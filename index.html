@@ -11,81 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&family=Satisfy&display=swap" rel="stylesheet">
 
   <style>
-    /* === FIX SIMETRÍA HERO (video y panel derecho mismo alto) === */
-:root{
-  --heroH: clamp(620px, 72vh, 780px); /* ajusta si quieres */
-}
-
-/* En desktop: ambos lados misma altura */
-.hero-grid{
-  align-items: stretch;
-}
-
-.hero-media,
-.hero-side{
-  height: var(--heroH);
-}
-
-/* El video ocupa TODO el alto del HERO */
-.video-card{
-  height: 100%;
-}
-
-.video-wrap{
-  flex: 1;
-  min-height: 0;
-  height: 100%;
-  aspect-ratio: auto;   /* apaga el 9/16 cuando estás en desktop */
-}
-
-/* El panel derecho se convierte en un “cuadro” del mismo alto */
-.side-card{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background: rgba(255,255,255,.84);
-  border: 1px solid rgba(20,19,26,.10);
-  border-radius: 22px;
-  box-shadow: var(--shadow2);
-  overflow: hidden; /* importante para que no se “salga” */
-}
-
-/* Arriba: intro fijo */
-.side-top{
-  padding: 10px 16px 10px;  /* ✅ sube todo el bloque */
-  border-bottom: 1px solid rgba(20,19,26,.08);
-}
-
-/* Abajo: contenido ajustable (si se pasa, scroll interno) */
-.side-scroll{
-  padding: 14px 16px 16px;
-  overflow: auto;
-  min-height: 0;
-}
-
-/* Scroll bonito (opcional) */
-.side-scroll::-webkit-scrollbar{ width: 10px; }
-.side-scroll::-webkit-scrollbar-thumb{
-  background: rgba(20,19,26,.14);
-  border-radius: 999px;
-  border: 3px solid rgba(255,255,255,.75);
-}
-
-/* En móvil: no fuerces altura (stack normal) */
-@media (max-width: 980px){
-  .hero-media, .hero-side{ height: auto; }
-  .video-wrap{ aspect-ratio: 9/16; height: auto; }
-  .side-card{ height: auto; }
-  .side-scroll{ overflow: visible; }
-}
-
     :root{
+      /* Atardecer (acento) */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
       --sun3:#7c3aed;
       --sun4:#ffd36a;
 
+      /* Base clara/pastel */
       --bg1:#fff9f6;
       --bg2:#fff7fb;
       --bg3:#f7fbff;
@@ -100,6 +33,10 @@
       --shadow2: 0 10px 24px rgba(20,19,26,.10);
 
       --radius: 18px;
+
+      /* ✅ HERO: mismo porte video/panel */
+      --heroCol: clamp(360px, 34vw, 420px);
+      --heroH: clamp(640px, 74vh, 820px);
     }
 
     *{ box-sizing:border-box; }
@@ -295,7 +232,7 @@
     }
 
     /* HERO */
-    .hero{ padding:34px 0 18px; }
+    .hero{ padding:26px 0 18px; }
     .hero-box{
       border-radius: 26px;
       background: rgba(255,255,255,.76);
@@ -304,6 +241,10 @@
       padding:18px;
       overflow:hidden;
       position:relative;
+
+      /* ✅ evita el “vacío gigante” */
+      width: min(980px, 92vw);
+      margin: 0 auto;
     }
     .hero-box::before{
       content:"";
@@ -320,32 +261,25 @@
     }
     .hero-content{ position:relative; z-index:1; }
 
-    /* ✅ SIMETRÍA REAL: ambas columnas MISMA altura y el video llena */
-   .hero-grid{
-  display:grid;
-  grid-template-columns: 380px 380px;   /* ✅ derecha = mismo porte que el video */
-  gap:16px;
-  align-items:stretch;
-  justify-content:center;              /* ✅ centra las 2 columnas */
-  grid-template-areas: "media side";
-}
-
-    .hero-media{ grid-area: media; }
-    .hero-side{
-  grid-area: side;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  min-width:0;
-
-  width:380px;          /* ✅ mismo ancho */
-  max-width:380px;      /* ✅ mismo ancho */
-  height: var(--heroH); /* ✅ mismo alto (usa tu --heroH) */
-}
-
+    /* ✅ video y panel = mismo ancho/alto */
+    .hero-grid{
+      display:grid;
+      grid-template-columns: var(--heroCol) var(--heroCol);
+      gap:16px;
+      align-items:stretch;
+      justify-content:center;
+      grid-template-areas: "media side";
+    }
+    .hero-media{ grid-area: media; height: var(--heroH); }
+    .hero-side{ grid-area: side; height: var(--heroH); min-width:0; }
 
     @media (max-width: 980px){
-      .hero-grid{ grid-template-columns: 1fr; grid-template-areas: "side" "media"; }
+      .hero-box{ width: 100%; }
+      .hero-grid{
+        grid-template-columns: 1fr;
+        grid-template-areas: "side" "media";
+      }
+      .hero-media, .hero-side{ height:auto; }
     }
 
     .kicker{
@@ -354,7 +288,7 @@
       letter-spacing:.22em;
       text-transform:uppercase;
       color:#3c3646;
-      margin-bottom:10px;
+      margin-bottom:8px;
     }
     .dot{
       width:10px; height:10px;
@@ -366,8 +300,8 @@
     .hero-title{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:44px;
-      line-height:1.06;
+      font-size:42px;
+      line-height:1.04;
       letter-spacing:.01em;
     }
     .script{
@@ -380,24 +314,14 @@
       white-space:nowrap;
     }
     .hero-sub{
-      margin:12px 0 0;
-      max-width:78ch;
+      margin:10px 0 0;
       color:#3c3646;
-      font-size:15px;
+      font-size:14.5px;
       line-height:1.6;
     }
     .hero-sub b{ color:#221f29; }
 
-    /* Intro card (sin la parte amarilla: pills/botones) */
-    .intro-card{
-      background: rgba(255,255,255,.84);
-      border:1px solid rgba(20,19,26,.10);
-      border-radius:22px;
-      box-shadow: var(--shadow2);
-      padding:16px 16px 14px;
-    }
-
-    /* Video card: sin espacio blanco abajo, siempre llena altura de la columna */
+    /* Video card */
     .video-card{
       height:100%;
       border-radius:22px;
@@ -416,8 +340,11 @@
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
       background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
+
       flex:1;
-      min-height: clamp(440px, 62vh, 640px);
+      min-height:0;
+      height:100%;
+      aspect-ratio:auto; /* ✅ desktop: llena alto */
     }
     .video-wrap video{
       width:100%;
@@ -462,11 +389,42 @@
 
     @media (max-width: 980px){
       .hero-title{ font-size:34px; }
-      .video-wrap{ min-height: unset; aspect-ratio: 9 / 16; flex:0 0 auto; }
+      .video-wrap{ aspect-ratio: 9 / 16; height:auto; flex:0 0 auto; }
     }
     @media (max-width: 640px){
       .hero-title{ font-size:30px; }
       .hero-box{ padding:14px; }
+    }
+
+    /* ✅ Panel derecho (mismo alto, sin barra fea) */
+    .side-card{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(20,19,26,.10);
+      border-radius: 22px;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .side-top{
+      padding: 10px 16px 10px; /* ✅ sube el bloque */
+      border-bottom: 1px solid rgba(20,19,26,.08);
+    }
+    .side-scroll{
+      padding: 12px 16px 14px;
+      overflow:auto;
+      min-height:0;
+
+      /* ✅ oculta scrollbar */
+      scrollbar-width:none;
+    }
+    .side-scroll::-webkit-scrollbar{ width:0; height:0; }
+
+    /* ✅ dentro del HERO: NO 2 columnas (se aplasta) */
+    .hero-side .about-grid{
+      grid-template-columns: 1fr !important;
     }
 
     /* Buttons */
@@ -629,47 +587,19 @@
       .actions .btn{ flex:1 1 auto; }
     }
 
-    /* Quiénes somos (en HERO) */
-    .about-panel{
-      background: rgba(255,255,255,.84);
-      border:1px solid rgba(20,19,26,.08);
-      border-radius: 22px;
-      box-shadow: var(--shadow2);
-      padding:16px;
-      flex:1; /* ✅ rellena y hace simétrico */
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-    }
-    .about-panel h2{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size:30px;
-      color:#221f29;
-      line-height:1.1;
-    }
-    .about-panel .subline{
-      margin:6px 0 10px;
-      color:var(--muted);
-      font-size:13.5px;
-      line-height:1.5;
-    }
-
+    /* Quiénes somos (dentro del HERO) */
     .about-grid{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
       gap:12px;
-      flex:1;
       min-width:0;
     }
-    @media (max-width: 980px){ .about-grid{ grid-template-columns:1fr; } }
-
     .box{
       background: rgba(255,255,255,.92);
       border:1px solid rgba(20,19,26,.08);
       border-radius: 18px;
       box-shadow: 0 10px 22px rgba(20,19,26,.06);
-      padding:14px;
+      padding:12px;
       min-width:0;
     }
     .box h3{
@@ -683,8 +613,8 @@
     .box p{
       margin:10px 0 0;
       color:#3c3646;
-      font-size:13.5px;
-      line-height:1.65;
+      font-size:13px;
+      line-height:1.6;
     }
     .values{
       margin-top:10px;
@@ -696,10 +626,10 @@
       border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.96);
       border-radius: 16px;
-      padding:12px;
+      padding:10px;
     }
     .value b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
-    .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.55; }
+    .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.5; }
 
     .about-cta{
       margin-top:12px;
@@ -715,7 +645,7 @@
       line-height:1.5;
     }
 
-    /* Grupos/empresas (debajo del HERO) */
+    /* Grupos/empresas */
     .group-wrap{
       background: rgba(255,255,255,.84);
       border:1px solid rgba(20,19,26,.08);
@@ -934,16 +864,11 @@
     .modal-head{
       padding:14px 16px;
       border-bottom:1px solid rgba(20,19,26,.08);
-      display:flex>
-      justify-content:space-between;
-      gap:10px;
-      background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
-    }
-    .modal-head{
       display:flex;
       justify-content:space-between;
       gap:10px;
       align-items:flex-start;
+      background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
     }
     .modal-head h4{
       margin:0;
@@ -1069,106 +994,103 @@
   <main id="inicio">
     <div class="container">
 
-   <div class="hero">
-  <div class="hero-box">
-    <div class="hero-content">
+      <div class="hero">
+        <div class="hero-box">
+          <div class="hero-content">
+            <div class="hero-grid">
 
-      <div class="hero-grid">
-
-        <!-- IZQUIERDA: VIDEO -->
-        <div class="hero-media">
-          <div class="video-card">
-            <div class="video-wrap">
-              <video id="heroVideo" playsinline controls preload="metadata"></video>
-              <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
-              <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
-            </div>
-            <p class="video-hint">
-              Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
-            </p>
-          </div>
-        </div>
-
-        <!-- DERECHA: MISMO ALTO QUE EL VIDEO -->
-        <div class="hero-side">
-          <div class="side-card">
-
-            <!-- TOP (fijo) -->
-            <div class="side-top">
-              <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
-              <h2 class="hero-title">
-                Vacaciones en el Sur<br>
-                de <span class="script">Chile</span>
-              </h2>
-              <p class="hero-sub">
-                Ríos, humedales, castillos, selva valdiviana y rutas full day.
-                Tú envías la solicitud acá y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
-              </p>
-            </div>
-
-            <!-- SCROLL (si el contenido no cabe, se ajusta aquí) -->
-            <div class="side-scroll" id="quienes-somos">
-              <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
-                Quiénes somos
-              </h2>
-              <div class="title-line" style="margin:10px 0 6px;"></div>
-              <div style="color:var(--muted);font-size:13.5px;line-height:1.5;margin-bottom:12px;">
-                Turismo con propósito: auténtico, accesible y memorable.
-              </div>
-
-              <div class="about-grid">
-                <div class="box">
-                  <h3>Nuestra historia</h3>
-                  <p>
-                    El sur tiene algo que no se explica con palabras: se vive.
-                    En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
-                    para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
+              <!-- IZQUIERDA: VIDEO -->
+              <div class="hero-media">
+                <div class="video-card">
+                  <div class="video-wrap">
+                    <video id="heroVideo" playsinline controls preload="metadata"></video>
+                    <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
+                    <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
+                  </div>
+                  <p class="video-hint">
+                    Video vertical. <b>Tocas “Ver video”</b> y se reproduce con audio (si tu celu lo permite).
                   </p>
-                  <p>
-                    Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
-                    horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
-                  </p>
-
-                  <h3 style="margin-top:12px;">Qué hacemos</h3>
-                  <div class="values" style="margin-top:10px;">
-                    <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
-                    <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
-                    <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
-                  </div>
-                </div>
-
-                <div class="box">
-                  <h3>Valores</h3>
-                  <div class="values">
-                    <div class="value"><b>Colaboración</b><span>Red real con emprendimientos y partners locales.</span></div>
-                    <div class="value"><b>Compromiso</b><span>Atención humana y cumplimiento.</span></div>
-                    <div class="value"><b>Integridad</b><span>Transparencia, respeto y claridad.</span></div>
-                    <div class="value"><b>Innovación</b><span>Soluciones simples para responder rápido.</span></div>
-                  </div>
-
-                  <div class="about-cta">
-                    <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
-                    <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
-                  </div>
-
-                  <div class="about-note">
-                    Si vienes con grupo/colegio/empresa, más abajo tienes el apartado para planificar con calma.
-                  </div>
                 </div>
               </div>
-            </div>
 
+              <!-- DERECHA: MISMO PORTE QUE EL VIDEO -->
+              <div class="hero-side">
+                <div class="side-card">
+
+                  <!-- TOP -->
+                  <div class="side-top">
+                    <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
+                    <h2 class="hero-title">
+                      Vacaciones en el Sur<br>
+                      de <span class="script">Chile</span>
+                    </h2>
+                    <p class="hero-sub">
+                      Ríos, humedales, castillos, selva valdiviana y rutas full day.
+                      Tú envías la solicitud acá y <b>nosotros te escribimos por WhatsApp</b> para coordinar horarios y pagos.
+                    </p>
+                  </div>
+
+                  <!-- CONTENIDO -->
+                  <div class="side-scroll" id="quienes-somos">
+                    <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
+                      Quiénes somos
+                    </h2>
+                    <div class="title-line" style="margin:10px 0 6px;"></div>
+                    <div style="color:var(--muted);font-size:13.5px;line-height:1.5;margin-bottom:12px;">
+                      Turismo con propósito: auténtico, accesible y memorable.
+                    </div>
+
+                    <div class="about-grid">
+                      <div class="box">
+                        <h3>Nuestra historia</h3>
+                        <p>
+                          El sur tiene algo que no se explica con palabras: se vive.
+                          En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
+                          para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
+                        </p>
+                        <p>
+                          Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
+                          horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
+                        </p>
+
+                        <h3 style="margin-top:12px;">Qué hacemos</h3>
+                        <div class="values" style="margin-top:10px;">
+                          <div class="value"><b>Tours fluviales</b><span>Castillos, santuarios, humedales y postales.</span></div>
+                          <div class="value"><b>Tours terrestres</b><span>Termas, parques y rutas full day.</span></div>
+                          <div class="value"><b>Alojamiento</b><span>Cotizamos según zona, fechas y capacidad.</span></div>
+                        </div>
+                      </div>
+
+                      <div class="box">
+                        <h3>Valores</h3>
+                        <div class="values">
+                          <div class="value"><b>Colaboración</b><span>Red real con emprendimientos y partners locales.</span></div>
+                          <div class="value"><b>Compromiso</b><span>Atención humana y cumplimiento.</span></div>
+                          <div class="value"><b>Integridad</b><span>Transparencia, respeto y claridad.</span></div>
+                          <div class="value"><b>Innovación</b><span>Soluciones simples para responder rápido.</span></div>
+                        </div>
+
+                        <div class="about-cta">
+                          <button class="btn btn-primary" onclick="openMeeting()">Agendar reunión</button>
+                          <button class="btn btn-ghost" onclick="openReserve({ tipo:'Consulta', nombre:'Consulta general', id:'general-1' })">Enviar consulta</button>
+                        </div>
+
+                        <div class="about-note">
+                          Si vienes con grupo/colegio/empresa, más abajo tienes el apartado para planificar con calma.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-
       </div>
 
-    </div>
-  </div>
-</div>
-
-
-      <!-- GRUPOS / COLEGIOS / EMPRESAS (debajo del HERO y antes de tours) -->
+      <!-- GRUPOS / COLEGIOS / EMPRESAS -->
       <section id="grupos-empresas" style="padding-top:14px;">
         <div class="section-head">
           <div>
@@ -1998,7 +1920,5 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
   </script>
 </body>
 </html>
-
-
 
 
