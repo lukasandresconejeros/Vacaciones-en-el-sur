@@ -1222,6 +1222,10 @@
                 <label for="a_email">Tu correo electrónico</label>
                 <input id="a_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
+                <!-- ✅ NUEVO: TELÉFONO -->
+                <label for="a_tel">Tu teléfono (WhatsApp)</label>
+                <input id="a_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
+
                 <label for="a_localidad">¿Dónde desarrollas tu negocio? (localidad)</label>
                 <input id="a_localidad" placeholder="Ej: Valdivia / Niebla / Panguipulli" />
 
@@ -1940,7 +1944,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
 
     /***** Alliance submit *****/
     function clearAlliance(){
-      ["a_nombre","a_email","a_localidad","a_marca","a_rubro","a_msg"].forEach(id => {
+      ["a_nombre","a_email","a_tel","a_localidad","a_marca","a_rubro","a_msg"].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.value = "";
       });
@@ -1951,12 +1955,16 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     async function submitAlliance(){
       const nombre = (document.getElementById("a_nombre").value || "").trim();
       const email = (document.getElementById("a_email").value || "").trim();
+
+      const telRaw = (document.getElementById("a_tel").value || "").trim();
+      const telefono = normalizePhone(telRaw);
+
       const localidad = (document.getElementById("a_localidad").value || "").trim();
       const marca = (document.getElementById("a_marca").value || "").trim();
       const rubro = (document.getElementById("a_rubro").value || "").trim();
       const mensaje = (document.getElementById("a_msg").value || "").trim();
 
-      if(!nombre || !email || !marca){ showToast("Falta nombre, correo o marca."); return; }
+      if(!nombre || !email || !telefono || !marca){ showToast("Falta nombre, correo, teléfono o marca."); return; }
       if(!isValidEmail(email)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
@@ -1969,12 +1977,13 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
 
         nombre,
         email,
+        telefono,
         localidad: localidad || null,
         marca,
         rubro: rubro || null,
         mensaje: mensaje || null,
 
-        resumen_ordenado: `Alianza | ${marca} | ${nombre} | ${email} | ${rubro || "—"} | ${localidad || "—"}`
+        resumen_ordenado: `Alianza | ${marca} | ${nombre} | ${telefono} | ${email} | ${rubro || "—"} | ${localidad || "—"}`
       };
 
       const note = document.getElementById("allyNote");
