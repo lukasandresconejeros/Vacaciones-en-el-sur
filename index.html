@@ -144,6 +144,7 @@
       backdrop-filter: blur(6px);
       display:none; z-index:70;
       padding:16px;
+      overscroll-behavior: contain;
     }
     .drawer{
       width:min(420px, 94vw);
@@ -331,6 +332,9 @@
       padding:14px 16px 16px;
       overflow:auto;
       min-height:0; flex:1;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
     }
     .side-scroll::-webkit-scrollbar{ width:10px; }
     .side-scroll::-webkit-scrollbar-thumb{
@@ -656,6 +660,7 @@
       border-top:1px solid rgba(20,19,26,.06);
     }
 
+    /* ===== BACKDROP + MODALES ===== */
     .backdrop{
       position:fixed; inset:0;
       background: rgba(20,19,26,.22);
@@ -664,20 +669,31 @@
       padding:18px;
       z-index:60;
       backdrop-filter: blur(6px);
+
+      /* FIX: evita que el scroll se escape al body */
+      overscroll-behavior: contain;
+      touch-action: none;
     }
+
+    /* FIX: modal con altura máxima y layout en columna */
     .modal{
       width:min(640px, 96vw);
+      max-height: calc(100dvh - 36px);
       background: rgba(255,255,255,.94);
       border:1px solid rgba(20,19,26,.10);
       border-radius: 24px;
       box-shadow: 0 24px 70px rgba(20,19,26,.18);
       overflow:hidden;
+
+      display:flex;
+      flex-direction:column;
     }
     .modal-head{
       padding:14px 16px;
       border-bottom:1px solid rgba(20,19,26,.08);
       display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
       background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
+      flex: 0 0 auto;
     }
     .modal-head h4{
       margin:0;
@@ -699,7 +715,17 @@
       flex:0 0 auto;
       color:#221f29;
     }
-    .modal-body{ padding:16px; }
+
+    /* FIX: este es el scroll real del modal */
+    .modal-body{
+      padding:16px;
+      flex: 1 1 auto;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+    }
+
     .meta-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; min-width:0; }
     .modal-actions{ margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     @media (max-width: 640px){ .modal-actions .btn{ flex:1 1 auto; } }
@@ -1197,6 +1223,41 @@
       return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
     }
 
+    /***** LOCK SCROLL (iOS/Android friendly) *****/
+    let __lockCount = 0;
+    let __scrollY = 0;
+
+    function lockScroll(){
+      __lockCount++;
+      if(__lockCount > 1) return;
+
+      __scrollY = window.scrollY || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${__scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+
+    function unlockScroll(){
+      __lockCount = Math.max(0, __lockCount - 1);
+      if(__lockCount > 0) return;
+
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+
+      window.scrollTo(0, __scrollY);
+    }
+
+    function resetModalScroll(backdropId){
+      const b = document.getElementById(backdropId);
+      const body = b ? b.querySelector(".modal-body") : null;
+      if(body) body.scrollTop = 0;
+    }
+
     /***** CONDICIONES (catálogo terrestre) — sin datos bancarios públicos *****/
     const CONDICIONES_RESERVA_TERRESTRES = [
       "Confirmación con abono mínimo de $20.000 por persona (datos de pago se coordinan al confirmar).",
@@ -1638,18 +1699,18 @@
       big.muted = false;
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
+      lockScroll();
       big.play().catch(()=>{});
     }
 
     function closeVideo(){
       const b = document.getElementById("videoBackdrop");
       const big = document.getElementById("bigVideo");
+      if(b.style.display === "flex") unlockScroll();
       try{ big.pause(); }catch{}
       big.src = "";
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
-      document.body.style.overflow = "";
     }
 
     /***** Drawer *****/
@@ -1657,13 +1718,13 @@
       const b = document.getElementById("drawerBackdrop");
       b.style.display = "block";
       b.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
+      lockScroll();
     }
     function closeDrawer(){
       const b = document.getElementById("drawerBackdrop");
+      if(b.style.display === "block") unlockScroll();
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
-      document.body.style.overflow = "";
     }
 
     /***** Reserva modal *****/
@@ -1693,11 +1754,14 @@
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      lockScroll();
+      resetModalScroll("reserveBackdrop");
       setTimeout(() => document.getElementById("r_nombre").focus(), 60);
     }
 
     function closeReserve(){
       const b = document.getElementById("reserveBackdrop");
+      if(b.style.display === "flex") unlockScroll();
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
       selected = null;
@@ -1788,10 +1852,13 @@
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      lockScroll();
+      resetModalScroll("infoBackdrop");
     }
 
     function closeInfo(){
       const b = document.getElementById("infoBackdrop");
+      if(b.style.display === "flex") unlockScroll();
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
       infoSelected = null;
@@ -1818,11 +1885,14 @@
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
+      lockScroll();
+      resetModalScroll("meetBackdrop");
       setTimeout(() => document.getElementById("m_tipo").focus(), 60);
     }
 
     function closeMeeting(){
       const b = document.getElementById("meetBackdrop");
+      if(b.style.display === "flex") unlockScroll();
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
     }
@@ -1957,4 +2027,5 @@
   </script>
 </body>
 </html>
+
 
