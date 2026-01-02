@@ -12,16 +12,13 @@
 
   <style>
     :root{
-      /* Altura hero (desktop) */
       --heroH: clamp(620px, 72vh, 780px);
 
-      /* Atardecer (acento) */
       --sun1:#ff7a18;
       --sun2:#ff3d77;
       --sun3:#7c3aed;
       --sun4:#ffd36a;
 
-      /* Base clara/pastel */
       --bg1:#fff9f6;
       --bg2:#fff7fb;
       --bg3:#f7fbff;
@@ -31,11 +28,12 @@
 
       --card: rgba(255,255,255,.84);
       --border: rgba(20,19,26,.10);
-
       --shadow: 0 16px 50px rgba(20,19,26,.10);
       --shadow2: 0 10px 24px rgba(20,19,26,.10);
-
       --radius: 18px;
+
+      /* 👇 Control único del tamaño de TODAS las fotos de cards */
+      --cardMediaH: 170px;
     }
 
     *{ box-sizing:border-box; }
@@ -49,10 +47,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-    /* Globos animados */
-    body::before,
-    body::after{
+    body::before, body::after{
       content:"";
       position:fixed;
       inset:-28%;
@@ -67,11 +62,7 @@
         radial-gradient(560px 460px at 56% 88%, rgba(124,58,237,.16), transparent 64%),
         radial-gradient(560px 380px at 28% 78%, rgba(255,211,106,.24), transparent 64%);
     }
-    body::after{
-      opacity:.26;
-      animation-duration: 20s;
-      animation-direction: reverse;
-    }
+    body::after{ opacity:.26; animation-duration: 20s; animation-direction: reverse; }
     @keyframes floaty{
       0%{ transform: translate3d(0,0,0) scale(1); }
       50%{ transform: translate3d(3%, -2%, 0) scale(1.03); }
@@ -80,9 +71,9 @@
 
     a{ color:inherit; text-decoration:none; }
     img, svg, video{ max-width:100%; height:auto; display:block; }
+
     .container{ width:min(1160px, 92vw); margin:0 auto; }
 
-    /* HEADER */
     header{
       position:sticky; top:0; z-index:40;
       background: rgba(255,255,255,.78);
@@ -93,10 +84,7 @@
       display:flex; align-items:center; justify-content:space-between;
       gap:12px; padding:12px 0;
     }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      min-width: 240px;
-    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 240px; }
     .logo{
       width:42px; height:42px; border-radius:999px;
       background: conic-gradient(from 220deg, var(--sun1), var(--sun2), var(--sun3), var(--sun4), var(--sun1));
@@ -106,48 +94,29 @@
       flex:0 0 auto;
     }
     .logo span{
-      font-family:"Satisfy", cursive;
-      font-size:18px;
-      color:white;
+      font-family:"Satisfy", cursive; font-size:18px; color:white;
       transform: translateY(-1px);
       user-select:none;
       text-shadow: 0 10px 20px rgba(0,0,0,.16);
     }
     .brand h1{
-      margin:0;
-      font-size:13px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-weight:700;
-      line-height:1.2;
+      margin:0; font-size:13px; letter-spacing:.12em;
+      text-transform:uppercase; font-weight:700; line-height:1.2;
     }
-    .brand small{
-      display:block;
-      margin-top:2px;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.2;
-    }
+    .brand small{ display:block; margin-top:2px; font-size:12px; color:var(--muted); line-height:1.2; }
 
     nav ul{
-      display:flex; gap:10px;
-      list-style:none; padding:0; margin:0;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
+      display:flex; gap:10px; list-style:none;
+      padding:0; margin:0;
+      flex-wrap:wrap; justify-content:flex-end; align-items:center;
     }
     nav a{
-      font-size:13px;
-      color:#2b2832;
-      padding:8px 10px;
-      border-radius:999px;
+      font-size:13px; color:#2b2832;
+      padding:8px 10px; border-radius:999px;
       transition: background .15s ease, transform .15s ease;
       white-space:nowrap;
     }
-    nav a:hover{
-      background: rgba(255,122,24,.10);
-      transform: translateY(-1px);
-    }
+    nav a:hover{ background: rgba(255,122,24,.10); transform: translateY(-1px); }
 
     .menu-btn{
       display:none;
@@ -158,8 +127,7 @@
       cursor:pointer;
       box-shadow: 0 10px 22px rgba(20,19,26,.08);
       user-select:none;
-      line-height:1;
-      font-size:20px;
+      line-height:1; font-size:20px;
     }
     .menu-btn:active{ transform: translateY(1px); }
 
@@ -170,13 +138,11 @@
       .nav{ padding:10px 0; }
     }
 
-    /* Mobile drawer */
     .drawer-backdrop{
       position:fixed; inset:0;
       background: rgba(20,19,26,.22);
       backdrop-filter: blur(6px);
-      display:none;
-      z-index:70;
+      display:none; z-index:70;
       padding:16px;
     }
     .drawer{
@@ -195,10 +161,7 @@
       border-bottom:1px solid rgba(20,19,26,.08);
     }
     .drawer-head b{
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-size:12px;
-      color:#2b2832;
+      letter-spacing:.16em; text-transform:uppercase; font-size:12px; color:#2b2832;
     }
     .drawer-close{
       width:42px; height:42px;
@@ -210,9 +173,7 @@
     }
     .drawer-body{
       padding:14px 16px 16px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+      display:flex; flex-direction:column; gap:10px;
     }
     .drawer-link{
       padding:12px 12px;
@@ -223,14 +184,8 @@
       color:#2b2832;
     }
     .drawer-link:active{ transform: translateY(1px); }
-    .drawer-note{
-      margin-top:6px;
-      font-size:12.5px;
-      color:var(--muted);
-      line-height:1.45;
-    }
+    .drawer-note{ margin-top:6px; font-size:12.5px; color:var(--muted); line-height:1.45; }
 
-    /* HERO */
     .hero{ padding:34px 0 18px; }
     .hero-box{
       border-radius: 26px;
@@ -243,8 +198,7 @@
     }
     .hero-box::before{
       content:"";
-      position:absolute;
-      inset:-2px;
+      position:absolute; inset:-2px;
       z-index:0;
       opacity:.36;
       background:
@@ -255,8 +209,6 @@
       pointer-events:none;
     }
     .hero-content{ position:relative; z-index:1; }
-
-    /* ✅ 2 columnas mismo ancho + mismo alto */
     .hero-grid{
       display:grid;
       grid-template-columns: minmax(0,1fr) minmax(0,1fr);
@@ -274,32 +226,27 @@
 
     .kicker{
       display:inline-flex; align-items:center; gap:10px;
-      font-size:12px;
-      letter-spacing:.22em;
+      font-size:12px; letter-spacing:.22em;
       text-transform:uppercase;
       color:#3c3646;
       margin:0 0 10px;
     }
     .dot{
-      width:10px; height:10px;
-      border-radius:999px;
+      width:10px; height:10px; border-radius:999px;
       background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
       box-shadow: 0 0 0 6px rgba(255,122,24,.10);
     }
-
     .hero-title{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:44px;
-      line-height:1.06;
+      font-size:44px; line-height:1.06;
       letter-spacing:.01em;
     }
     .script{
       font-family:"Satisfy", cursive;
       font-weight:400;
       background: linear-gradient(90deg, var(--sun1), var(--sun2), var(--sun4));
-      -webkit-background-clip:text;
-      background-clip:text;
+      -webkit-background-clip:text; background-clip:text;
       color:transparent;
       white-space:nowrap;
     }
@@ -311,7 +258,6 @@
     }
     .hero-sub b{ color:#221f29; }
 
-    /* Video card */
     .video-card{
       height:100%;
       border-radius:22px;
@@ -319,9 +265,7 @@
       border:1px solid rgba(20,19,26,.10);
       box-shadow: var(--shadow2);
       padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+      display:flex; flex-direction:column; gap:10px;
       overflow:hidden;
       min-width:0;
     }
@@ -331,48 +275,32 @@
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
       background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
-      flex:1;
-      min-height:0;
+      flex:1; min-height:0;
     }
-    .video-wrap video{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      background:#111;
-    }
+    .video-wrap video{ width:100%; height:100%; object-fit: cover; background:#111; }
     .video-play{
-      position:absolute;
-      left:12px; bottom:12px;
-      border:0;
-      border-radius:999px;
+      position:absolute; left:12px; bottom:12px;
+      border:0; border-radius:999px;
       padding:10px 12px;
       cursor:pointer;
-      font-weight:800;
-      font-size:13px;
+      font-weight:800; font-size:13px;
       color:#fff;
       background: linear-gradient(135deg, var(--sun1), var(--sun2));
       box-shadow: 0 18px 40px rgba(20,19,26,.22);
     }
     .video-sound{
-      position:absolute;
-      right:12px; bottom:12px;
+      position:absolute; right:12px; bottom:12px;
       border:1px solid rgba(255,255,255,.26);
       border-radius:999px;
       padding:10px 12px;
       cursor:pointer;
-      font-weight:800;
-      font-size:13px;
+      font-weight:800; font-size:13px;
       color:#fff;
       background: rgba(20,19,26,.42);
       backdrop-filter: blur(8px);
       display:none;
     }
-    .video-hint{
-      font-size:12.5px;
-      color:var(--muted);
-      line-height:1.45;
-      margin:0;
-    }
+    .video-hint{ font-size:12.5px; color:var(--muted); line-height:1.45; margin:0; }
     .video-hint b{ color:#221f29; }
 
     @media (max-width: 980px){
@@ -382,13 +310,12 @@
     @media (max-width: 640px){
       .hero-title{ font-size:30px; }
       .hero-box{ padding:14px; }
+      :root{ --cardMediaH: 180px; }
     }
 
-    /* Right side card (mismo porte que el video) */
     .side-card{
       height:100%;
-      display:flex;
-      flex-direction:column;
+      display:flex; flex-direction:column;
       min-width:0;
       background: rgba(255,255,255,.84);
       border: 1px solid rgba(20,19,26,.10);
@@ -403,8 +330,7 @@
     .side-scroll{
       padding:14px 16px 16px;
       overflow:auto;
-      min-height:0;
-      flex:1;
+      min-height:0; flex:1;
     }
     .side-scroll::-webkit-scrollbar{ width:10px; }
     .side-scroll::-webkit-scrollbar-thumb{
@@ -413,7 +339,6 @@
       border:3px solid rgba(255,255,255,.75);
     }
 
-    /* Buttons */
     .btn{
       border:0;
       border-radius: 14px;
@@ -432,7 +357,6 @@
       transform: translateZ(0);
     }
     .btn:active{ transform: translateY(1px) translateZ(0); }
-
     .btn-primary{
       color:#fff;
       background: linear-gradient(135deg, var(--sun1), var(--sun2));
@@ -447,22 +371,17 @@
     }
     .btn-ghost:hover{ background: rgba(255,122,24,.10); }
 
-    /* SECTIONS */
     section{ padding:30px 0; }
     [id]{ scroll-margin-top: 88px; }
 
     .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:16px;
-      margin-bottom:14px;
+      display:flex; justify-content:space-between; align-items:flex-end;
+      gap:16px; margin-bottom:14px;
     }
     .section-title{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:34px;
-      line-height:1.08;
+      font-size:34px; line-height:1.08;
       letter-spacing:.01em;
       color:#221f29;
     }
@@ -474,25 +393,43 @@
       max-width:80ch;
     }
     .title-line{
-      width:110px;
-      height:4px;
-      border-radius:999px;
+      width:110px; height:4px; border-radius:999px;
       background: linear-gradient(90deg, var(--sun4), var(--sun1), var(--sun2));
       opacity:.75;
       margin-top:10px;
     }
-    @media (max-width: 700px){
-      .section-title{ font-size:28px; }
-    }
+    @media (max-width: 700px){ .section-title{ font-size:28px; } }
 
-    /* Cards grid */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
     @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 640px){ .grid{ grid-template-columns:1fr; } .btn{ padding:10px 12px; } }
+
+    /* ====== MEDIA EN CARDS (MISMO TAMAÑO) ====== */
+    .media-frame{
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(20,19,26,.10);
+      background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
+    }
+    .media-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#111;
+    }
+    .card-media{
+      height: var(--cardMediaH);
+      margin-bottom:12px;
+    }
+    .media-placeholder{
+      height:100%;
+      width:100%;
+      background:
+        radial-gradient(220px 120px at 20% 30%, rgba(255,122,24,.26), transparent 60%),
+        radial-gradient(260px 140px at 80% 50%, rgba(255,61,119,.18), transparent 62%),
+        radial-gradient(240px 140px at 50% 120%, rgba(124,58,237,.14), transparent 65%);
+    }
 
     .card{
       background: var(--card);
@@ -500,9 +437,8 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow2);
       padding:16px;
-      display:flex;
-      flex-direction:column;
-      min-height: 260px;
+      display:flex; flex-direction:column;
+      min-height: 320px;
       min-width:0;
       overflow:hidden;
     }
@@ -519,20 +455,8 @@
       border:1px solid rgba(255,122,24,.18);
       margin-bottom:10px;
     }
-    .card h3{
-      margin:0;
-      font-size:17px;
-      font-weight:800;
-      color:#221f29;
-      line-height:1.25;
-    }
-    .meta{
-      margin-top:10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      min-width:0;
-    }
+    .card h3{ margin:0; font-size:17px; font-weight:800; color:#221f29; line-height:1.25; }
+    .meta{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; min-width:0; }
     .meta .mini{
       font-size:12px;
       color:#2b2832;
@@ -545,35 +469,11 @@
       text-overflow:ellipsis;
       white-space:nowrap;
     }
-    .desc{
-      margin:10px 0 0;
-      color:#3c3646;
-      font-size:13px;
-      line-height:1.6;
-      flex:1 1 auto;
-    }
-    .price{
-      margin-top:10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      color:#221f29;
-      font-size:13px;
-      font-weight:700;
-    }
-    .actions{
-      margin-top:12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    @media (max-width: 640px){
-      .actions{ gap:8px; }
-      .actions .btn{ flex:1 1 auto; }
-    }
+    .desc{ margin:10px 0 0; color:#3c3646; font-size:13px; line-height:1.6; flex:1 1 auto; }
+    .price{ margin-top:10px; display:flex; flex-wrap:wrap; gap:10px; color:#221f29; font-size:13px; font-weight:700; }
+    .actions{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    @media (max-width: 640px){ .actions{ gap:8px; } .actions .btn{ flex:1 1 auto; } }
 
-    /* Quiénes somos (dentro del hero) */
     .box{
       background: rgba(255,255,255,.92);
       border:1px solid rgba(20,19,26,.08);
@@ -590,18 +490,9 @@
       font-weight:900;
       color:#2b2832;
     }
-    .box p{
-      margin:10px 0 0;
-      color:#3c3646;
-      font-size:13.5px;
-      line-height:1.65;
-    }
-    .values{
-      margin-top:10px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .box p{ margin:10px 0 0; color:#3c3646; font-size:13.5px; line-height:1.65; }
+
+    .values{ margin-top:10px; display:flex; flex-direction:column; gap:10px; }
     .value{
       border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.96);
@@ -610,15 +501,9 @@
     }
     .value b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .value span{ display:block; margin-top:2px; font-size:12.5px; color:#3c3646; line-height:1.55; }
-    .about-cta{
-      margin-top:12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
 
-    /* Grupos/empresas */
+    .about-cta{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+
     .group-wrap{
       background: rgba(255,255,255,.84);
       border:1px solid rgba(20,19,26,.08);
@@ -632,11 +517,8 @@
     }
     @media (max-width: 980px){ .group-wrap{ grid-template-columns:1fr; } }
     .group-wrap h3{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size:28px;
-      color:#221f29;
-      line-height:1.15;
+      margin:0; font-family:"Playfair Display", serif;
+      font-size:28px; color:#221f29; line-height:1.15;
     }
     .group-wrap p{
       margin:10px 0 0;
@@ -659,13 +541,7 @@
       color:#2b2832;
       margin-bottom:8px;
     }
-
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin:10px 0 12px;
-    }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 12px; }
     .chip{
       font-size:12px;
       border:1px solid rgba(20,19,26,.08);
@@ -678,14 +554,9 @@
       text-overflow:ellipsis;
       white-space:nowrap;
     }
-    .group-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
+    .group-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
-    /* Alojamiento */
+    /* ===== ALOJAMIENTO (foto a la derecha y normal) ===== */
     .stay{
       background: rgba(255,255,255,.84);
       border:1px solid rgba(20,19,26,.08);
@@ -693,26 +564,35 @@
       box-shadow: var(--shadow);
       padding:18px;
     }
-    .stay h3{
+    .stay-hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+      margin-bottom:14px;
+    }
+    .stay-hero h3{
       margin:0;
       font-family:"Playfair Display", serif;
       font-size:28px;
       color:#221f29;
       line-height:1.15;
     }
-    .stay p{
+    .stay-hero p{
       margin:8px 0 0;
       color:#3c3646;
       font-size:14px;
       line-height:1.65;
       max-width:78ch;
     }
-    .stay-list{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
+    .stay-photo{
+      height: var(--cardMediaH);
     }
+    @media (max-width: 980px){
+      .stay-hero{ grid-template-columns:1fr; }
+      .stay-photo{ height: var(--cardMediaH); }
+    }
+    .stay-list{ margin-top:14px; display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
     @media (max-width: 980px){ .stay-list{ grid-template-columns:1fr; } }
     .stay-item{
       border-radius: 18px;
@@ -723,20 +603,10 @@
     }
     .stay-item b{ display:block; font-size:13px; color:#221f29; font-weight:800; }
     .stay-item span{ display:block; margin-top:4px; font-size:12.5px; color:#3c3646; line-height:1.5; }
-    .stay-actions{
-      margin-top:14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .note{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.5;
-    }
+    .stay-actions{ margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
-    /* Alianza */
+    .note{ font-size:12px; color:var(--muted); line-height:1.5; }
+
     .ally{
       background: rgba(255,255,255,.84);
       border:1px solid rgba(20,19,26,.08);
@@ -744,34 +614,11 @@
       box-shadow: var(--shadow);
       padding:18px;
     }
-    .ally-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
-      align-items:start;
-    }
+    .ally-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:start; }
     @media (max-width: 980px){ .ally-grid{ grid-template-columns:1fr; } }
-    .ally h3{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size:28px;
-      color:#221f29;
-      line-height:1.12;
-    }
-    .ally .sub{
-      margin:8px 0 0;
-      color:#3c3646;
-      font-size:14px;
-      line-height:1.65;
-      max-width:80ch;
-    }
-    .ally .bullets{
-      margin:12px 0 0;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
+    .ally h3{ margin:0; font-family:"Playfair Display", serif; font-size:28px; color:#221f29; line-height:1.12; }
+    .ally .sub{ margin:8px 0 0; color:#3c3646; font-size:14px; line-height:1.65; max-width:80ch; }
+    .ally .bullets{ margin:12px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
     .ally .bullets li{
       border:1px solid rgba(20,19,26,.08);
       background: rgba(255,255,255,.92);
@@ -783,13 +630,7 @@
     }
     .ally .bullets b{ color:#221f29; }
 
-    /* Form inputs */
-    label{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin:10px 0 6px;
-    }
+    label{ display:block; font-size:12px; color:var(--muted); margin:10px 0 6px; }
     input, textarea, select{
       width:100%;
       padding:12px;
@@ -807,7 +648,6 @@
       box-shadow: 0 0 0 4px rgba(255,122,24,.14);
     }
 
-    /* Footer */
     footer{
       padding:26px 0 52px;
       text-align:center;
@@ -816,13 +656,11 @@
       border-top:1px solid rgba(20,19,26,.06);
     }
 
-    /* Modals */
     .backdrop{
       position:fixed; inset:0;
       background: rgba(20,19,26,.22);
       display:none;
-      align-items:center;
-      justify-content:center;
+      align-items:center; justify-content:center;
       padding:18px;
       z-index:60;
       backdrop-filter: blur(6px);
@@ -838,10 +676,7 @@
     .modal-head{
       padding:14px 16px;
       border-bottom:1px solid rgba(20,19,26,.08);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
       background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
     }
     .modal-head h4{
@@ -852,12 +687,7 @@
       font-weight:900;
       color:#2b2832;
     }
-    .modal-head p{
-      margin:6px 0 0;
-      color:#3c3646;
-      font-size:12.5px;
-      line-height:1.5;
-    }
+    .modal-head p{ margin:6px 0 0; color:#3c3646; font-size:12.5px; line-height:1.5; }
     .x{
       width:40px; height:40px;
       border-radius:14px;
@@ -870,23 +700,10 @@
       color:#221f29;
     }
     .modal-body{ padding:16px; }
-    .meta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:10px;
-      min-width:0;
-    }
-    .modal-actions{
-      margin-top:14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    @media (max-width: 640px){
-      .modal-actions .btn{ flex:1 1 auto; }
-    }
+    .meta-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; min-width:0; }
+    .modal-actions{ margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    @media (max-width: 640px){ .modal-actions .btn{ flex:1 1 auto; } }
+
     .info{
       margin-top:10px;
       padding:12px;
@@ -899,7 +716,6 @@
       white-space:pre-line;
     }
 
-    /* ✅ Video modal vertical tipo Reels (PC) */
     .video-modal{
       width: min(420px, 94vw);
       aspect-ratio: 9 / 16;
@@ -910,16 +726,9 @@
       box-shadow: 0 24px 70px rgba(20,19,26,.18);
       position:relative;
     }
-    .video-modal video{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      background:#111;
-      display:block;
-    }
+    .video-modal video{ width:100%; height:100%; object-fit: cover; background:#111; display:block; }
     .video-modal .vm-close{
-      position:absolute;
-      top:10px; right:10px;
+      position:absolute; top:10px; right:10px;
       width:42px; height:42px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.26);
@@ -928,16 +737,13 @@
       cursor:pointer;
       font-size:18px;
       backdrop-filter: blur(8px);
-      display:grid;
-      place-items:center;
+      display:grid; place-items:center;
       z-index:2;
     }
 
-    /* Toast */
     .toast{
       position:fixed;
-      left:50%;
-      bottom:22px;
+      left:50%; bottom:22px;
       transform:translateX(-50%);
       background: rgba(255,255,255,.94);
       border:1px solid rgba(20,19,26,.10);
@@ -982,7 +788,6 @@
     </div>
   </header>
 
-  <!-- Mobile drawer -->
   <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
     <div class="drawer" role="dialog" aria-modal="true" aria-label="Menú">
       <div class="drawer-head">
@@ -1003,14 +808,10 @@
 
   <main id="inicio">
     <div class="container">
-
       <div class="hero">
         <div class="hero-box">
           <div class="hero-content">
-
             <div class="hero-grid">
-
-              <!-- IZQUIERDA: VIDEO -->
               <div class="hero-media">
                 <div class="video-card">
                   <div class="video-wrap">
@@ -1018,17 +819,12 @@
                     <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
                     <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
                   </div>
-                  <p class="video-hint">
-                    Video vertical. <b>Tocas “Ver video”</b> y se abre en formato reels.
-                  </p>
+                  <p class="video-hint">Video vertical. <b>Tocas “Ver video”</b> y se abre en formato reels.</p>
                 </div>
               </div>
 
-              <!-- DERECHA: MISMO PORTE QUE EL VIDEO -->
               <div class="hero-side">
                 <div class="side-card">
-
-                  <!-- TOP (fijo) -->
                   <div class="side-top">
                     <div class="kicker"><span class="dot"></span> Turismo • Experiencias reales</div>
                     <h2 class="hero-title">
@@ -1041,7 +837,6 @@
                     </p>
                   </div>
 
-                  <!-- CONTENIDO -->
                   <div class="side-scroll" id="quienes-somos">
                     <h2 style="margin:0;font-family:'Playfair Display',serif;font-size:30px;line-height:1.1;color:#221f29;">
                       Quiénes somos
@@ -1052,15 +847,22 @@
                     </div>
 
                     <div class="box">
-                      <h3>Nuestra historia</h3>
+                      <h3>Misión</h3>
                       <p>
-                        El sur tiene algo que no se explica con palabras: se vive.
-                        En <b>Vacaciones en el Sur</b> armamos experiencias en Valdivia y la Región de los Ríos
-                        para que llegues a lo mejor del sur con <b>coordinación, claridad y tranquilidad</b>.
+                        Somos un puente de soluciones entre los viajeros y los encantos del sur, conectándolos con experiencias auténticas,
+                        accesibles y memorables. Creemos en un turismo con propósito, dando valor a la cultura local, sus emprendimientos y respetando
+                        el entorno natural.
                       </p>
+
+                      <h3 style="margin-top:12px;">Visión</h3>
                       <p>
-                        Acá no se trata de “vender tours” nomás. Se trata de que tu día salga bien:
-                        horarios claros, puntos de encuentro, dudas resueltas y una experiencia que de verdad se disfrute.
+                        Ser líderes en innovación turística en la Región de los Ríos, transformando la forma en que las personas exploran nuestra región
+                        mediante experiencias fluviales y terrestres únicas, sostenibles y con alto impacto social.
+                      </p>
+
+                      <h3 style="margin-top:12px;">Propósito</h3>
+                      <p>
+                        Crecer entregando valor en lo que hacemos, a nuestros colaboradores y entorno.
                       </p>
 
                       <h3 style="margin-top:12px;">Qué hacemos</h3>
@@ -1079,14 +881,11 @@
 
                 </div>
               </div>
-
-            </div>
-
+            </div> <!-- hero-grid -->
           </div>
         </div>
       </div>
 
-      <!-- GRUPOS / COLEGIOS / EMPRESAS -->
       <section id="grupos-empresas" style="padding-top:14px;">
         <div class="section-head">
           <div>
@@ -1101,17 +900,15 @@
             <h3>Planificación con calma, para que el grupo disfrute</h3>
             <p>
               Un grupo necesita organización y alguien confiable al otro lado.
-              Te ayudamos a planificar ruta, horarios, puntos clave y coordinación para que <b>tú te despreocupes</b>
-              y el grupo solo venga a disfrutar.
+              Te ayudamos a planificar ruta, horarios, puntos clave y coordinación para que <b>tú te despreocupes</b> y el grupo solo venga a disfrutar.
             </p>
           </div>
 
           <div class="group-side">
-            <b>Agenda rápida</b>
+            <b>Contacto rápido</b>
             <div class="chips">
-              <span class="chip">🗓️ Lunes a sábado</span>
-              <span class="chip">🕒 08:00/09:00/10:00</span>
-              <span class="chip">🕒 18:00/19:00</span>
+              <span class="chip">📌 Colegio / Universidad / Evento / Empresa</span>
+              <span class="chip">💬 Te contactamos por WhatsApp</span>
               <span class="chip">📍 Chile</span>
             </div>
             <div class="group-actions">
@@ -1122,7 +919,6 @@
         </div>
       </section>
 
-      <!-- FLUVIALES -->
       <section id="tours-fluviales">
         <div class="section-head">
           <div>
@@ -1134,7 +930,6 @@
         <div class="grid" id="grid-fluviales"></div>
       </section>
 
-      <!-- TERRESTRES -->
       <section id="tours-terrestres">
         <div class="section-head">
           <div>
@@ -1146,7 +941,6 @@
         <div class="grid" id="grid-terrestres"></div>
       </section>
 
-      <!-- ALOJAMIENTO -->
       <section id="alojamiento">
         <div class="section-head">
           <div>
@@ -1157,8 +951,23 @@
         </div>
 
         <div class="stay">
-          <h3>Tenemos estas opciones de alojamiento</h3>
-          <p>Sin catálogo infinito. Tú mandas tu solicitud y te respondemos con alternativas que calzan contigo.</p>
+          <div class="stay-hero">
+            <div>
+              <h3>Tenemos estas opciones de alojamiento</h3>
+              <p>Sin catálogo infinito. Tú mandas tu solicitud y te respondemos con alternativas que calzan contigo.</p>
+
+              <div class="stay-actions">
+                <button class="btn btn-primary" onclick="openReserve({ tipo:'Alojamiento', nombre:'Solicitud de alojamiento', id:'stay-1' })">
+                  Solicitar alojamiento
+                </button>
+                <span class="note">* Se envía al sistema (webhook). No redirecciona.</span>
+              </div>
+            </div>
+
+            <div class="stay-photo media-frame" aria-label="Foto de alojamiento">
+              <img src="Fotos/Alojamiento.jpg" alt="Alojamiento en el sur" loading="lazy">
+            </div>
+          </div>
 
           <div class="stay-list">
             <div class="stay-item">
@@ -1174,17 +983,9 @@
               <span>Limpio, seguro, bien ubicado.</span>
             </div>
           </div>
-
-          <div class="stay-actions">
-            <button class="btn btn-primary" onclick="openReserve({ tipo:'Alojamiento', nombre:'Solicitud de alojamiento', id:'stay-1' })">
-              Solicitar alojamiento
-            </button>
-            <span class="note">* Se envía al sistema (webhook). No redirecciona.</span>
-          </div>
         </div>
       </section>
 
-      <!-- ALIANZA -->
       <section id="alianza">
         <div class="section-head">
           <div>
@@ -1199,16 +1000,13 @@
             <div>
               <h3>Promociona tu marca acá</h3>
               <p class="sub">
-                Si eres parte del rubro turismo y quieres sumar más visibilidad, clientes o colaboración real,
-                déjanos tus datos y armamos una alianza.
+                Si eres parte del rubro turismo y quieres sumar más visibilidad, clientes o colaboración real, déjanos tus datos y armamos una alianza.
               </p>
-
               <ul class="bullets">
                 <li><b>Más alcance</b> — Te presentamos a viajeros que ya están buscando.</li>
                 <li><b>Colaboración real</b> — Armamos rutas y experiencias combinadas.</li>
                 <li><b>Orden y coordinación</b> — Todo por sistema para responder rápido y sin perder leads.</li>
               </ul>
-
               <p class="sub" style="margin-top:12px;">
                 * Solo rubro turismo: alojamiento, hotelería, gastronomía turística, transporte, guías, experiencias, operadores.
               </p>
@@ -1222,7 +1020,6 @@
                 <label for="a_email">Tu correo electrónico</label>
                 <input id="a_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
-                <!-- ✅ NUEVO: TELÉFONO -->
                 <label for="a_tel">Tu teléfono (WhatsApp)</label>
                 <input id="a_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
@@ -1264,7 +1061,7 @@
     </div>
   </main>
 
-  <!-- MODAL: RESERVA -->
+  <!-- Modal Reserva -->
   <div class="backdrop" id="reserveBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-head">
@@ -1274,7 +1071,6 @@
         </div>
         <button class="x" onclick="closeReserve()" aria-label="Cerrar">×</button>
       </div>
-
       <div class="modal-body">
         <div class="meta-row" id="reserveMeta"></div>
 
@@ -1311,7 +1107,7 @@
     </div>
   </div>
 
-  <!-- MODAL: MÁS INFO -->
+  <!-- Modal Info -->
   <div class="backdrop" id="infoBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-head">
@@ -1332,20 +1128,21 @@
     </div>
   </div>
 
-  <!-- MODAL: REUNIÓN -->
+  <!-- Modal Reunión (SIN día/hora) -->
   <div class="backdrop" id="meetBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-head">
         <div>
           <h4>Agendar reunión</h4>
-          <p>Lunes a sábado — 08:00/09:00/10:00 y 18:00/19:00 (Chile).</p>
+          <p>Rellenas el formulario y <b>te contactamos por WhatsApp</b> para coordinar.</p>
         </div>
         <button class="x" onclick="closeMeeting()" aria-label="Cerrar">×</button>
       </div>
+
       <div class="modal-body">
         <div class="meta-row">
           <span class="chip">📌 Colegio / Universidad / Evento / Empresa</span>
-          <span class="chip">🕒 Horarios predefinidos</span>
+          <span class="chip">💬 Te contactamos por WhatsApp</span>
         </div>
 
         <label for="m_tipo">¿Qué estás organizando?</label>
@@ -1366,30 +1163,11 @@
         <label for="m_tel">Teléfono (WhatsApp)</label>
         <input id="m_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div>
-            <label for="m_dia">Día</label>
-            <select id="m_dia">
-              <option value="">Selecciona…</option>
-              <option>Lunes</option><option>Martes</option><option>Miércoles</option>
-              <option>Jueves</option><option>Viernes</option><option>Sábado</option>
-            </select>
-          </div>
-          <div>
-            <label for="m_hora">Hora</label>
-            <select id="m_hora">
-              <option value="">Selecciona…</option>
-              <option>08:00</option><option>09:00</option><option>10:00</option>
-              <option>18:00</option><option>19:00</option>
-            </select>
-          </div>
-        </div>
-
         <label for="m_tema">Tema (opcional)</label>
         <textarea id="m_tema" placeholder="Ej: paseo de colegio / navegación privada / evento corporativo"></textarea>
 
         <div class="modal-actions">
-          <button class="btn btn-primary" onclick="submitMeeting()">Enviar agenda</button>
+          <button class="btn btn-primary" onclick="submitMeeting()">Enviar</button>
           <button class="btn btn-ghost" onclick="closeMeeting()">Cancelar</button>
         </div>
 
@@ -1398,7 +1176,7 @@
     </div>
   </div>
 
-  <!-- ✅ MODAL: VIDEO REELS (PC / también sirve móvil) -->
+  <!-- Modal Video -->
   <div class="backdrop" id="videoBackdrop" aria-hidden="true">
     <div class="video-modal" role="dialog" aria-modal="true" aria-label="Video">
       <button class="vm-close" type="button" onclick="closeVideo()" aria-label="Cerrar">×</button>
@@ -1413,175 +1191,265 @@
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
     const HERO_VIDEO_URL = "video/video.mp4";
 
-    /***** DATA *****/
+    /***** HORARIO CHILE (America/Santiago) *****/
+    function nowChileISO(){
+      const s = new Date().toLocaleString("sv-SE", { timeZone: "America/Santiago" });
+      return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
+    }
+
+    /***** CONDICIONES (catálogo terrestre) — sin datos bancarios públicos *****/
+    const CONDICIONES_RESERVA_TERRESTRES = [
+      "Confirmación con abono mínimo de $20.000 por persona (datos de pago se coordinan al confirmar).",
+      "Saldo a pagar a más tardar el día PREVIO del tour (23:00 hrs).",
+      "Valores no incluyen IVA.",
+      "Antes de la salida: nómina de pasajeros (nombre + RUT + fono de emergencia).",
+      "Menús de almuerzo se consultan previamente para ahorrar tiempo.",
+      "Esta cotización no reserva el minibús completo (pueden existir cupos de terceros). Consulta por arriendo completo."
+    ];
+
+    /***** DATA (con fotos en /Fotos) *****/
     const TOURS_FLUVIALES = [
       {
         id: "fluv-1",
-        nombre: "Corral-Mancera",
+        nombre: "Corral–Mancera (Histórico)",
         nivel: "Servicio guiado",
-        descripcion: "Navegación hacia los castillos españoles de Corral y Mancera.",
-        detallado:
-`Navegación en barco Neptuno por los ríos de Valdivia hasta la desembocadura en bahía de Corral, visitando los castillos españoles de Corral y Mancera.
-Incluye almuerzo y once a bordo + relato histórico con servicio guiado.`,
-        duracion_horas: 5,
+        descripcion: "Navegación a los castillos españoles de Corral y Mancera. Almuerzo + once a bordo.",
+        duracion_horas: 5.6,
         origen: "Valdivia",
         destino: "Castillos de Corral y Mancera",
-        incluye_comidas: "Almuerzo y once a bordo",
         precio_adulto: 35000,
-        precio_nino: 28000
+        precio_nino: null,
+        img: "Fotos/Fuerte-de-CORRAL-Valdivia-1024x679.jpg",
+        info: {
+          resumen: "Navegación en barco por los ríos de Valdivia hasta bahía de Corral, visitando el sistema de fortificaciones españolas (Corral y Mancera). Experiencia guiada con relato histórico.",
+          horarios: "Zarpe: 13:45 h • Regreso: 19:20 h (aprox.)",
+          incluye: [
+            "Navegación en barco (servicio guiado)",
+            "Relato histórico durante toda la experiencia",
+            "Almuerzo a bordo (menú a elección)",
+            "Once sureña a bordo"
+          ],
+          valores: [
+            "1er piso: $30.000",
+            "2do piso: $35.000",
+            "Niños 5 a 10 años: 20% dcto"
+          ],
+          notas: [
+            "Entradas a Castillo de Corral y Castillo de Mancera: valor adicional (no incluido).",
+            "Menú se consulta previamente para agilizar."
+          ]
+        }
       },
       {
         id: "fluv-2",
-        nombre: "Punucapa",
+        nombre: "Punucapa (Rural y ecológico)",
         nivel: "Servicio guiado",
-        descripcion: "Santuario Carlos Anwandter + Punucapa + degustaciones.",
-        detallado:
-`Navegación hacia el Santuario Natural Carlos Anwandter, visita a la localidad de Punucapa, degustaciones, suave caminata, feria costumbrista y visita a la iglesia de la Virgen de la Candelaria.
-Sale desde Valdivia. Servicio guiado.`,
+        descripcion: "Santuario Carlos Anwandter + Punucapa + degustaciones + feria costumbrista.",
         duracion_horas: 3.5,
         origen: "Valdivia",
         destino: "Punucapa y Santuario",
-        incluye_comidas: "Degustaciones",
         precio_adulto: 12000,
-        precio_nino: 9600
+        precio_nino: 9600,
+        img: "Fotos/punucap.png",
+        info: {
+          resumen: "Navegación hacia el Santuario Natural Carlos Anwandter y visita a la localidad de Punucapa. Recorrido rural con degustaciones y ambiente costumbrista.",
+          horarios: "Zarpes: 12:15 • 13:30 • 14:30 • 16:30 (aprox.)",
+          incluye: [
+            "Guía turístico durante toda la experiencia",
+            "Visita a feria costumbrista y fábrica de sidra",
+            "Degustaciones",
+            "Suave caminata + visita iglesia Virgen de la Candelaria (según operación)"
+          ],
+          valores: [
+            "Tarifa general: $12.000",
+            "Niños 5 a 10 años: 20% dcto"
+          ]
+        }
       },
       {
         id: "fluv-3",
-        nombre: "Isla Teja - City tour",
+        nombre: "Isla Teja / City Tour Valdivia",
         nivel: "Servicio guiado",
-        descripcion: "Puentes y ríos de Valdivia, rodeando la Isla Teja.",
-        detallado:
-`Recorrido por los principales ríos y puentes de Valdivia, rodeando la Isla Teja y navegando por aguas del Santuario de la Naturaleza Carlos Anwandter.
-Servicio guiado a bordo del barco Calle Calle con énfasis en la historia de la ciudad.`,
+        descripcion: "Ríos y puentes de Valdivia, Santuario Carlos Anwandter e Isla Teja.",
         duracion_horas: 1,
         origen: "Valdivia",
         destino: "Isla Teja y ríos",
-        incluye_comidas: "",
         precio_adulto: 5000,
-        precio_nino: 4000
+        precio_nino: null,
+        img: "Fotos/Valdivia-citytour2.jpg",
+        info: {
+          resumen: "Recorrido fluvial corto por Valdivia: ríos, puentes, entorno del Santuario Carlos Anwandter e Isla Teja. Ideal para tener una vista rápida y fotogénica de la ciudad desde el agua.",
+          horarios: "Zarpe: cada 1 hora (aprox.)",
+          incluye: [
+            "Navegación por ríos y puentes de Valdivia",
+            "Recorrido alrededor de Isla Teja",
+            "Vista del Santuario Carlos Anwandter (según ruta)",
+            "Guía turístico con relato histórico",
+            "Embarcación de alto estándar (según operación)"
+          ],
+          valores: [
+            "Tarifa general: $5.000",
+            "Niños hasta 10 años: GRATIS"
+          ],
+          notas: ["Bar a bordo (según operación)."]
+        }
       },
       {
         id: "fluv-4",
-        nombre: "Santuario-Humedales",
+        nombre: "Humedales y Cisnes (Santuario)",
         nivel: "Servicio guiado",
-        descripcion: "Humedales del Santuario Carlos Anwandter, flora y fauna.",
-        detallado:
-`Navegación por humedales de Valdivia dentro del Santuario de la Naturaleza Carlos Anwandter, con observación de flora y fauna.
-Servicio guiado.`,
+        descripcion: "Humedales del Santuario Carlos Anwandter: flora, fauna y relato ecológico.",
         duracion_horas: 1.5,
         origen: "Valdivia",
         destino: "Humedales y Santuario",
-        incluye_comidas: "",
         precio_adulto: 5000,
-        precio_nino: 4000
+        precio_nino: null,
+        img: "Fotos/Humedales.jpg",
+        info: {
+          resumen: "Navegación por humedales y ríos de Valdivia dentro del Santuario Carlos Anwandter, con enfoque en naturaleza (fauna/flora) y contexto ecológico.",
+          horarios: "Duración: 1 h 30 min (aprox.)",
+          incluye: [
+            "Recorrido por humedales y ríos de Valdivia",
+            "Relato histórico y ecológico (incluye contexto terremoto 1960)",
+            "Guía turístico especializado"
+          ],
+          valores: [
+            "Tarifa general: $5.000",
+            "Niños hasta 10 años: GRATIS"
+          ]
+        }
       }
     ];
 
     const TOURS_TERRESTRES = [
       {
-        id: "terr-1",
-        nombre: "Reserva Huilo Huilo",
-        tipo: "Full day naturaleza",
-        descripcion: "Hotel Montaña Mágica, cascadas, museo y caverna volcánica.",
-        detallado:
-`Explora la Reserva Biológica Huilo Huilo visitando el Hotel Montaña Mágica, varias cascadas, el Museo de los Volcanes y una caverna volcánica.
-Combina senderos suaves con tiempo para fotos y descanso en medio de la selva patagónica.`,
+        id: "terr-7",
+        nombre: "Termas Geométricas",
+        tipo: "Full day termas",
+        descripcion: "Complejo termal en entorno natural. Pasarelas y piscinas termales.",
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 60000,
-        precio_nino: 55000
+        precio_adulto: 82000,
+        precio_nino: 77000,
+        img: "Fotos/Termas%20geometricas.jpeg",
+        info: {
+          resumen: "Salida full day para vivir Termas Geométricas (entorno natural, piscinas termales y pasarelas).",
+          horarios: "Recogida: 07:30–08:00 h • Salida: 08:30 h • Regreso: 21:00 h",
+          incluye: ["Almuerzo campestre","Navegación Lago Calafquén","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $82.000","Niños: $77.000"]
+        }
       },
       {
         id: "terr-2",
-        nombre: "Termas Huilo-Huilo",
+        nombre: "Termas Huilo–Huilo",
         tipo: "Full day termas",
-        descripcion: "Aguas cálidas + barro terapéutico + río Rañintulelfu.",
-        detallado:
-`Sumérgete en piscinas termales de aguas cálidas, barro terapéutico y el sonido del río Rañintulelfu.
-Lugar poco masivo, ideal para relajarse sin multitudes ni filas.`,
+        descripcion: "Piscinas termales + barro terapéutico + entorno natural.",
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 67000,
-        precio_nino: 62000
+        precio_adulto: 68000,
+        precio_nino: 63000,
+        img: "Fotos/termas-huilohuilo-2048x1365.jpg",
+        info: {
+          resumen: "Día completo enfocado en relajo: termas, barro terapéutico y entorno natural (zona Huilo Huilo).",
+          horarios: "Salida: 08:20 h • Regreso: 21:00 h",
+          incluye: ["Almuerzo campestre","Navegación Lago Calafquén","Entrada a termas (3 hrs)","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $68.000","Niños: $63.000"]
+        }
       },
       {
-        id: "terr-3",
-        nombre: "City Tour Valdivia-Niebla",
-        tipo: "City tour cultural",
-        descripcion: "Centro + Jardín Botánico + Castillo de Niebla.",
-        detallado:
-`Recorre puntos clave de Valdivia, visita el Jardín Botánico y termina en el Castillo de Niebla.
-Mezcla cultura, patrimonio e historia con naturaleza y caminatas suaves.`,
-        duracion_horas: 6,
-        opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 20000,
-        precio_nino: 15000
-      },
-      {
-        id: "terr-4",
-        nombre: "Parque Futangue",
-        tipo: "Full day trekking",
-        descripcion: "Laguna Pichi + saltos + Futrono. Intensidad media.",
-        detallado:
-`Trekking hacia la Laguna Pichi, visita a los Saltos de Riñinahue y Nilahue y cierre con el encanto de Futrono.
-Caminatas de intensidad media con paisajes de montaña y bosque.`,
-        duracion_horas: 13,
-        opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 64000,
-        precio_nino: 59000
-      },
-      {
-        id: "terr-5",
-        nombre: "Parque Alerce Costero",
+        id: "terr-1",
+        nombre: "Reserva Huilo Huilo",
         tipo: "Full day naturaleza",
-        descripcion: "Bosque valdiviano + caminata al Alerce Milenario.",
-        detallado:
-`Caminata por senderos del Parque Alerce Costero hasta el Alerce Milenario, un árbol con miles de años.
-Conexión pura con naturaleza en un paisaje de paz y majestuosidad.`,
+        descripcion: "Reserva biológica: cascadas, museo y paradas fotográficas.",
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 64000,
-        precio_nino: 59000
+        precio_adulto: 58000,
+        precio_nino: 53000,
+        img: "Fotos/Reserva%20huilohuilo.jpeg",
+        info: {
+          resumen: "Salida full day para recorrer la Reserva Biológica Huilo Huilo (paisajes, cascadas y puntos icónicos).",
+          horarios: "Salida: 08:00 h • Regreso: 21:00 h",
+          incluye: ["Almuerzo campestre","Navegación Lago Calafquén","Entrada al museo","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $58.000","Niños: $53.000"]
+        }
       },
       {
         id: "terr-6",
         nombre: "Parque Oncol",
         tipo: "Full day cultura y naturaleza",
-        descripcion: "City tour + almuerzo típico + mirador cerro Oncol.",
-        detallado:
-`Mezcla un city tour por Valdivia con una visita al Parque Oncol.
-Tras almuerzo típico, se explora la selva valdiviana y se asciende al mirador del cerro Oncol con vistas panorámicas.`,
+        descripcion: "City tour + almuerzo típico + parque Oncol (selva valdiviana y miradores).",
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 50000,
-        precio_nino: 45000
+        precio_adulto: 40500,
+        precio_nino: 37800,
+        img: "Fotos/parque%20oncol.jpg",
+        info: {
+          resumen: "Experiencia mixta: city tour Valdivia (historia/arquitectura) + almuerzo típico + visita al Parque Oncol (biodiversidad de la selva valdiviana).",
+          horarios: "Salida: 08:00 h • Regreso: 21:00 h",
+          incluye: ["Almuerzo campestre","Entrada Parque Oncol","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $40.500","Niños: $37.800"]
+        }
       },
       {
-        id: "terr-7",
-        nombre: "Termas Geométricas",
-        tipo: "Full day termas",
-        descripcion: "Piscinas termales y pasarelas rojas en PN Villarrica.",
-        detallado:
-`Complejo termal dentro del Parque Nacional Villarrica.
-Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para una experiencia de relajo en plena naturaleza.`,
+        id: "terr-4",
+        nombre: "Parque Futangue",
+        tipo: "Full day trekking",
+        descripcion: "Naturaleza, trekking y paisajes del Lago Ranco (Futangue/Futrono).",
         duracion_horas: 13,
         opera_dias: "lunes a domingo",
-        max_personas: 15,
-        precio_adulto: 80000,
-        precio_nino: 75000
+        precio_adulto: 63000,
+        precio_nino: 58000,
+        img: "Fotos/mirador-futangue-1024x484.jpg",
+        info: {
+          resumen: "Tour al Parque Futangue (Lago Ranco): bosques valdivianos, senderos naturales, paisajes y cierre en Futrono.",
+          horarios: "Salida: 07:30–08:00 h • Regreso: 20:20 h (aprox.)",
+          incluye: ["Almuerzo (plato principal)","Entrada a portales","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $63.000","Niños: $58.000"],
+          notas: ["En el catálogo aparece “Regreso 08:20 h”, pero por ser full day corresponde a regreso aprox. en la tarde/noche (20:20 h)."]
+        }
+      },
+      {
+        id: "terr-3",
+        nombre: "City Tour Valdivia–Niebla",
+        tipo: "City tour cultural",
+        descripcion: "Arquitectura e historia + Jardín Botánico + Castillo de Niebla.",
+        duracion_horas: 13,
+        opera_dias: "lunes a domingo",
+        precio_adulto: 20000,
+        precio_nino: 15000,
+        img: "Fotos/Tour_terrestre%20citytour.jpg",
+        info: {
+          resumen: "Recorrido cultural: Valdivia (arquitectura/historia), visita a Isla Teja y Jardín Botánico, luego Niebla y su fortificación colonial con vistas al océano.",
+          horarios: "Salida: 08:00 h • Regreso: 21:00 h",
+          incluye: ["Almuerzo campestre","Entrada parque Castillo Niebla","Entrada Jardín Botánico","Minibús (traslados)","Guía turístico"],
+          valores: ["Adultos: $20.000","Niños: $15.000"]
+        }
+      },
+      {
+        id: "terr-5",
+        nombre: "Parque Alerce Costero",
+        tipo: "Full day naturaleza",
+        descripcion: "Bosque valdiviano + caminata (detalle a consultar).",
+        duracion_horas: 13,
+        opera_dias: "lunes a domingo",
+        precio_adulto: null,
+        precio_nino: null,
+        img: "Fotos/parque-alerce-costero.jpg",
+        info: {
+          resumen: "Detalle en preparación (no aparece en el catálogo terrestre adjunto).",
+          horarios: "A consultar según fecha y operación.",
+          incluye: [],
+          valores: ["Precio: a consultar"],
+          notas: ["Si quieres, me mandas la ficha/imagen de este tour y lo dejo igual de completo que los otros."]
+        }
       }
     ];
 
     /***** Utils *****/
     const fmtCLP = (n) => {
       if (n === null || n === undefined || n === "") return "";
-      try { return "$" + Number(n).toLocaleString("es-CL"); } catch { return "$" + n; }
+      try { return "$" + Number(n).toLocaleString("es-CL"); }
+      catch { return "$" + n; }
     };
 
     function showToast(text){
@@ -1609,10 +1477,63 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
     }
 
+    function escJS(s){
+      return String(s || "").replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+    }
+
     function orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje }){
       const f = fecha ? fecha : "—";
       const m = mensaje ? mensaje : "—";
       return `${tipo} | ${item} | ${nombre} | ${telefono} | ${f} | ${m}`;
+    }
+
+    const ALL_TOURS = [...TOURS_FLUVIALES, ...TOURS_TERRESTRES];
+    function getTourById(id){ return ALL_TOURS.find(t => t.id === id) || null; }
+
+    function buildInfoText(t, label){
+      const lines = [];
+      const info = t.info || {};
+
+      if(info.resumen) lines.push(info.resumen);
+
+      if(info.horarios){
+        lines.push("\nHORARIOS");
+        lines.push(info.horarios);
+      }
+
+      if(Array.isArray(info.incluye) && info.incluye.length){
+        lines.push("\nINCLUYE");
+        lines.push("• " + info.incluye.join("\n• "));
+      }
+
+      if(Array.isArray(info.no_incluye) && info.no_incluye.length){
+        lines.push("\nNO INCLUYE");
+        lines.push("• " + info.no_incluye.join("\n• "));
+      }
+
+      const valores = [];
+      if(Array.isArray(info.valores) && info.valores.length){
+        valores.push(...info.valores);
+      }else{
+        if(t.precio_adulto) valores.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
+        if(t.precio_nino) valores.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+      }
+      if(valores.length){
+        lines.push("\nVALORES");
+        lines.push("• " + valores.join("\n• "));
+      }
+
+      if(Array.isArray(info.notas) && info.notas.length){
+        lines.push("\nNOTAS");
+        lines.push("• " + info.notas.join("\n• "));
+      }
+
+      if(label === "Tour terrestre"){
+        lines.push("\nCONDICIONES DE RESERVA");
+        lines.push("• " + CONDICIONES_RESERVA_TERRESTRES.join("\n• "));
+      }
+
+      return lines.join("\n");
     }
 
     function cardHTML(t, label){
@@ -1623,24 +1544,44 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       if (t.tipo) meta.push(`🧩 ${t.tipo}`);
       if (t.nivel) meta.push(`🧭 ${t.nivel}`);
 
-      const price = [];
-      if (t.precio_adulto) price.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
-      if (t.precio_nino) price.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+      let priceHTML = "";
+      const infoVals = (t.info && Array.isArray(t.info.valores)) ? t.info.valores : null;
+
+      if(infoVals && infoVals.length){
+        const show = infoVals.slice(0,2).map(v => `<span>${v}</span>`).join("");
+        priceHTML = show;
+      }else{
+        const price = [];
+        if (t.precio_adulto) price.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
+        if (t.precio_nino) price.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+        priceHTML = price.length
+          ? price.map(p => `<span>${p}</span>`).join("")
+          : `<span style="color:#5a5564;font-weight:700;">Precio a consultar</span>`;
+      }
+
+      const media = t.img
+        ? `<div class="card-media media-frame"><img src="${t.img}" alt="${t.nombre}" loading="lazy"></div>`
+        : `<div class="card-media media-frame"><div class="media-placeholder"></div></div>`;
 
       return `
         <div class="card">
+          ${media}
           <div class="tag">${label}</div>
           <h3>${t.nombre}</h3>
+
           <div class="meta">
             ${meta.map(m => `<span class="mini">${m}</span>`).join("")}
           </div>
+
           <p class="desc">${t.descripcion || "—"}</p>
-          <div class="price">
-            ${price.length ? price.map(p => `<span>${p}</span>`).join("") : `<span style="color:#5a5564;font-weight:700;">Precio a consultar</span>`}
-          </div>
+
+          <div class="price">${priceHTML}</div>
+
           <div class="actions">
-            <button class="btn btn-primary" onclick='openReserve(${JSON.stringify({ tipo: label, nombre: t.nombre, id: t.id })})'>Reservar</button>
-            <button class="btn btn-ghost" onclick='openInfo(${JSON.stringify(t)}, ${JSON.stringify(label)})'>Más información</button>
+            <button class="btn btn-primary"
+              onclick="openReserve({ tipo:'${escJS(label)}', nombre:'${escJS(t.nombre)}', id:'${escJS(t.id)}' })">Reservar</button>
+            <button class="btn btn-ghost"
+              onclick="openInfoById('${escJS(t.id)}','${escJS(label)}')">Más información</button>
           </div>
         </div>
       `;
@@ -1648,12 +1589,8 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
 
     function render(){
       document.getElementById("year").textContent = new Date().getFullYear();
-
-      document.getElementById("grid-fluviales").innerHTML =
-        TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
-
-      document.getElementById("grid-terrestres").innerHTML =
-        TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
+      document.getElementById("grid-fluviales").innerHTML = TOURS_FLUVIALES.map(t => cardHTML(t, "Tour fluvial")).join("");
+      document.getElementById("grid-terrestres").innerHTML = TOURS_TERRESTRES.map(t => cardHTML(t, "Tour terrestre")).join("");
     }
 
     /***** HERO VIDEO *****/
@@ -1666,17 +1603,8 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       v.src = HERO_VIDEO_URL;
       v.muted = true;
 
-      // Botón: abrir en modal vertical (reels)
-      playBtn.addEventListener("click", async () => {
-        try{
-          openVideo();
-        }catch(err){
-          console.warn(err);
-          showToast("No se pudo abrir el video. Revisa la ruta: " + HERO_VIDEO_URL);
-        }
-      });
+      playBtn.addEventListener("click", () => openVideo());
 
-      // Mantengo toggle por si el usuario reproduce inline
       soundBtn.addEventListener("click", () => {
         v.muted = !v.muted;
         soundBtn.textContent = v.muted ? "🔇 Silencio" : "🔊 Sonido";
@@ -1689,7 +1617,6 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       });
 
       v.addEventListener("pause", () => {
-        // si pausa inline, vuelve botón
         playBtn.style.display = "inline-flex";
         soundBtn.style.display = "none";
       });
@@ -1701,24 +1628,17 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       });
     }
 
-    /***** Video modal (reels) *****/
     function openVideo(){
       const b = document.getElementById("videoBackdrop");
       const big = document.getElementById("bigVideo");
       const hero = document.getElementById("heroVideo");
-
-      // pausa el hero si estaba sonando
       try{ hero && hero.pause(); }catch{}
-
       big.src = HERO_VIDEO_URL;
       big.currentTime = 0;
       big.muted = false;
-
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
       document.body.style.overflow = "hidden";
-
-      // intenta autoplay (si el navegador deja)
       big.play().catch(()=>{});
     }
 
@@ -1748,6 +1668,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
 
     /***** Reserva modal *****/
     let selected = null;
+
     function openReserve(payload){
       selected = payload;
       const b = document.getElementById("reserveBackdrop");
@@ -1774,6 +1695,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       b.setAttribute("aria-hidden","false");
       setTimeout(() => document.getElementById("r_nombre").focus(), 60);
     }
+
     function closeReserve(){
       const b = document.getElementById("reserveBackdrop");
       b.style.display = "none";
@@ -1797,25 +1719,21 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const tipo = selected?.tipo || "Solicitud";
       const item = selected?.nombre || "Consulta";
 
-      // ✅ payload ordenado (como tú lo quieres)
       const payload = {
         event: "request",
         source: "vacacionesenelsur_web",
         form: "reserva",
-        created_at: new Date().toISOString(),
-
-        tipo,            // ej: "Tour fluvial"
-        item,            // ej: "Punucapa"
+        created_at: nowChileISO(),
+        timezone: "America/Santiago",
+        tipo,
+        item,
         item_id: selected?.id || null,
-
         nombre,
         telefono,
         email: emailRaw || null,
-
         fecha: fecha || null,
         personas: personas || null,
         mensaje: mensaje || null,
-
         resumen_ordenado: orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje })
       };
 
@@ -1833,10 +1751,14 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       }
     }
 
-    /***** Info modal *****/
+    /***** Info modal (Más información) *****/
     let infoSelected = null;
-    function openInfo(t, label){
+
+    function openInfoById(id, label){
+      const t = getTourById(id);
+      if(!t){ showToast("No se encontró el tour."); return; }
       infoSelected = { ...t, label };
+
       const b = document.getElementById("infoBackdrop");
       document.getElementById("infoTitle").textContent = t.nombre;
       document.getElementById("infoSubtitle").textContent = label;
@@ -1847,45 +1769,58 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       if (t.destino) meta.push(`🧭 ${t.destino}`);
       if (t.tipo) meta.push(`🧩 ${t.tipo}`);
       if (t.nivel) meta.push(`🧭 ${t.nivel}`);
-      if (t.precio_adulto) meta.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
-      if (t.precio_nino) meta.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+
+      if(t.info && t.info.horarios){
+        const short = String(t.info.horarios).split("•").slice(0,2).join("•").trim();
+        meta.push(`🕒 ${short}`);
+      }
+
+      if(t.info && Array.isArray(t.info.valores) && t.info.valores.length){
+        const v = t.info.valores[0];
+        if(v && v.length < 28) meta.push(`💳 ${v}`);
+      }else{
+        if(t.precio_adulto) meta.push(`Adulto: ${fmtCLP(t.precio_adulto)}`);
+        if(t.precio_nino) meta.push(`Niño: ${fmtCLP(t.precio_nino)}`);
+      }
 
       document.getElementById("infoMeta").innerHTML = meta.map(x => `<span class="chip">${x}</span>`).join("");
-      document.getElementById("infoBody").textContent = t.detallado || "Sin detalle aún.";
+      document.getElementById("infoBody").textContent = buildInfoText(t, label);
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
     }
+
     function closeInfo(){
       const b = document.getElementById("infoBackdrop");
       b.style.display = "none";
       b.setAttribute("aria-hidden","true");
       infoSelected = null;
     }
+
     function infoReserve(){
       if(!infoSelected) return;
       closeInfo();
       openReserve({ tipo: infoSelected.label, nombre: infoSelected.nombre, id: infoSelected.id });
     }
 
-    /***** Meeting modal *****/
+    /***** Meeting modal (sin día/hora) *****/
     function openMeeting(){
       const b = document.getElementById("meetBackdrop");
       document.getElementById("m_tipo").value = "";
       document.getElementById("m_nombre").value = "";
       document.getElementById("m_email").value = "";
       document.getElementById("m_tel").value = "";
-      document.getElementById("m_dia").value = "";
-      document.getElementById("m_hora").value = "";
       document.getElementById("m_tema").value = "";
+
       document.getElementById("meetNote").textContent = WEBHOOK_URL
-        ? "✅ Se enviará tu agenda al sistema. Te confirmamos por WhatsApp."
+        ? "✅ Se enviará tu solicitud. Te contactamos por WhatsApp para coordinar."
         : "⚠️ Falta configurar WEBHOOK_URL en el código.";
 
       b.style.display = "flex";
       b.setAttribute("aria-hidden","false");
       setTimeout(() => document.getElementById("m_tipo").focus(), 60);
     }
+
     function closeMeeting(){
       const b = document.getElementById("meetBackdrop");
       b.style.display = "none";
@@ -1898,34 +1833,26 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       const emailRaw = (document.getElementById("m_email").value || "").trim();
       const telRaw = (document.getElementById("m_tel").value || "").trim();
       const telefono = normalizePhone(telRaw);
-      const dia = (document.getElementById("m_dia").value || "").trim();
-      const hora = (document.getElementById("m_hora").value || "").trim();
       const tema = (document.getElementById("m_tema").value || "").trim();
 
       if(!grupo_tipo){ showToast("Selecciona si es colegio/universidad/evento/empresa."); return; }
-      if(!nombre || !telefono || !dia || !hora){ showToast("Falta nombre, teléfono, día u hora."); return; }
+      if(!nombre || !telefono){ showToast("Falta nombre o teléfono."); return; }
       if(!emailRaw){ showToast("Falta correo."); return; }
       if(!isValidEmail(emailRaw)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
-      // ✅ payload ordenado
       const payload = {
         event: "meeting_request",
         source: "vacacionesenelsur_web",
         form: "reunion",
-        created_at: new Date().toISOString(),
-
-        grupo_tipo,     // Colegio / Universidad / Evento / Empresa
+        created_at: nowChileISO(),
+        timezone: "America/Santiago",
+        grupo_tipo,
         nombre,
         telefono,
         email: emailRaw,
-
-        dia,
-        hora,
-        timezone: "America/Santiago",
         tema: tema || null,
-
-        resumen_ordenado: `${grupo_tipo} | ${nombre} | ${telefono} | ${emailRaw} | ${dia} ${hora} | ${tema || "—"}`
+        resumen_ordenado: `${grupo_tipo} | ${nombre} | ${telefono} | ${emailRaw} | ${tema || "—"}`
       };
 
       try{
@@ -1935,7 +1862,7 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
           body: JSON.stringify(payload)
         });
         closeMeeting();
-        showToast("Reunión solicitada ✅ Te confirmamos por WhatsApp.");
+        showToast("Solicitud enviada ✅ Te contactamos por WhatsApp.");
       }catch(e){
         console.warn(e);
         showToast("No se pudo enviar. Intenta otra vez.");
@@ -1955,10 +1882,8 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
     async function submitAlliance(){
       const nombre = (document.getElementById("a_nombre").value || "").trim();
       const email = (document.getElementById("a_email").value || "").trim();
-
       const telRaw = (document.getElementById("a_tel").value || "").trim();
       const telefono = normalizePhone(telRaw);
-
       const localidad = (document.getElementById("a_localidad").value || "").trim();
       const marca = (document.getElementById("a_marca").value || "").trim();
       const rubro = (document.getElementById("a_rubro").value || "").trim();
@@ -1968,13 +1893,12 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       if(!isValidEmail(email)){ showToast("Correo inválido."); return; }
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
-      // ✅ payload ordenado
       const payload = {
         event: "alliance_lead",
         source: "vacacionesenelsur_web",
         form: "alianza",
-        created_at: new Date().toISOString(),
-
+        created_at: nowChileISO(),
+        timezone: "America/Santiago",
         nombre,
         email,
         telefono,
@@ -1982,7 +1906,6 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
         marca,
         rubro: rubro || null,
         mensaje: mensaje || null,
-
         resumen_ordenado: `Alianza | ${marca} | ${nombre} | ${telefono} | ${email} | ${rubro || "—"} | ${localidad || "—"}`
       };
 
@@ -2018,13 +1941,13 @@ Pasarelas de madera roja conectan piscinas de aguas termales (35° a 42°) para 
       if (d.style.display==="block" && e.target===d) closeDrawer();
       if (v.style.display==="flex" && e.target===v) closeVideo();
     });
+
     document.addEventListener("keydown", (e) => {
       if(e.key==="Escape"){
         closeReserve(); closeInfo(); closeMeeting(); closeDrawer(); closeVideo();
       }
     });
 
-    // Drawer wiring
     document.getElementById("menuBtn").addEventListener("click", openDrawer);
     document.getElementById("drawerClose").addEventListener("click", closeDrawer);
     document.querySelectorAll("[data-drawer-link]").forEach(a => a.addEventListener("click", closeDrawer));
