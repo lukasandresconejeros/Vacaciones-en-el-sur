@@ -1239,18 +1239,31 @@
       document.body.style.width = "100%";
     }
 
-    function unlockScroll(){
-      __lockCount = Math.max(0, __lockCount - 1);
-      if(__lockCount > 0) return;
+   function unlockScroll(){
+  __lockCount = Math.max(0, __lockCount - 1);
+  if(__lockCount > 0) return;
 
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
+  const root = document.documentElement;
 
-      window.scrollTo(0, __scrollY);
-    }
+  // 👇 corta el smooth SOLO para este scroll de “desbloqueo”
+  const prev = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+
+  const y = __scrollY;
+
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+
+  // 👇 vuelve a la posición exacta SIN animación
+  window.scrollTo({ top: y, left: 0, behavior: "auto" });
+
+  // 👇 restaurar como estaba (para que los anchors sigan smooth)
+  requestAnimationFrame(() => { root.style.scrollBehavior = prev; });
+}
+
 
     function resetModalScroll(backdropId){
       const b = document.getElementById(backdropId);
@@ -2027,5 +2040,6 @@
   </script>
 </body>
 </html>
+
 
 
