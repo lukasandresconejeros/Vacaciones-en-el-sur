@@ -1265,6 +1265,20 @@
       return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
     }
 
+    /***** META PIXEL HELPERS (eventos) *****/
+    const META_CURRENCY = "CLP";
+
+    function trackMeta(eventName, params){
+      try{
+        if(typeof fbq === "function") fbq("track", eventName, params || {});
+      }catch(e){}
+    }
+
+    function getNumericValueFromTour(t){
+      const v = Number(t?.precio_adulto);
+      return Number.isFinite(v) && v > 0 ? v : null;
+    }
+
     /***** LOCK SCROLL (iOS/Android friendly) *****/
     let __lockCount = 0;
     let __scrollY = 0;
@@ -1781,6 +1795,20 @@
 
     function openReserve(payload){
       selected = payload;
+
+      // ✅ META: InitiateCheckout (abrir modal reserva)
+      const t = payload?.id ? getTourById(payload.id) : null;
+      const value = getNumericValueFromTour(t);
+
+      const icParams = {
+        content_name: payload?.nombre || "Reserva",
+        content_ids: payload?.id ? [payload.id] : [],
+        content_type: "product",
+        content_category: payload?.tipo || "Solicitud"
+      };
+      if(value) { icParams.value = value; icParams.currency = META_CURRENCY; }
+      trackMeta("InitiateCheckout", icParams);
+
       const b = document.getElementById("reserveBackdrop");
       const meta = document.getElementById("reserveMeta");
       const note = document.getElementById("reserveNote");
@@ -1856,6 +1884,20 @@
           headers:{ "Content-Type":"application/json" },
           body: JSON.stringify(payload)
         });
+
+        // ✅ META: Lead (solo cuando envió OK)
+        const t = selected?.id ? getTourById(selected.id) : null;
+        const value = getNumericValueFromTour(t);
+        const leadParams = {
+          lead_type: "reserva",
+          form: "reserva",
+          content_name: item,
+          content_ids: selected?.id ? [selected.id] : [],
+          content_category: tipo
+        };
+        if(value) { leadParams.value = value; leadParams.currency = META_CURRENCY; }
+        trackMeta("Lead", leadParams);
+
         closeReserve();
         showToast("Listo ✅ Te escribiremos por WhatsApp para coordinar horarios y pagos.");
       }catch(e){
@@ -1871,6 +1913,17 @@
       const t = getTourById(id);
       if(!t){ showToast("No se encontró el tour."); return; }
       infoSelected = { ...t, label };
+
+      // ✅ META: ViewContent (ver detalle tour)
+      const value = getNumericValueFromTour(t);
+      const vcParams = {
+        content_name: t.nombre,
+        content_ids: [t.id],
+        content_type: "product",
+        content_category: label
+      };
+      if(value) { vcParams.value = value; vcParams.currency = META_CURRENCY; }
+      trackMeta("ViewContent", vcParams);
 
       const b = document.getElementById("infoBackdrop");
       document.getElementById("infoTitle").textContent = t.nombre;
@@ -1980,6 +2033,14 @@
           headers:{ "Content-Type":"application/json" },
           body: JSON.stringify(payload)
         });
+
+        // ✅ META: Lead (reunión)
+        trackMeta("Lead", {
+          lead_type: "reunion",
+          form: "reunion",
+          content_category: grupo_tipo
+        });
+
         closeMeeting();
         showToast("Solicitud enviada ✅ Te contactamos por WhatsApp.");
       }catch(e){
@@ -2037,6 +2098,15 @@
           headers:{ "Content-Type":"application/json" },
           body: JSON.stringify(payload)
         });
+
+        // ✅ META: Lead (alianza)
+        trackMeta("Lead", {
+          lead_type: "alianza",
+          form: "alianza",
+          content_name: marca,
+          content_category: rubro || "Alianza"
+        });
+
         note.textContent = "✅ Recibido. Te contactamos para coordinar la alianza.";
         showToast("Alianza enviada ✅");
       }catch(e){
@@ -2076,7 +2146,3 @@
   </script>
 </body>
 </html>
-
-
-
-
