@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -124,20 +124,24 @@
       gap:12px; padding:12px 0;
     }
     .brand{ display:flex; align-items:center; gap:12px; min-width: 240px; }
+
+    /* ✅ NUEVO LOGO: usa imagen de perfil */
     .logo{
-      width:42px; height:42px; border-radius:999px;
-      background: conic-gradient(from 220deg, var(--sun1), var(--sun2), var(--sun3), var(--sun4), var(--sun1));
-      box-shadow: 0 12px 30px rgba(255,122,24,.18);
-      display:grid; place-items:center;
+      width:42px; height:42px;
+      border-radius:999px;
+      overflow:hidden;
+      background:#ffffff;
+      box-shadow: 0 12px 30px rgba(20,19,26,.15);
       border:1px solid rgba(20,19,26,.10);
       flex:0 0 auto;
     }
-    .logo span{
-      font-family:"Satisfy", cursive; font-size:18px; color:white;
-      transform: translateY(-1px);
-      user-select:none;
-      text-shadow: 0 10px 20px rgba(0,0,0,.16);
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
+
     .brand h1{
       margin:0; font-size:13px; letter-spacing:.12em;
       text-transform:uppercase; font-weight:700; line-height:1.2;
@@ -512,7 +516,22 @@
       text-overflow:ellipsis;
       white-space:nowrap;
     }
-    .desc{ margin:10px 0 0; color:#3c3646; font-size:13px; line-height:1.6; flex:1 1 auto; }
+
+    /* ✅ descripción corta en la card */
+    .desc{
+      margin:10px 0 0;
+      color:#3c3646;
+      font-size:13px;
+      line-height:1.6;
+      flex:1 1 auto;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      opacity:.92;
+    }
+
     .price{ margin-top:10px; display:flex; flex-wrap:wrap; gap:10px; color:#221f29; font-size:13px; font-weight:700; }
     .actions{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     @media (max-width: 640px){ .actions{ gap:8px; } .actions .btn{ flex:1 1 auto; } }
@@ -833,7 +852,10 @@
     <div class="container">
       <div class="nav">
         <a class="brand" href="#inicio" aria-label="Vacaciones en el Sur">
-          <div class="logo"><span>V</span></div>
+          <!-- ✅ AQUÍ VA LA FOTO DE PERFIL DEL LOGO -->
+          <div class="logo">
+            <img src="Fotos/logo-vacaciones.png" alt="Vacaciones en el Sur">
+          </div>
           <div>
             <h1>Vacaciones en el Sur</h1>
             <small>Valdivia • Región de los Ríos</small>
@@ -1603,6 +1625,36 @@
       return String(s || "").replace(/\\/g,"\\\\").replace(/'/g,"\\'");
     }
 
+    function escHTML(s){
+      return String(s || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#39;");
+    }
+
+    function splitStarBullets(text){
+      return String(text || "")
+        .split("*")
+        .map(p => p.replace(/\s+/g," ").trim())
+        .filter(Boolean);
+    }
+
+    function formatDescripcionPreview(desc){
+      const parts = splitStarBullets(desc);
+      if(!parts.length) return "";
+      const s = parts[0];
+      return s.length > 120 ? (s.slice(0,117) + "…") : s;
+    }
+
+    function formatDescripcionFull(desc){
+      const parts = splitStarBullets(desc);
+      if(!parts.length) return "";
+      if(parts.length === 1) return parts[0];
+      return "• " + parts.join("\n• ");
+    }
+
     function orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje }){
       const f = fecha ? fecha : "—";
       const m = mensaje ? mensaje : "—";
@@ -1615,6 +1667,13 @@
     function buildInfoText(t, label){
       const lines = [];
       const info = t.info || {};
+
+      const descFull = formatDescripcionFull(t.descripcion);
+      if(descFull){
+        lines.push("DESCRIPCIÓN");
+        lines.push(descFull);
+        lines.push("");
+      }
 
       if(info.resumen) lines.push(info.resumen);
 
@@ -1695,7 +1754,7 @@
             ${meta.map(m => `<span class="mini">${m}</span>`).join("")}
           </div>
 
-          <p class="desc">${t.descripcion || "—"}</p>
+          <p class="desc">${escHTML(formatDescripcionPreview(t.descripcion) || "—")}</p>
 
           <div class="price">${priceHTML}</div>
 
@@ -2144,7 +2203,3 @@
   </script>
 </body>
 </html>
-
-
-
-
