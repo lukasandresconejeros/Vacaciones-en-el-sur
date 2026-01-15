@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -53,16 +53,16 @@
     :root{
       --heroH: clamp(620px, 72vh, 780px);
 
-      /* ✅ NUEVA PALETA AZUL CLARO */
-      --sun1:#3b82f6;
-      --sun2:#60a5fa;
-      --sun3:#93c5fd;
-      --sun4:#bfdbfe;
+      /* ✅ NUEVA PALETA AZUL CLARO (3 tonos) */
+      --sun1:#5aa9ff;
+      --sun2:#2f7dff;
+      --sun3:#0f58d6;
+      --sun4:#a6d4ff;
 
       /* ✅ FONDO 1 SOLO COLOR */
-      --bg1:#f2f8ff;
-      --bg2:#f2f8ff;
-      --bg3:#f2f8ff;
+      --bg1:#eaf5ff;
+      --bg2:#eaf5ff;
+      --bg3:#eaf5ff;
 
       --ink:#14131a;
       --muted:#5a5564;
@@ -98,10 +98,10 @@
       pointer-events:none;
       animation: floaty 16s ease-in-out infinite;
       background:
-        radial-gradient(460px 340px at 16% 18%, rgba(59,130,246,.26), transparent 62%),
-        radial-gradient(620px 420px at 82% 22%, rgba(96,165,250,.20), transparent 64%),
-        radial-gradient(560px 460px at 56% 88%, rgba(147,197,253,.16), transparent 64%),
-        radial-gradient(560px 380px at 28% 78%, rgba(191,219,254,.22), transparent 64%);
+        radial-gradient(460px 340px at 16% 18%, rgba(90,169,255,.28), transparent 62%),
+        radial-gradient(620px 420px at 82% 22%, rgba(47,125,255,.20), transparent 64%),
+        radial-gradient(560px 460px at 56% 88%, rgba(15,88,214,.14), transparent 64%),
+        radial-gradient(560px 380px at 28% 78%, rgba(166,212,255,.22), transparent 64%);
     }
     body::after{ opacity:.26; animation-duration: 20s; animation-direction: reverse; }
     @keyframes floaty{
@@ -167,7 +167,7 @@
       transition: background .15s ease, transform .15s ease;
       white-space:nowrap;
     }
-    nav a:hover{ background: rgba(59,130,246,.10); transform: translateY(-1px); }
+    nav a:hover{ background: rgba(47,125,255,.12); transform: translateY(-1px); }
 
     .menu-btn{
       display:none;
@@ -209,7 +209,7 @@
     .drawer-head{
       padding:14px 16px;
       display:flex; justify-content:space-between; align-items:center;
-      background: linear-gradient(135deg, rgba(191,219,254,.55), rgba(96,165,250,.22), rgba(59,130,246,.12));
+      background: linear-gradient(135deg, rgba(166,212,255,.30), rgba(90,169,255,.16), rgba(47,125,255,.10));
       border-bottom:1px solid rgba(20,19,26,.08);
     }
     .drawer-head b{
@@ -254,9 +254,9 @@
       z-index:0;
       opacity:.36;
       background:
-        radial-gradient(520px 340px at 12% 16%, rgba(59,130,246,.24), transparent 62%),
-        radial-gradient(640px 420px at 92% 22%, rgba(96,165,250,.18), transparent 64%),
-        radial-gradient(520px 420px at 58% 120%, rgba(147,197,253,.14), transparent 66%);
+        radial-gradient(520px 340px at 12% 16%, rgba(90,169,255,.26), transparent 62%),
+        radial-gradient(640px 420px at 92% 22%, rgba(47,125,255,.18), transparent 64%),
+        radial-gradient(520px 420px at 58% 120%, rgba(15,88,214,.12), transparent 66%);
       filter: blur(48px);
       pointer-events:none;
     }
@@ -286,7 +286,7 @@
     .dot{
       width:10px; height:10px; border-radius:999px;
       background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
-      box-shadow: 0 0 0 6px rgba(59,130,246,.12);
+      box-shadow: 0 0 0 6px rgba(47,125,255,.10);
     }
     .hero-title{
       margin:0;
@@ -326,7 +326,7 @@
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
-      background: linear-gradient(135deg, rgba(191,219,254,.35), rgba(96,165,250,.18), rgba(59,130,246,.12));
+      background: linear-gradient(135deg, rgba(90,169,255,.12), rgba(47,125,255,.08), rgba(15,88,214,.06));
       flex:1; min-height:0;
     }
     .video-wrap video{ width:100%; height:100%; object-fit: cover; background:#111; }
@@ -416,7 +416,7 @@
       color:#fff;
       background: linear-gradient(135deg, var(--sun1), var(--sun2));
       border:1px solid rgba(20,19,26,.10);
-      box-shadow: 0 16px 34px rgba(59,130,246,.22);
+      box-shadow: 0 16px 34px rgba(47,125,255,.22);
     }
     .btn-ghost{
       color:#2b2832;
@@ -424,7 +424,7 @@
       border:1px solid rgba(20,19,26,.10);
       box-shadow: 0 10px 20px rgba(20,19,26,.06);
     }
-    .btn-ghost:hover{ background: rgba(59,130,246,.10); }
+    .btn-ghost:hover{ background: rgba(47,125,255,.10); }
 
     section{ padding:30px 0; }
     [id]{ scroll-margin-top: 88px; }
@@ -464,7 +464,7 @@
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
-      background: linear-gradient(135deg, rgba(191,219,254,.30), rgba(96,165,250,.16), rgba(59,130,246,.10));
+      background: linear-gradient(135deg, rgba(90,169,255,.12), rgba(47,125,255,.08), rgba(15,88,214,.06));
     }
     .media-frame img{
       width:100%;
@@ -481,9 +481,9 @@
       height:100%;
       width:100%;
       background:
-        radial-gradient(220px 120px at 20% 30%, rgba(59,130,246,.22), transparent 60%),
-        radial-gradient(260px 140px at 80% 50%, rgba(96,165,250,.18), transparent 62%),
-        radial-gradient(240px 140px at 50% 120%, rgba(147,197,253,.14), transparent 65%);
+        radial-gradient(220px 120px at 20% 30%, rgba(90,169,255,.22), transparent 60%),
+        radial-gradient(260px 140px at 80% 50%, rgba(47,125,255,.14), transparent 62%),
+        radial-gradient(240px 140px at 50% 120%, rgba(15,88,214,.10), transparent 65%);
     }
 
     .card{
@@ -505,9 +505,9 @@
       font-weight:900;
       padding:6px 10px;
       border-radius:999px;
-      background: rgba(59,130,246,.12);
+      background: rgba(47,125,255,.12);
       color:#2b2832;
-      border:1px solid rgba(59,130,246,.20);
+      border:1px solid rgba(47,125,255,.18);
       margin-bottom:10px;
     }
     .card h3{ margin:0; font-size:17px; font-weight:800; color:#221f29; line-height:1.25; }
@@ -714,8 +714,8 @@
     }
     textarea{ min-height:96px; resize:vertical; }
     input:focus, textarea:focus, select:focus{
-      border-color: rgba(59,130,246,.55);
-      box-shadow: 0 0 0 4px rgba(59,130,246,.16);
+      border-color: rgba(47,125,255,.55);
+      box-shadow: 0 0 0 4px rgba(47,125,255,.14);
     }
 
     footer{
@@ -756,7 +756,7 @@
       padding:14px 16px;
       border-bottom:1px solid rgba(20,19,26,.08);
       display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
-      background: linear-gradient(135deg, rgba(191,219,254,.55), rgba(96,165,250,.22), rgba(59,130,246,.12));
+      background: linear-gradient(135deg, rgba(166,212,255,.30), rgba(90,169,255,.16), rgba(47,125,255,.10));
       flex: 0 0 auto;
     }
     .modal-head h4{
@@ -1204,15 +1204,70 @@
         <label for="r_tel">Teléfono (WhatsApp)</label>
         <input id="r_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <!-- ✅ TOUR: adultos/niños/fecha -->
+        <div id="tourFieldsRow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
           <div>
             <label for="r_personas">N° personas (opcional)</label>
             <input id="r_personas" placeholder="Ej: 2" inputmode="numeric" />
           </div>
           <div>
+            <label for="r_ninos">N° niños (opcional)</label>
+            <input id="r_ninos" placeholder="Ej: 0" inputmode="numeric" />
+          </div>
+          <div>
             <label for="r_fecha">Fecha tentativa (opcional)</label>
             <input id="r_fecha" type="date" />
           </div>
+        </div>
+
+        <!-- ✅ ALOJAMIENTO: preguntas extra (sin cuna / sin movilidad reducida) -->
+        <div id="stayFields" style="display:none;margin-top:6px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <label for="s_checkin">Fecha llegada (check-in)</label>
+              <input id="s_checkin" type="date" />
+            </div>
+            <div>
+              <label for="s_checkout">Fecha salida (check-out)</label>
+              <input id="s_checkout" type="date" />
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <label for="s_adultos">N° adultos (opcional)</label>
+              <input id="s_adultos" placeholder="Ej: 2" inputmode="numeric" />
+            </div>
+            <div>
+              <label for="s_ninos">N° niños (opcional)</label>
+              <input id="s_ninos" placeholder="Ej: 0" inputmode="numeric" />
+            </div>
+          </div>
+
+          <label for="s_zona">Zona / localidad</label>
+          <input id="s_zona" placeholder="Ej: Valdivia / Niebla / Panguipulli" />
+
+          <label for="s_tipo">Tipo de alojamiento</label>
+          <select id="s_tipo">
+            <option value="">Selecciona…</option>
+            <option value="Cabaña">Cabaña</option>
+            <option value="Casa">Casa</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Hostal">Hostal</option>
+            <option value="Departamento">Departamento</option>
+            <option value="Low cost">Low cost</option>
+            <option value="Otro">Otro</option>
+          </select>
+
+          <label for="s_presupuesto">Presupuesto aprox (opcional)</label>
+          <input id="s_presupuesto" placeholder="Ej: 60.000 por noche / total" />
+
+          <label for="s_mascotas">¿Van con mascota?</label>
+          <select id="s_mascotas">
+            <option value="">Selecciona…</option>
+            <option value="No">No</option>
+            <option value="Sí">Sí</option>
+          </select>
         </div>
 
         <label for="r_msg">Mensaje (opcional)</label>
@@ -1318,31 +1373,19 @@
       return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
     }
 
-    /* ✅ FECHAS MÍNIMAS (Chile) */
-    function chileTodayYMD(){
-      // "YYYY-MM-DD" en Chile
-      return new Intl.DateTimeFormat("en-CA", {
-        timeZone: "America/Santiago",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-      }).format(new Date());
-    }
-
-    function chileAddDaysYMD(days){
-      const base = chileTodayYMD(); // YYYY-MM-DD
-      const [y, m, d] = base.split("-").map(Number);
-      const dt = new Date(Date.UTC(y, m - 1, d));
-      dt.setUTCDate(dt.getUTCDate() + Number(days || 0));
-      return dt.toISOString().slice(0, 10); // YYYY-MM-DD
+    /* ✅ FECHAS YYYY-MM-DD SEGÚN CHILE + offset días */
+    function chileDateYMDPlus(days=0){
+      const dstr = new Date().toLocaleDateString("sv-SE", { timeZone: "America/Santiago" }); // YYYY-MM-DD
+      const parts = String(dstr).split("-").map(Number);
+      const y = parts[0], m = parts[1], d = parts[2];
+      const dt = new Date(Date.UTC(y, m-1, d + (days||0)));
+      return dt.toISOString().slice(0,10);
     }
 
     function minDateForTipo(tipo){
-      const s = String(tipo || "").toLowerCase();
-      if (s.includes("fluvial")) return chileAddDaysYMD(0);       // hoy
-      if (s.includes("terrestre")) return chileAddDaysYMD(1);     // mañana
-      if (s.includes("alojamiento")) return chileAddDaysYMD(1);   // mañana
-      return chileAddDaysYMD(0); // default: hoy
+      if(tipo === "Tour fluvial") return chileDateYMDPlus(0);
+      if(tipo === "Tour terrestre" || tipo === "Alojamiento") return chileDateYMDPlus(1);
+      return chileDateYMDPlus(0);
     }
 
     /***** META PIXEL HELPERS (eventos) *****/
@@ -1713,10 +1756,12 @@
       return "• " + parts.join("\n• ");
     }
 
-    function orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje }){
+    function orderedSummary({ tipo, item, nombre, telefono, fecha, personas, ninos, mensaje }){
       const f = fecha ? fecha : "—";
+      const p = (personas !== null && personas !== undefined && personas !== "") ? personas : "—";
+      const k = (ninos !== null && ninos !== undefined && ninos !== "") ? ninos : "—";
       const m = mensaje ? mensaje : "—";
-      return `${tipo} | ${item} | ${nombre} | ${telefono} | ${f} | ${m}`;
+      return `${tipo} | ${item} | ${nombre} | ${telefono} | ${f} | Adultos:${p} | Niños:${k} | ${m}`;
     }
 
     const ALL_TOURS = [...TOURS_FLUVIALES, ...TOURS_TERRESTRES];
@@ -1937,16 +1982,42 @@
       document.getElementById("r_email").value = "";
       document.getElementById("r_tel").value = "";
       document.getElementById("r_personas").value = "";
+      document.getElementById("r_ninos").value = "";
       document.getElementById("r_fecha").value = "";
       document.getElementById("r_msg").value = "";
 
-      // ✅ FECHA MÍNIMA (Chile)
-      const dateEl = document.getElementById("r_fecha");
-      if(dateEl){
-        const min = minDateForTipo(payload?.tipo);
-        dateEl.min = min;
-        if(dateEl.value && dateEl.value < min) dateEl.value = "";
+      // ✅ reset alojamiento fields
+      document.getElementById("s_checkin").value = "";
+      document.getElementById("s_checkout").value = "";
+      document.getElementById("s_adultos").value = "";
+      document.getElementById("s_ninos").value = "0";
+      document.getElementById("s_zona").value = "";
+      document.getElementById("s_tipo").value = "";
+      document.getElementById("s_presupuesto").value = "";
+      document.getElementById("s_mascotas").value = "";
+
+      // ✅ mostrar/ocultar según tipo
+      const tipo = payload?.tipo || "Solicitud";
+      const isStay = (tipo === "Alojamiento");
+      document.getElementById("tourFieldsRow").style.display = isStay ? "none" : "grid";
+      document.getElementById("stayFields").style.display = isStay ? "block" : "none";
+
+      // ✅ min dates
+      const min = minDateForTipo(tipo);
+      const fechaEl = document.getElementById("r_fecha");
+      fechaEl.min = min;
+
+      // ✅ default niños en tours
+      if(tipo === "Tour fluvial" || tipo === "Tour terrestre"){
+        document.getElementById("r_ninos").value = "0";
       }
+
+      // ✅ min alojamiento (mañana)
+      const minStay = chileDateYMDPlus(1);
+      const inEl = document.getElementById("s_checkin");
+      const outEl = document.getElementById("s_checkout");
+      inEl.min = minStay;
+      outEl.min = minStay;
 
       note.textContent = WEBHOOK_URL
         ? "✅ Se enviará tu solicitud al sistema. Luego te contactamos por WhatsApp."
@@ -1967,13 +2038,25 @@
       selected = null;
     }
 
+    function buildPricePayload(tipo, tour){
+      const moneda = "CLP";
+      if(tipo === "Alojamiento"){
+        return { moneda, precio_adulto: null, precio_nino: null, precio_display: "A consultar" };
+      }
+      const pa = (tour && tour.precio_adulto != null) ? tour.precio_adulto : null;
+      const pn = (tour && tour.precio_nino != null) ? tour.precio_nino : null;
+      const parts = [];
+      if(pa) parts.push(`Adulto: ${fmtCLP(pa)}`);
+      if(pn) parts.push(`Niño: ${fmtCLP(pn)}`);
+      const precio_display = parts.length ? parts.join(" | ") : "Precio a consultar";
+      return { moneda, precio_adulto: pa, precio_nino: pn, precio_display };
+    }
+
     async function submitReserve(){
       const nombre = (document.getElementById("r_nombre").value || "").trim();
       const emailRaw = (document.getElementById("r_email").value || "").trim();
       const telRaw = (document.getElementById("r_tel").value || "").trim();
       const telefono = normalizePhone(telRaw);
-      const personas = (document.getElementById("r_personas").value || "").trim();
-      const fecha = (document.getElementById("r_fecha").value || "").trim();
       const mensaje = (document.getElementById("r_msg").value || "").trim();
 
       if(!nombre || !telefono){ showToast("Falta nombre o teléfono."); return; }
@@ -1983,42 +2066,85 @@
       const tipo = selected?.tipo || "Solicitud";
       const item = selected?.nombre || "Consulta";
 
-      // ✅ VALIDACIÓN FECHA MÍNIMA (por si pegan una fecha manual)
-      const min = minDateForTipo(tipo);
-      if(fecha && fecha < min){
-        showToast(`Esa fecha no se puede. Para "${tipo}" elige desde ${min}.`);
-        return;
+      const isStay = (tipo === "Alojamiento");
+
+      // ✅ Tour fields
+      const personasRaw = (document.getElementById("r_personas").value || "").trim();
+      const fechaRaw = (document.getElementById("r_fecha").value || "").trim();
+      const ninosRaw = (document.getElementById("r_ninos").value || "").trim();
+
+      let personas = null;
+      if(personasRaw !== ""){
+        const p = Number(personasRaw);
+        if(!Number.isFinite(p) || p < 0){ showToast("N° personas inválido."); return; }
+        personas = p;
       }
 
-      // ✅ PRECIO AL WEBHOOK (según lo elegido)
-      const moneda = "CLP";
-      let precio_adulto = null;
-      let precio_nino = null;
-      let precio_display = null;
+      let ninos = null;
+      if(ninosRaw !== ""){
+        const k = Number(ninosRaw);
+        if(!Number.isFinite(k) || k < 0){ showToast("N° niños inválido."); return; }
+        ninos = k;
+      }
+      if(tipo === "Tour fluvial" || tipo === "Tour terrestre"){
+        if(ninos === null) ninos = 0; // ✅ default 0
+      }
 
-      const t = selected?.id ? getTourById(selected.id) : null;
+      // ✅ Alojamiento fields
+      const checkin = (document.getElementById("s_checkin").value || "").trim();
+      const checkout = (document.getElementById("s_checkout").value || "").trim();
+      const sAdultosRaw = (document.getElementById("s_adultos").value || "").trim();
+      const sNinosRaw = (document.getElementById("s_ninos").value || "").trim();
+      const sZona = (document.getElementById("s_zona").value || "").trim();
+      const sTipo = (document.getElementById("s_tipo").value || "").trim();
+      const sPres = (document.getElementById("s_presupuesto").value || "").trim();
+      const sMasc = (document.getElementById("s_mascotas").value || "").trim();
 
-      if(t){
-        const pa = Number(t?.precio_adulto);
-        const pn = Number(t?.precio_nino);
-        precio_adulto = Number.isFinite(pa) && pa > 0 ? pa : null;
-        precio_nino = Number.isFinite(pn) && pn > 0 ? pn : null;
+      let stayAdultos = null;
+      if(sAdultosRaw !== ""){
+        const a = Number(sAdultosRaw);
+        if(!Number.isFinite(a) || a < 0){ showToast("N° adultos inválido."); return; }
+        stayAdultos = a;
+      }
 
-        if(precio_adulto || precio_nino){
-          const parts = [];
-          if(precio_adulto) parts.push(`Adulto: ${fmtCLP(precio_adulto)}`);
-          if(precio_nino) parts.push(`Niño: ${fmtCLP(precio_nino)}`);
-          precio_display = parts.join(" | ");
-        }else if(Array.isArray(t?.info?.valores) && t.info.valores.length){
-          precio_display = t.info.valores.slice(0,2).join(" | ");
-        }else{
-          precio_display = "Precio a consultar";
+      let stayNinos = null;
+      if(sNinosRaw !== ""){
+        const k2 = Number(sNinosRaw);
+        if(!Number.isFinite(k2) || k2 < 0){ showToast("N° niños inválido."); return; }
+        stayNinos = k2;
+      }
+
+      // ✅ validar fechas mínimas
+      if(!isStay){
+        const min = minDateForTipo(tipo);
+        if(fechaRaw && fechaRaw < min){
+          showToast("Fecha inválida. Elige desde " + min + ".");
+          return;
         }
       }else{
-        if(String(tipo || "").toLowerCase().includes("alojamiento")){
-          precio_display = "A consultar";
+        const minStay = chileDateYMDPlus(1);
+        if(checkin && checkin < minStay){
+          showToast("Check-in inválido. Elige desde " + minStay + ".");
+          return;
+        }
+        if(checkout){
+          const minOut = checkin ? checkin : minStay;
+          if(checkout < minOut){
+            showToast("Check-out inválido. Revisa las fechas.");
+            return;
+          }
+          if(checkin && checkout <= checkin){
+            showToast("El check-out debe ser después del check-in.");
+            return;
+          }
         }
       }
+
+      const t = selected?.id ? getTourById(selected.id) : null;
+      const pricePack = buildPricePayload(tipo, t);
+
+      // ✅ fecha estándar: en tours usa fecha tentativa; en alojamiento usa check-in
+      const fecha = isStay ? (checkin || null) : (fechaRaw || null);
 
       const payload = {
         event: "request",
@@ -2029,21 +2155,32 @@
         tipo,
         item,
         item_id: selected?.id || null,
-
-        // ✅ precio incluido
-        moneda,
-        precio_adulto,
-        precio_nino,
-        precio_display,
-
+        ...pricePack,
         nombre,
         telefono,
         email: emailRaw || null,
-        fecha: fecha || null,
-        personas: personas || null,
-        mensaje: mensaje || null,
-        resumen_ordenado: orderedSummary({ tipo, item, nombre, telefono, fecha, mensaje })
+        fecha: fecha,
+        personas: isStay ? (stayAdultos != null ? stayAdultos : null) : (personas != null ? personas : null),
+        ninos: isStay ? (stayNinos != null ? stayNinos : null) : (ninos != null ? ninos : null),
+        mensaje: mensaje || null
       };
+
+      if(isStay){
+        payload.alojamiento = {
+          checkin: checkin || null,
+          checkout: checkout || null,
+          adultos: stayAdultos != null ? stayAdultos : null,
+          ninos: stayNinos != null ? stayNinos : null,
+          zona: sZona || null,
+          tipo: sTipo || null,
+          presupuesto: sPres || null,
+          mascotas: sMasc || null
+        };
+        payload.resumen_ordenado =
+          `Alojamiento | ${nombre} | ${telefono} | ${checkin || "—"} | ${checkout || "—"} | Adultos:${(stayAdultos!=null?stayAdultos:"—")} | Niños:${(stayNinos!=null?stayNinos:"—")} | Zona:${sZona||"—"} | Tipo:${sTipo||"—"} | Presupuesto:${sPres||"—"} | Mascotas:${sMasc||"—"} | ${mensaje || "—"}`;
+      }else{
+        payload.resumen_ordenado = orderedSummary({ tipo, item, nombre, telefono, fecha, personas, ninos, mensaje });
+      }
 
       try{
         await fetch(WEBHOOK_URL, {
@@ -2053,7 +2190,6 @@
         });
 
         // ✅ META: Lead (solo cuando envió OK)
-        const t = selected?.id ? getTourById(selected.id) : null;
         const value = getNumericValueFromTour(t);
         const leadParams = {
           lead_type: "reserva",
@@ -2238,7 +2374,7 @@
 
       if(!nombre || !email || !telefono || !marca){ showToast("Falta nombre, correo, teléfono o marca."); return; }
       if(!isValidEmail(email)){ showToast("Correo inválido."); return; }
-      if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL en el código."); return; }
+      if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
       const payload = {
         event: "alliance_lead",
@@ -2307,6 +2443,16 @@
     document.getElementById("menuBtn").addEventListener("click", openDrawer);
     document.getElementById("drawerClose").addEventListener("click", closeDrawer);
     document.querySelectorAll("[data-drawer-link]").forEach(a => a.addEventListener("click", closeDrawer));
+
+    // ✅ Ajuste dinámico checkout min según checkin (solo alojamiento)
+    document.getElementById("s_checkin").addEventListener("change", () => {
+      const inEl = document.getElementById("s_checkin");
+      const outEl = document.getElementById("s_checkout");
+      const minBase = chileDateYMDPlus(1);
+      const v = (inEl.value || "").trim();
+      outEl.min = v ? v : minBase;
+      if(outEl.value && outEl.value < outEl.min) outEl.value = "";
+    });
 
     render();
     initHeroVideo();
