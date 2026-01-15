@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -53,14 +53,16 @@
     :root{
       --heroH: clamp(620px, 72vh, 780px);
 
-      --sun1:#ff7a18;
-      --sun2:#ff3d77;
-      --sun3:#7c3aed;
-      --sun4:#ffd36a;
+      /* ✅ NUEVA PALETA AZUL CLARO */
+      --sun1:#3b82f6;
+      --sun2:#60a5fa;
+      --sun3:#93c5fd;
+      --sun4:#bfdbfe;
 
-      --bg1:#fff9f6;
-      --bg2:#fff7fb;
-      --bg3:#f7fbff;
+      /* ✅ FONDO 1 SOLO COLOR */
+      --bg1:#f2f8ff;
+      --bg2:#f2f8ff;
+      --bg3:#f2f8ff;
 
       --ink:#14131a;
       --muted:#5a5564;
@@ -81,7 +83,7 @@
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--ink);
-      background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 35%, var(--bg3) 100%);
+      background: var(--bg1);
       overflow-x:hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -96,10 +98,10 @@
       pointer-events:none;
       animation: floaty 16s ease-in-out infinite;
       background:
-        radial-gradient(460px 340px at 16% 18%, rgba(255,122,24,.32), transparent 62%),
-        radial-gradient(620px 420px at 82% 22%, rgba(255,61,119,.22), transparent 64%),
-        radial-gradient(560px 460px at 56% 88%, rgba(124,58,237,.16), transparent 64%),
-        radial-gradient(560px 380px at 28% 78%, rgba(255,211,106,.24), transparent 64%);
+        radial-gradient(460px 340px at 16% 18%, rgba(59,130,246,.26), transparent 62%),
+        radial-gradient(620px 420px at 82% 22%, rgba(96,165,250,.20), transparent 64%),
+        radial-gradient(560px 460px at 56% 88%, rgba(147,197,253,.16), transparent 64%),
+        radial-gradient(560px 380px at 28% 78%, rgba(191,219,254,.22), transparent 64%);
     }
     body::after{ opacity:.26; animation-duration: 20s; animation-direction: reverse; }
     @keyframes floaty{
@@ -165,7 +167,7 @@
       transition: background .15s ease, transform .15s ease;
       white-space:nowrap;
     }
-    nav a:hover{ background: rgba(255,122,24,.10); transform: translateY(-1px); }
+    nav a:hover{ background: rgba(59,130,246,.10); transform: translateY(-1px); }
 
     .menu-btn{
       display:none;
@@ -207,7 +209,7 @@
     .drawer-head{
       padding:14px 16px;
       display:flex; justify-content:space-between; align-items:center;
-      background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
+      background: linear-gradient(135deg, rgba(191,219,254,.55), rgba(96,165,250,.22), rgba(59,130,246,.12));
       border-bottom:1px solid rgba(20,19,26,.08);
     }
     .drawer-head b{
@@ -252,9 +254,9 @@
       z-index:0;
       opacity:.36;
       background:
-        radial-gradient(520px 340px at 12% 16%, rgba(255,122,24,.30), transparent 62%),
-        radial-gradient(640px 420px at 92% 22%, rgba(255,61,119,.22), transparent 64%),
-        radial-gradient(520px 420px at 58% 120%, rgba(124,58,237,.14), transparent 66%);
+        radial-gradient(520px 340px at 12% 16%, rgba(59,130,246,.24), transparent 62%),
+        radial-gradient(640px 420px at 92% 22%, rgba(96,165,250,.18), transparent 64%),
+        radial-gradient(520px 420px at 58% 120%, rgba(147,197,253,.14), transparent 66%);
       filter: blur(48px);
       pointer-events:none;
     }
@@ -284,7 +286,7 @@
     .dot{
       width:10px; height:10px; border-radius:999px;
       background: linear-gradient(135deg, var(--sun4), var(--sun1), var(--sun2));
-      box-shadow: 0 0 0 6px rgba(255,122,24,.10);
+      box-shadow: 0 0 0 6px rgba(59,130,246,.12);
     }
     .hero-title{
       margin:0;
@@ -324,7 +326,7 @@
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
-      background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
+      background: linear-gradient(135deg, rgba(191,219,254,.35), rgba(96,165,250,.18), rgba(59,130,246,.12));
       flex:1; min-height:0;
     }
     .video-wrap video{ width:100%; height:100%; object-fit: cover; background:#111; }
@@ -414,7 +416,7 @@
       color:#fff;
       background: linear-gradient(135deg, var(--sun1), var(--sun2));
       border:1px solid rgba(20,19,26,.10);
-      box-shadow: 0 16px 34px rgba(255,61,119,.20);
+      box-shadow: 0 16px 34px rgba(59,130,246,.22);
     }
     .btn-ghost{
       color:#2b2832;
@@ -422,7 +424,7 @@
       border:1px solid rgba(20,19,26,.10);
       box-shadow: 0 10px 20px rgba(20,19,26,.06);
     }
-    .btn-ghost:hover{ background: rgba(255,122,24,.10); }
+    .btn-ghost:hover{ background: rgba(59,130,246,.10); }
 
     section{ padding:30px 0; }
     [id]{ scroll-margin-top: 88px; }
@@ -462,7 +464,7 @@
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(20,19,26,.10);
-      background: linear-gradient(135deg, rgba(255,122,24,.10), rgba(255,61,119,.08), rgba(124,58,237,.06));
+      background: linear-gradient(135deg, rgba(191,219,254,.30), rgba(96,165,250,.16), rgba(59,130,246,.10));
     }
     .media-frame img{
       width:100%;
@@ -479,9 +481,9 @@
       height:100%;
       width:100%;
       background:
-        radial-gradient(220px 120px at 20% 30%, rgba(255,122,24,.26), transparent 60%),
-        radial-gradient(260px 140px at 80% 50%, rgba(255,61,119,.18), transparent 62%),
-        radial-gradient(240px 140px at 50% 120%, rgba(124,58,237,.14), transparent 65%);
+        radial-gradient(220px 120px at 20% 30%, rgba(59,130,246,.22), transparent 60%),
+        radial-gradient(260px 140px at 80% 50%, rgba(96,165,250,.18), transparent 62%),
+        radial-gradient(240px 140px at 50% 120%, rgba(147,197,253,.14), transparent 65%);
     }
 
     .card{
@@ -503,9 +505,9 @@
       font-weight:900;
       padding:6px 10px;
       border-radius:999px;
-      background: rgba(255,122,24,.12);
+      background: rgba(59,130,246,.12);
       color:#2b2832;
-      border:1px solid rgba(255,122,24,.18);
+      border:1px solid rgba(59,130,246,.20);
       margin-bottom:10px;
     }
     .card h3{ margin:0; font-size:17px; font-weight:800; color:#221f29; line-height:1.25; }
@@ -712,8 +714,8 @@
     }
     textarea{ min-height:96px; resize:vertical; }
     input:focus, textarea:focus, select:focus{
-      border-color: rgba(255,122,24,.45);
-      box-shadow: 0 0 0 4px rgba(255,122,24,.14);
+      border-color: rgba(59,130,246,.55);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.16);
     }
 
     footer{
@@ -754,7 +756,7 @@
       padding:14px 16px;
       border-bottom:1px solid rgba(20,19,26,.08);
       display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
-      background: linear-gradient(135deg, rgba(255,211,106,.26), rgba(255,122,24,.12), rgba(255,61,119,.08));
+      background: linear-gradient(135deg, rgba(191,219,254,.55), rgba(96,165,250,.22), rgba(59,130,246,.12));
       flex: 0 0 auto;
     }
     .modal-head h4{
@@ -1314,6 +1316,33 @@
     function nowChileISO(){
       const s = new Date().toLocaleString("sv-SE", { timeZone: "America/Santiago" });
       return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
+    }
+
+    /* ✅ FECHAS MÍNIMAS (Chile) */
+    function chileTodayYMD(){
+      // "YYYY-MM-DD" en Chile
+      return new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Santiago",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(new Date());
+    }
+
+    function chileAddDaysYMD(days){
+      const base = chileTodayYMD(); // YYYY-MM-DD
+      const [y, m, d] = base.split("-").map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d));
+      dt.setUTCDate(dt.getUTCDate() + Number(days || 0));
+      return dt.toISOString().slice(0, 10); // YYYY-MM-DD
+    }
+
+    function minDateForTipo(tipo){
+      const s = String(tipo || "").toLowerCase();
+      if (s.includes("fluvial")) return chileAddDaysYMD(0);       // hoy
+      if (s.includes("terrestre")) return chileAddDaysYMD(1);     // mañana
+      if (s.includes("alojamiento")) return chileAddDaysYMD(1);   // mañana
+      return chileAddDaysYMD(0); // default: hoy
     }
 
     /***** META PIXEL HELPERS (eventos) *****/
@@ -1911,6 +1940,14 @@
       document.getElementById("r_fecha").value = "";
       document.getElementById("r_msg").value = "";
 
+      // ✅ FECHA MÍNIMA (Chile)
+      const dateEl = document.getElementById("r_fecha");
+      if(dateEl){
+        const min = minDateForTipo(payload?.tipo);
+        dateEl.min = min;
+        if(dateEl.value && dateEl.value < min) dateEl.value = "";
+      }
+
       note.textContent = WEBHOOK_URL
         ? "✅ Se enviará tu solicitud al sistema. Luego te contactamos por WhatsApp."
         : "⚠️ Falta configurar WEBHOOK_URL en el código.";
@@ -1946,6 +1983,43 @@
       const tipo = selected?.tipo || "Solicitud";
       const item = selected?.nombre || "Consulta";
 
+      // ✅ VALIDACIÓN FECHA MÍNIMA (por si pegan una fecha manual)
+      const min = minDateForTipo(tipo);
+      if(fecha && fecha < min){
+        showToast(`Esa fecha no se puede. Para "${tipo}" elige desde ${min}.`);
+        return;
+      }
+
+      // ✅ PRECIO AL WEBHOOK (según lo elegido)
+      const moneda = "CLP";
+      let precio_adulto = null;
+      let precio_nino = null;
+      let precio_display = null;
+
+      const t = selected?.id ? getTourById(selected.id) : null;
+
+      if(t){
+        const pa = Number(t?.precio_adulto);
+        const pn = Number(t?.precio_nino);
+        precio_adulto = Number.isFinite(pa) && pa > 0 ? pa : null;
+        precio_nino = Number.isFinite(pn) && pn > 0 ? pn : null;
+
+        if(precio_adulto || precio_nino){
+          const parts = [];
+          if(precio_adulto) parts.push(`Adulto: ${fmtCLP(precio_adulto)}`);
+          if(precio_nino) parts.push(`Niño: ${fmtCLP(precio_nino)}`);
+          precio_display = parts.join(" | ");
+        }else if(Array.isArray(t?.info?.valores) && t.info.valores.length){
+          precio_display = t.info.valores.slice(0,2).join(" | ");
+        }else{
+          precio_display = "Precio a consultar";
+        }
+      }else{
+        if(String(tipo || "").toLowerCase().includes("alojamiento")){
+          precio_display = "A consultar";
+        }
+      }
+
       const payload = {
         event: "request",
         source: "vacacionesenelsur_web",
@@ -1955,6 +2029,13 @@
         tipo,
         item,
         item_id: selected?.id || null,
+
+        // ✅ precio incluido
+        moneda,
+        precio_adulto,
+        precio_nino,
+        precio_display,
+
         nombre,
         telefono,
         email: emailRaw || null,
@@ -2157,7 +2238,7 @@
 
       if(!nombre || !email || !telefono || !marca){ showToast("Falta nombre, correo, teléfono o marca."); return; }
       if(!isValidEmail(email)){ showToast("Correo inválido."); return; }
-      if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
+      if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL en el código."); return; }
 
       const payload = {
         event: "alliance_lead",
@@ -2232,10 +2313,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
