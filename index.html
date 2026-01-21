@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>  
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -128,26 +128,25 @@
     .brand{ display:flex; align-items:center; gap:12px; min-width: 240px; }
 
     /* ✅ NUEVO LOGO: usa imagen de perfil */
- /* LOGO (badge) */
-.logo{
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.08);
-  box-shadow: 0 10px 30px rgba(0,0,0,.12);
-  flex: 0 0 auto;
-}
+    /* LOGO (badge) */
+    .logo{
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      flex: 0 0 auto;
+    }
 
-.logo img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;          /* recorta sin deformar */
-  object-position: center;    /* centra el contenido */
-  transform: scale(1.18);     /* “zoom” para comerse bordes blancos */
-
+    .logo img{
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;          /* recorta sin deformar */
+      object-position: center;    /* centra el contenido */
+      transform: scale(1.18);     /* “zoom” para comerse bordes blancos */
     }
 
     .brand h1{
@@ -846,29 +845,29 @@
       max-width:92vw;
       text-align:center;
     }
+
     /* FIX logo CUADRADO (mata cualquier círculo) */
-.brand .logo,
-.brand .logo img{
-  border-radius: 0 !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-}
+    .brand .logo,
+    .brand .logo img{
+      border-radius: 0 !important;
+      clip-path: none !important;
+      -webkit-clip-path: none !important;
+      mask-image: none !important;
+      -webkit-mask-image: none !important;
+    }
 
-.brand .logo{
-  width: 56px;
-  height: 56px;
-  overflow: hidden; /* recorte cuadrado */
-}
+    .brand .logo{
+      width: 56px;
+      height: 56px;
+      overflow: hidden; /* recorte cuadrado */
+    }
 
-.brand .logo img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
+    .brand .logo img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
   </style>
 </head>
 
@@ -1135,38 +1134,42 @@
 
             <div>
               <form id="allyForm">
-                <label for="a_nombre">Tu nombre</label>
-                <input id="a_nombre" placeholder="Nombre y apellido" autocomplete="name" />
+                <!-- ✅ WRAP para ocultar campos si ya envió -->
+                <div id="allyFieldsWrap">
+                  <label for="a_nombre">Tu nombre</label>
+                  <input id="a_nombre" placeholder="Nombre y apellido" autocomplete="name" />
 
-                <label for="a_email">Tu correo electrónico</label>
-                <input id="a_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
+                  <label for="a_email">Tu correo electrónico</label>
+                  <input id="a_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
-                <label for="a_tel">Tu teléfono (WhatsApp)</label>
-                <input id="a_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
+                  <label for="a_tel">Tu teléfono (WhatsApp)</label>
+                  <input id="a_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
-                <label for="a_localidad">¿Dónde desarrollas tu negocio? (localidad)</label>
-                <input id="a_localidad" placeholder="Ej: Valdivia / Niebla / centro" />
+                  <label for="a_localidad">¿Dónde desarrollas tu negocio? (localidad)</label>
+                  <input id="a_localidad" placeholder="Ej: Valdivia / Niebla / centro" />
 
-                <label for="a_marca">Nombre de tu marca</label>
-                <input id="a_marca" placeholder="Nombre comercial" />
+                  <label for="a_marca">Nombre de tu marca</label>
+                  <input id="a_marca" placeholder="Nombre comercial" />
 
-                <label for="a_rubro">Rubro</label>
-                <select id="a_rubro">
-                  <option value="">Selecciona…</option>
-                  <option>Alojamiento / Cabañas</option>
-                  <option>Hotel / Hostal</option>
-                  <option>Tour operador / Experiencias</option>
-                  <option>Transporte</option>
-                  <option>Gastronomía turística</option>
-                  <option>Otro servicio turístico</option>
-                </select>
+                  <label for="a_rubro">Rubro</label>
+                  <select id="a_rubro">
+                    <option value="">Selecciona…</option>
+                    <option>Alojamiento / Cabañas</option>
+                    <option>Hotel / Hostal</option>
+                    <option>Tour operador / Experiencias</option>
+                    <option>Transporte</option>
+                    <option>Gastronomía turística</option>
+                    <option>Otro servicio turístico</option>
+                  </select>
 
-                <label for="a_msg">Cuéntanos a qué se dedica tu negocio</label>
-                <textarea id="a_msg" placeholder="Qué ofreces, capacidad, temporada, información clave"></textarea>
+                  <label for="a_msg">Cuéntanos a qué se dedica tu negocio</label>
+                  <textarea id="a_msg" placeholder="Qué ofreces, capacidad, temporada, información clave"></textarea>
+                </div>
 
-                <div class="modal-actions">
-                  <button class="btn btn-primary" type="button" onclick="submitAlliance()">Enviar</button>
-                  <button class="btn btn-ghost" type="button" onclick="clearAlliance()">Limpiar</button>
+                <!-- ✅ acciones con id (para ocultarlas al bloquear) -->
+                <div class="modal-actions" id="allyActions">
+                  <button class="btn btn-primary" id="allySendBtn" type="button" onclick="submitAlliance()">Enviar</button>
+                  <button class="btn btn-ghost" id="allyClearBtn" type="button" onclick="clearAlliance()">Limpiar</button>
                 </div>
 
                 <div class="note" id="allyNote" style="margin-top:10px;"></div>
@@ -1195,86 +1198,90 @@
       <div class="modal-body">
         <div class="meta-row" id="reserveMeta"></div>
 
-        <label for="r_nombre">Nombre</label>
-        <input id="r_nombre" placeholder="Tu nombre" autocomplete="name" />
+        <!-- ✅ WRAP para ocultar campos si ya envió -->
+        <div id="reserveFieldsWrap">
+          <label for="r_nombre">Nombre</label>
+          <input id="r_nombre" placeholder="Tu nombre" autocomplete="name" />
 
-        <label for="r_email">Correo electrónico (opcional)</label>
-        <input id="r_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
+          <label for="r_email">Correo electrónico (opcional)</label>
+          <input id="r_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
-        <label for="r_tel">Teléfono (WhatsApp)</label>
-        <input id="r_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
+          <label for="r_tel">Teléfono (WhatsApp)</label>
+          <input id="r_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
-        <!-- ✅ TOUR: adultos/niños/fecha -->
-        <div id="tourFieldsRow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
-          <div>
-            <label for="r_personas">N° personas (opcional)</label>
-            <input id="r_personas" placeholder="Ej: 2" inputmode="numeric" />
+          <!-- ✅ TOUR: adultos/niños/fecha -->
+          <div id="tourFieldsRow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+            <div>
+              <label for="r_personas">N° personas (opcional)</label>
+              <input id="r_personas" placeholder="Ej: 2" inputmode="numeric" />
+            </div>
+            <div>
+              <label for="r_ninos">N° niños (opcional)</label>
+              <input id="r_ninos" placeholder="Ej: 0" inputmode="numeric" />
+            </div>
+            <div>
+              <label for="r_fecha">Fecha tentativa (opcional)</label>
+              <input id="r_fecha" type="date" />
+            </div>
           </div>
-          <div>
-            <label for="r_ninos">N° niños (opcional)</label>
-            <input id="r_ninos" placeholder="Ej: 0" inputmode="numeric" />
+
+          <!-- ✅ ALOJAMIENTO: preguntas extra (sin cuna / sin movilidad reducida) -->
+          <div id="stayFields" style="display:none;margin-top:6px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <label for="s_checkin">Fecha llegada (check-in)</label>
+                <input id="s_checkin" type="date" />
+              </div>
+              <div>
+                <label for="s_checkout">Fecha salida (check-out)</label>
+                <input id="s_checkout" type="date" />
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <label for="s_adultos">N° adultos (opcional)</label>
+                <input id="s_adultos" placeholder="Ej: 2" inputmode="numeric" />
+              </div>
+              <div>
+                <label for="s_ninos">N° niños (opcional)</label>
+                <input id="s_ninos" placeholder="Ej: 0" inputmode="numeric" />
+              </div>
+            </div>
+
+            <label for="s_zona">Zona / localidad</label>
+            <input id="s_zona" placeholder="Ej: Valdivia / Niebla / Panguipulli" />
+
+            <label for="s_tipo">Tipo de alojamiento</label>
+            <select id="s_tipo">
+              <option value="">Selecciona…</option>
+              <option value="Cabaña">Cabaña</option>
+              <option value="Casa">Casa</option>
+              <option value="Hotel">Hotel</option>
+              <option value="Hostal">Hostal</option>
+              <option value="Departamento">Departamento</option>
+              <option value="Low cost">Low cost</option>
+              <option value="Otro">Otro</option>
+            </select>
+
+            <label for="s_presupuesto">Presupuesto aprox (opcional)</label>
+            <input id="s_presupuesto" placeholder="Ej: 60.000 por noche / total" />
+
+            <label for="s_mascotas">¿Van con mascota?</label>
+            <select id="s_mascotas">
+              <option value="">Selecciona…</option>
+              <option value="No">No</option>
+              <option value="Sí">Sí</option>
+            </select>
           </div>
-          <div>
-            <label for="r_fecha">Fecha tentativa (opcional)</label>
-            <input id="r_fecha" type="date" />
-          </div>
+
+          <label for="r_msg">Mensaje (opcional)</label>
+          <textarea id="r_msg" placeholder="Ej: vamos con niños / disponibilidad / dudas"></textarea>
         </div>
 
-        <!-- ✅ ALOJAMIENTO: preguntas extra (sin cuna / sin movilidad reducida) -->
-        <div id="stayFields" style="display:none;margin-top:6px;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div>
-              <label for="s_checkin">Fecha llegada (check-in)</label>
-              <input id="s_checkin" type="date" />
-            </div>
-            <div>
-              <label for="s_checkout">Fecha salida (check-out)</label>
-              <input id="s_checkout" type="date" />
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div>
-              <label for="s_adultos">N° adultos (opcional)</label>
-              <input id="s_adultos" placeholder="Ej: 2" inputmode="numeric" />
-            </div>
-            <div>
-              <label for="s_ninos">N° niños (opcional)</label>
-              <input id="s_ninos" placeholder="Ej: 0" inputmode="numeric" />
-            </div>
-          </div>
-
-          <label for="s_zona">Zona / localidad</label>
-          <input id="s_zona" placeholder="Ej: Valdivia / Niebla / Panguipulli" />
-
-          <label for="s_tipo">Tipo de alojamiento</label>
-          <select id="s_tipo">
-            <option value="">Selecciona…</option>
-            <option value="Cabaña">Cabaña</option>
-            <option value="Casa">Casa</option>
-            <option value="Hotel">Hotel</option>
-            <option value="Hostal">Hostal</option>
-            <option value="Departamento">Departamento</option>
-            <option value="Low cost">Low cost</option>
-            <option value="Otro">Otro</option>
-          </select>
-
-          <label for="s_presupuesto">Presupuesto aprox (opcional)</label>
-          <input id="s_presupuesto" placeholder="Ej: 60.000 por noche / total" />
-
-          <label for="s_mascotas">¿Van con mascota?</label>
-          <select id="s_mascotas">
-            <option value="">Selecciona…</option>
-            <option value="No">No</option>
-            <option value="Sí">Sí</option>
-          </select>
-        </div>
-
-        <label for="r_msg">Mensaje (opcional)</label>
-        <textarea id="r_msg" placeholder="Ej: vamos con niños / disponibilidad / dudas"></textarea>
-
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="submitReserve()">Enviar solicitud</button>
+        <!-- ✅ acciones con id (para ocultarlas al bloquear) -->
+        <div class="modal-actions" id="reserveActions">
+          <button class="btn btn-primary" id="reserveSendBtn" onclick="submitReserve()">Enviar solicitud</button>
           <button class="btn btn-ghost" onclick="closeReserve()">Cancelar</button>
         </div>
 
@@ -1321,29 +1328,33 @@
           <span class="chip">💬 Te contactamos por WhatsApp</span>
         </div>
 
-        <label for="m_tipo">¿Qué estás organizando?</label>
-        <select id="m_tipo">
-          <option value="">Selecciona…</option>
-          <option value="Colegio">Colegio</option>
-          <option value="Universidad">Universidad</option>
-          <option value="Evento">Evento</option>
-          <option value="Empresa">Empresa</option>
-        </select>
+        <!-- ✅ WRAP para ocultar campos si ya envió -->
+        <div id="meetFieldsWrap">
+          <label for="m_tipo">¿Qué estás organizando?</label>
+          <select id="m_tipo">
+            <option value="">Selecciona…</option>
+            <option value="Colegio">Colegio</option>
+            <option value="Universidad">Universidad</option>
+            <option value="Evento">Evento</option>
+            <option value="Empresa">Empresa</option>
+          </select>
 
-        <label for="m_nombre">Nombre</label>
-        <input id="m_nombre" placeholder="Tu nombre" autocomplete="name" />
+          <label for="m_nombre">Nombre</label>
+          <input id="m_nombre" placeholder="Tu nombre" autocomplete="name" />
 
-        <label for="m_email">Correo electrónico</label>
-        <input id="m_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
+          <label for="m_email">Correo electrónico</label>
+          <input id="m_email" type="email" placeholder="correo@ejemplo.com" autocomplete="email" />
 
-        <label for="m_tel">Teléfono (WhatsApp)</label>
-        <input id="m_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
+          <label for="m_tel">Teléfono (WhatsApp)</label>
+          <input id="m_tel" placeholder="+56 9 1234 5678" autocomplete="tel" />
 
-        <label for="m_tema">Tema (opcional)</label>
-        <textarea id="m_tema" placeholder="Ej: paseo de colegio / navegación privada / evento corporativo"></textarea>
+          <label for="m_tema">Tema (opcional)</label>
+          <textarea id="m_tema" placeholder="Ej: paseo de colegio / navegación privada / evento corporativo"></textarea>
+        </div>
 
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="submitMeeting()">Enviar</button>
+        <!-- ✅ acciones con id (para ocultarlas al bloquear) -->
+        <div class="modal-actions" id="meetActions">
+          <button class="btn btn-primary" id="meetSendBtn" onclick="submitMeeting()">Enviar</button>
           <button class="btn btn-ghost" onclick="closeMeeting()">Cancelar</button>
         </div>
 
@@ -1366,6 +1377,126 @@
     /***** CONFIG *****/
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
     const HERO_VIDEO_URL = "video/video.mp4";
+
+    /***** ✅ SINGLE SUBMIT (anti doble envío + bloqueo por dispositivo con TTL) *****/
+    const FORM_LOCK_TTL_HOURS = 24; // 👈 cámbialo si quieres (ej: 2, 12, 168)
+    const FORM_LOCK_TTL_MS = FORM_LOCK_TTL_HOURS * 60 * 60 * 1000;
+
+    const LOCK_KEYS = {
+      reserva: "vds_lock_reserva_v1",
+      reunion: "vds_lock_reunion_v1",
+      alianza: "vds_lock_alianza_v1"
+    };
+
+    function readLock(key){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return null;
+        const data = JSON.parse(raw);
+        if(!data || !data.ts) return null;
+        if(Date.now() - data.ts > FORM_LOCK_TTL_MS){
+          localStorage.removeItem(key);
+          return null;
+        }
+        return data;
+      }catch(e){ return null; }
+    }
+
+    function isLocked(key){ return !!readLock(key); }
+
+    function writeLock(key, extra){
+      try{
+        localStorage.setItem(key, JSON.stringify({ ts: Date.now(), ...(extra||{}) }));
+      }catch(e){}
+    }
+
+    function submissionId(){
+      try{ return crypto.randomUUID(); }
+      catch(e){ return "sub_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36); }
+    }
+
+    async function postJSON(url, payload, timeoutMs=12000){
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs);
+      try{
+        const res = await fetch(url, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal
+        });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return true;
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    function applyReserveLockState(){
+      const locked = isLocked(LOCK_KEYS.reserva);
+      const wrap = document.getElementById("reserveFieldsWrap");
+      const actions = document.getElementById("reserveActions");
+      const note = document.getElementById("reserveNote");
+      const btn = document.getElementById("reserveSendBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Ya recibimos una solicitud desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Si necesitas cambiar algo, espera nuestro WhatsApp o envíanos un mensaje directo.`;
+        if(btn){ btn.disabled = true; btn.textContent = "Solicitud ya enviada"; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(btn){ btn.disabled = false; btn.textContent = "Enviar solicitud"; }
+        return false;
+      }
+    }
+
+    function applyMeetLockState(){
+      const locked = isLocked(LOCK_KEYS.reunion);
+      const wrap = document.getElementById("meetFieldsWrap");
+      const actions = document.getElementById("meetActions");
+      const note = document.getElementById("meetNote");
+      const btn = document.getElementById("meetSendBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Ya recibimos una solicitud de reunión desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Si necesitas reprogramar, contesta por WhatsApp cuando te escribamos.`;
+        if(btn){ btn.disabled = true; btn.textContent = "Solicitud ya enviada"; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(btn){ btn.disabled = false; btn.textContent = "Enviar"; }
+        return false;
+      }
+    }
+
+    function applyAllianceLockState(){
+      const locked = isLocked(LOCK_KEYS.alianza);
+      const wrap = document.getElementById("allyFieldsWrap");
+      const actions = document.getElementById("allyActions");
+      const note = document.getElementById("allyNote");
+      const send = document.getElementById("allySendBtn");
+      const clear = document.getElementById("allyClearBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Alianza recibida desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Te contactamos pronto.`;
+        if(send){ send.disabled = true; send.textContent = "Enviado"; }
+        if(clear){ clear.disabled = true; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(send){ send.disabled = false; send.textContent = "Enviar"; }
+        if(clear){ clear.disabled = false; }
+        return false;
+      }
+    }
 
     /***** HORARIO CHILE (America/Santiago) *****/
     function nowChileISO(){
@@ -2027,7 +2158,10 @@
       b.setAttribute("aria-hidden","false");
       lockScroll();
       resetModalScroll("reserveBackdrop");
-      setTimeout(() => document.getElementById("r_nombre").focus(), 60);
+
+      // ✅ aplica bloqueo (si ya envió: esconde todo)
+      const locked = applyReserveLockState();
+      if(!locked) setTimeout(() => document.getElementById("r_nombre").focus(), 60);
     }
 
     function closeReserve(){
@@ -2052,7 +2186,19 @@
       return { moneda, precio_adulto: pa, precio_nino: pn, precio_display };
     }
 
+    let __sendingReserve = false;
+
     async function submitReserve(){
+      if(__sendingReserve) return;
+
+      if(isLocked(LOCK_KEYS.reserva)){
+        applyReserveLockState();
+        showToast("Ya enviaste una solicitud desde este dispositivo.");
+        return;
+      }
+
+      const btn = document.getElementById("reserveSendBtn");
+
       const nombre = (document.getElementById("r_nombre").value || "").trim();
       const emailRaw = (document.getElementById("r_email").value || "").trim();
       const telRaw = (document.getElementById("r_tel").value || "").trim();
@@ -2147,6 +2293,7 @@
       const fecha = isStay ? (checkin || null) : (fechaRaw || null);
 
       const payload = {
+        submission_id: submissionId(),
         event: "request",
         source: "vacacionesenelsur_web",
         form: "reserva",
@@ -2182,12 +2329,12 @@
         payload.resumen_ordenado = orderedSummary({ tipo, item, nombre, telefono, fecha, personas, ninos, mensaje });
       }
 
+      __sendingReserve = true;
+      const prevText = btn ? btn.textContent : "";
+      if(btn){ btn.disabled = true; btn.textContent = "Enviando…"; }
+
       try{
-        await fetch(WEBHOOK_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
+        await postJSON(WEBHOOK_URL, payload, 12000);
 
         // ✅ META: Lead (solo cuando envió OK)
         const value = getNumericValueFromTour(t);
@@ -2201,11 +2348,18 @@
         if(value) { leadParams.value = value; leadParams.currency = META_CURRENCY; }
         trackMeta("Lead", leadParams);
 
+        // ✅ bloquea para que no vuelva a enviar
+        writeLock(LOCK_KEYS.reserva, { submission_id: payload.submission_id });
+        applyReserveLockState();
+
         closeReserve();
         showToast("Listo ✅ Te escribiremos por WhatsApp para coordinar horarios y pagos.");
       }catch(e){
         console.warn(e);
         showToast("No se pudo enviar. Intenta otra vez.");
+        if(btn && !isLocked(LOCK_KEYS.reserva)){ btn.disabled = false; btn.textContent = prevText || "Enviar solicitud"; }
+      }finally{
+        __sendingReserve = false;
       }
     }
 
@@ -2292,7 +2446,10 @@
       b.setAttribute("aria-hidden","false");
       lockScroll();
       resetModalScroll("meetBackdrop");
-      setTimeout(() => document.getElementById("m_tipo").focus(), 60);
+
+      // ✅ aplica bloqueo (si ya envió: esconde todo)
+      const locked = applyMeetLockState();
+      if(!locked) setTimeout(() => document.getElementById("m_tipo").focus(), 60);
     }
 
     function closeMeeting(){
@@ -2302,7 +2459,19 @@
       b.setAttribute("aria-hidden","true");
     }
 
+    let __sendingMeeting = false;
+
     async function submitMeeting(){
+      if(__sendingMeeting) return;
+
+      if(isLocked(LOCK_KEYS.reunion)){
+        applyMeetLockState();
+        showToast("Ya enviaste una solicitud de reunión desde este dispositivo.");
+        return;
+      }
+
+      const btn = document.getElementById("meetSendBtn");
+
       const grupo_tipo = (document.getElementById("m_tipo").value || "").trim();
       const nombre = (document.getElementById("m_nombre").value || "").trim();
       const emailRaw = (document.getElementById("m_email").value || "").trim();
@@ -2317,6 +2486,7 @@
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
       const payload = {
+        submission_id: submissionId(),
         event: "meeting_request",
         source: "vacacionesenelsur_web",
         form: "reunion",
@@ -2330,12 +2500,12 @@
         resumen_ordenado: `${grupo_tipo} | ${nombre} | ${telefono} | ${emailRaw} | ${tema || "—"}`
       };
 
+      __sendingMeeting = true;
+      const prevText = btn ? btn.textContent : "";
+      if(btn){ btn.disabled = true; btn.textContent = "Enviando…"; }
+
       try{
-        await fetch(WEBHOOK_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
+        await postJSON(WEBHOOK_URL, payload, 12000);
 
         // ✅ META: Lead (reunión)
         trackMeta("Lead", {
@@ -2344,16 +2514,29 @@
           content_category: grupo_tipo
         });
 
+        // ✅ bloquea para que no vuelva a enviar
+        writeLock(LOCK_KEYS.reunion, { submission_id: payload.submission_id });
+        applyMeetLockState();
+
         closeMeeting();
         showToast("Solicitud enviada ✅ Te contactamos por WhatsApp.");
       }catch(e){
         console.warn(e);
         showToast("No se pudo enviar. Intenta otra vez.");
+        if(btn && !isLocked(LOCK_KEYS.reunion)){ btn.disabled = false; btn.textContent = prevText || "Enviar"; }
+      }finally{
+        __sendingMeeting = false;
       }
     }
 
     /***** Alliance submit *****/
     function clearAlliance(){
+      if(isLocked(LOCK_KEYS.alianza)){
+        applyAllianceLockState();
+        showToast("Este formulario ya fue enviado desde este dispositivo.");
+        return;
+      }
+
       ["a_nombre","a_email","a_tel","a_localidad","a_marca","a_rubro","a_msg"].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.value = "";
@@ -2362,7 +2545,19 @@
       showToast("Listo. Formulario limpio.");
     }
 
+    let __sendingAlliance = false;
+
     async function submitAlliance(){
+      if(__sendingAlliance) return;
+
+      if(isLocked(LOCK_KEYS.alianza)){
+        applyAllianceLockState();
+        showToast("Ya enviaste este formulario desde este dispositivo.");
+        return;
+      }
+
+      const sendBtn = document.getElementById("allySendBtn");
+
       const nombre = (document.getElementById("a_nombre").value || "").trim();
       const email = (document.getElementById("a_email").value || "").trim();
       const telRaw = (document.getElementById("a_tel").value || "").trim();
@@ -2377,6 +2572,7 @@
       if(!WEBHOOK_URL){ showToast("Falta configurar WEBHOOK_URL."); return; }
 
       const payload = {
+        submission_id: submissionId(),
         event: "alliance_lead",
         source: "vacacionesenelsur_web",
         form: "alianza",
@@ -2395,12 +2591,12 @@
       const note = document.getElementById("allyNote");
       note.textContent = "Enviando…";
 
+      __sendingAlliance = true;
+      const prevText = sendBtn ? sendBtn.textContent : "";
+      if(sendBtn){ sendBtn.disabled = true; sendBtn.textContent = "Enviando…"; }
+
       try{
-        await fetch(WEBHOOK_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
+        await postJSON(WEBHOOK_URL, payload, 12000);
 
         // ✅ META: Lead (alianza)
         trackMeta("Lead", {
@@ -2410,12 +2606,19 @@
           content_category: rubro || "Alianza"
         });
 
-        note.textContent = "✅ Recibido. Te contactamos para coordinar la alianza.";
+        // ✅ bloquea para que no vuelva a enviar + oculta campos
+        writeLock(LOCK_KEYS.alianza, { submission_id: payload.submission_id });
+        applyAllianceLockState();
+
+        note.textContent = `✅ Recibido. Te contactamos para coordinar la alianza.`;
         showToast("Alianza enviada ✅");
       }catch(e){
         console.warn(e);
         note.textContent = "⚠️ No se pudo enviar. Intenta otra vez.";
         showToast("No se pudo enviar.");
+        if(sendBtn && !isLocked(LOCK_KEYS.alianza)){ sendBtn.disabled = false; sendBtn.textContent = prevText || "Enviar"; }
+      }finally{
+        __sendingAlliance = false;
       }
     }
 
@@ -2456,7 +2659,9 @@
 
     render();
     initHeroVideo();
+
+    // ✅ aplica bloqueo al cargar (importante para Alianza que está visible)
+    applyAllianceLockState();
   </script>
 </body>
 </html>
-
