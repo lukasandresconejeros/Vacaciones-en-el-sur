@@ -1,4 +1,4 @@
-<!doctype html>   
+PORUQE AHORA NO FUNCIONA EL BOTOS APRIETO RESERVAR Y NO PASA NADA <!doctype html>   
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -1378,229 +1378,7 @@
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
     const HERO_VIDEO_URL = "video/video.mp4";
 
-    /***** ✅ SINGLE SUBMIT (anti doble envío + bloqueo por dispositivo con TTL) *****/
-    const FORM_LOCK_TTL_HOURS = 24; // 👈 cámbialo si quieres (ej: 2, 12, 168)
-    const FORM_LOCK_TTL_MS = FORM_LOCK_TTL_HOURS * 60 * 60 * 1000;
-
-    /***** ✅ SINGLE SUBMIT (reunión/alianza) + ✅ RATE LIMIT (reservas) *****/
-const FORM_LOCK_TTL_HOURS = 24;
-const FORM_LOCK_TTL_MS = FORM_LOCK_TTL_HOURS * 60 * 60 * 1000;
-
-// ✅ Reunión / Alianza siguen con 1 envío por 24h
-const LOCK_KEYS = {
-  reunion: "vds_lock_reunion_v1",
-  alianza: "vds_lock_alianza_v1"
-};
-
-function readLock(key){
-  try{
-    const raw = localStorage.getItem(key);
-    if(!raw) return null;
-    const data = JSON.parse(raw);
-    if(!data || !data.ts) return null;
-    if(Date.now() - data.ts > FORM_LOCK_TTL_MS){
-      localStorage.removeItem(key);
-      return null;
-    }
-    return data;
-  }catch(e){ return null; }
-}
-function isLocked(key){ return !!readLock(key); }
-function writeLock(key, extra){
-  try{
-    localStorage.setItem(key, JSON.stringify({ ts: Date.now(), ...(extra||{}) }));
-  }catch(e){}
-}
-
-// ✅ Reservas: hasta 10 por 24h (por dispositivo)
-const RESERVE_LIMIT_MAX = 10;
-const RESERVE_LIMIT_HOURS = 24;
-const RESERVE_LIMIT_MS = RESERVE_LIMIT_HOURS * 60 * 60 * 1000;
-const RESERVE_QUOTA_KEY = "vds_quota_reserva_v1";
-
-function readReserveQuota(){
-  const now = Date.now();
-  try{
-    const raw = localStorage.getItem(RESERVE_QUOTA_KEY);
-    if(!raw){
-      const fresh = { window_start: now, count: 0 };
-      localStorage.setItem(RESERVE_QUOTA_KEY, JSON.stringify(fresh));
-      return fresh;
-    }
-    const q = JSON.parse(raw) || {};
-    const start = Number(q.window_start);
-    const count = Number(q.count);
-
-    if(!Number.isFinite(start) || !Number.isFinite(count)){
-      const fresh = { window_start: now, count: 0 };
-      localStorage.setItem(RESERVE_QUOTA_KEY, JSON.stringify(fresh));
-      return fresh;
-    }
-    if(now - start >= RESERVE_LIMIT_MS){
-      const fresh = { window_start: now, count: 0 };
-      localStorage.setItem(RESERVE_QUOTA_KEY, JSON.stringify(fresh));
-      return fresh;
-    }
-    return { window_start: start, count };
-  }catch(e){
-    const fresh = { window_start: now, count: 0 };
-    try{ localStorage.setItem(RESERVE_QUOTA_KEY, JSON.stringify(fresh)); }catch{}
-    return fresh;
-  }
-}
-
-function isReserveRateLimited(){
-  const q = readReserveQuota();
-  return q.count >= RESERVE_LIMIT_MAX;
-}
-function reserveRemaining(){
-  const q = readReserveQuota();
-  return Math.max(0, RESERVE_LIMIT_MAX - q.count);
-}
-function reserveTimeLeftMs(){
-  const q = readReserveQuota();
-  return Math.max(0, RESERVE_LIMIT_MS - (Date.now() - q.window_start));
-}
-function prettyMs(ms){
-  const total = Math.ceil(ms/1000);
-  const h = Math.floor(total/3600);
-  const m = Math.floor((total%3600)/60);
-  return `${h}h ${m}m`;
-}
-function reserveRegisterSuccess(submissionId){
-  const q = readReserveQuota();
-  const next = {
-    window_start: q.window_start,
-    count: Math.min(RESERVE_LIMIT_MAX, q.count + 1),
-    last_ts: Date.now(),
-    last_submission_id: submissionId || null
-  };
-  try{ localStorage.setItem(RESERVE_QUOTA_KEY, JSON.stringify(next)); }catch{}
-  return next;
-}
-
-
-    function readLock(key){
-      try{
-        const raw = localStorage.getItem(key);
-        if(!raw) return null;
-        const data = JSON.parse(raw);
-        if(!data || !data.ts) return null;
-        if(Date.now() - data.ts > FORM_LOCK_TTL_MS){
-          localStorage.removeItem(key);
-          return null;
-        }
-        return data;
-      }catch(e){ return null; }
-    }
-
-    function isLocked(key){ return !!readLock(key); }
-
-    function writeLock(key, extra){
-      try{
-        localStorage.setItem(key, JSON.stringify({ ts: Date.now(), ...(extra||{}) }));
-      }catch(e){}
-    }
-
-    function submissionId(){
-      try{ return crypto.randomUUID(); }
-      catch(e){ return "sub_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36); }
-    }
-
-    async function postJSON(url, payload, timeoutMs=12000){
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), timeoutMs);
-      try{
-        const res = await fetch(url, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload),
-          signal: ctrl.signal
-        });
-        if(!res.ok) throw new Error("HTTP " + res.status);
-        return true;
-      } finally {
-        clearTimeout(t);
-      }
-    }
-
-    function applyReserveLockState(){
-  const wrap = document.getElementById("reserveFieldsWrap");
-  const actions = document.getElementById("reserveActions");
-  const note = document.getElementById("reserveNote");
-  const btn = document.getElementById("reserveSendBtn");
-
-  const blocked = isReserveRateLimited();
-  const remaining = reserveRemaining();
-
-  if(blocked){
-    if(wrap) wrap.style.display = "none";
-    if(actions) actions.style.display = "none";
-    if(note) note.textContent =
-      `🚫 Límite alcanzado: ${RESERVE_LIMIT_MAX} solicitudes en ${RESERVE_LIMIT_HOURS}h (por dispositivo). ` +
-      `Vuelve a intentar en ${prettyMs(reserveTimeLeftMs())}.`;
-    if(btn){ btn.disabled = true; btn.textContent = "Límite alcanzado"; }
-    return true;
-  }else{
-    if(wrap) wrap.style.display = "block";
-    if(actions) actions.style.display = "flex";
-
-    if(note){
-      const base = note.dataset.baseText || "";
-      const extra = `✅ Te quedan ${remaining} solicitudes dentro de ${RESERVE_LIMIT_HOURS}h (por dispositivo).`;
-      note.textContent = base ? (base + " " + extra) : extra;
-    }
-
-    if(btn){ btn.disabled = false; btn.textContent = "Enviar solicitud"; }
-    return false;
-  }
-}
-
-
-    function applyMeetLockState(){
-      const locked = isLocked(LOCK_KEYS.reunion);
-      const wrap = document.getElementById("meetFieldsWrap");
-      const actions = document.getElementById("meetActions");
-      const note = document.getElementById("meetNote");
-      const btn = document.getElementById("meetSendBtn");
-
-      if(locked){
-        if(wrap) wrap.style.display = "none";
-        if(actions) actions.style.display = "none";
-        if(note) note.textContent = `✅ Ya recibimos una solicitud de reunión desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Si necesitas reprogramar, contesta por WhatsApp cuando te escribamos.`;
-        if(btn){ btn.disabled = true; btn.textContent = "Solicitud ya enviada"; }
-        return true;
-      }else{
-        if(wrap) wrap.style.display = "block";
-        if(actions) actions.style.display = "flex";
-        if(btn){ btn.disabled = false; btn.textContent = "Enviar"; }
-        return false;
-      }
-    }
-
-    function applyAllianceLockState(){
-      const locked = isLocked(LOCK_KEYS.alianza);
-      const wrap = document.getElementById("allyFieldsWrap");
-      const actions = document.getElementById("allyActions");
-      const note = document.getElementById("allyNote");
-      const send = document.getElementById("allySendBtn");
-      const clear = document.getElementById("allyClearBtn");
-
-      if(locked){
-        if(wrap) wrap.style.display = "none";
-        if(actions) actions.style.display = "none";
-        if(note) note.textContent = `✅ Alianza recibida desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Te contactamos pronto.`;
-        if(send){ send.disabled = true; send.textContent = "Enviado"; }
-        if(clear){ clear.disabled = true; }
-        return true;
-      }else{
-        if(wrap) wrap.style.display = "block";
-        if(actions) actions.style.display = "flex";
-        if(send){ send.disabled = false; send.textContent = "Enviar"; }
-        if(clear){ clear.disabled = false; }
-        return false;
-      }
-    }
+   
 
     /***** HORARIO CHILE (America/Santiago) *****/
     function nowChileISO(){
@@ -2255,7 +2033,6 @@ function reserveRegisterSuccess(submissionId){
       outEl.min = minStay;
 
       note.textContent = WEBHOOK_URL
-        note.dataset.baseText = note.textContent;
         ? "✅ Se enviará tu solicitud al sistema. Luego te contactamos por WhatsApp."
         : "⚠️ Falta configurar WEBHOOK_URL en el código.";
 
@@ -2296,7 +2073,7 @@ function reserveRegisterSuccess(submissionId){
     async function submitReserve(){
       if(__sendingReserve) return;
 
-      if(isReserveRateLimited()){
+      if(isLocked(LOCK_KEYS.reserva)){
         applyReserveLockState();
         showToast("Ya enviaste una solicitud desde este dispositivo.");
         return;
@@ -2455,15 +2232,14 @@ function reserveRegisterSuccess(submissionId){
 
         // ✅ bloquea para que no vuelva a enviar
         writeLock(LOCK_KEYS.reserva, { submission_id: payload.submission_id });
-applyReserveLockState();
-
+        applyReserveLockState();
 
         closeReserve();
         showToast("Listo ✅ Te escribiremos por WhatsApp para coordinar horarios y pagos.");
       }catch(e){
         console.warn(e);
         showToast("No se pudo enviar. Intenta otra vez.");
-        if(btn && !isReserveRateLimited()){ btn.disabled = false; btn.textContent = prevText || "Enviar solicitud"; }
+        if(btn && !isLocked(LOCK_KEYS.reserva)){ btn.disabled = false; btn.textContent = prevText || "Enviar solicitud"; }
       }finally{
         __sendingReserve = false;
       }
