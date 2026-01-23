@@ -1,4 +1,4 @@
-PORUQE AHORA NO FUNCIONA EL BOTOS APRIETO RESERVAR Y NO PASA NADA <!doctype html>   
+<!doctype html>  
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -1378,7 +1378,125 @@ PORUQE AHORA NO FUNCIONA EL BOTOS APRIETO RESERVAR Y NO PASA NADA <!doctype html
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
     const HERO_VIDEO_URL = "video/video.mp4";
 
-   
+    /***** ✅ SINGLE SUBMIT (anti doble envío + bloqueo por dispositivo con TTL) *****/
+    const FORM_LOCK_TTL_HOURS = 24; // 👈 cámbialo si quieres (ej: 2, 12, 168)
+    const FORM_LOCK_TTL_MS = FORM_LOCK_TTL_HOURS * 60 * 60 * 1000;
+
+    const LOCK_KEYS = {
+      reserva: "vds_lock_reserva_v1",
+      reunion: "vds_lock_reunion_v1",
+      alianza: "vds_lock_alianza_v1"
+    };
+
+    function readLock(key){
+      try{
+        const raw = localStorage.getItem(key);
+        if(!raw) return null;
+        const data = JSON.parse(raw);
+        if(!data || !data.ts) return null;
+        if(Date.now() - data.ts > FORM_LOCK_TTL_MS){
+          localStorage.removeItem(key);
+          return null;
+        }
+        return data;
+      }catch(e){ return null; }
+    }
+
+    function isLocked(key){ return !!readLock(key); }
+
+    function writeLock(key, extra){
+      try{
+        localStorage.setItem(key, JSON.stringify({ ts: Date.now(), ...(extra||{}) }));
+      }catch(e){}
+    }
+
+    function submissionId(){
+      try{ return crypto.randomUUID(); }
+      catch(e){ return "sub_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36); }
+    }
+
+    async function postJSON(url, payload, timeoutMs=12000){
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs);
+      try{
+        const res = await fetch(url, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal
+        });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return true;
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    function applyReserveLockState(){
+      const locked = isLocked(LOCK_KEYS.reserva);
+      const wrap = document.getElementById("reserveFieldsWrap");
+      const actions = document.getElementById("reserveActions");
+      const note = document.getElementById("reserveNote");
+      const btn = document.getElementById("reserveSendBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Ya recibimos una solicitud desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Si necesitas cambiar algo, espera nuestro WhatsApp o envíanos un mensaje directo.`;
+        if(btn){ btn.disabled = true; btn.textContent = "Solicitud ya enviada"; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(btn){ btn.disabled = false; btn.textContent = "Enviar solicitud"; }
+        return false;
+      }
+    }
+
+    function applyMeetLockState(){
+      const locked = isLocked(LOCK_KEYS.reunion);
+      const wrap = document.getElementById("meetFieldsWrap");
+      const actions = document.getElementById("meetActions");
+      const note = document.getElementById("meetNote");
+      const btn = document.getElementById("meetSendBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Ya recibimos una solicitud de reunión desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Si necesitas reprogramar, contesta por WhatsApp cuando te escribamos.`;
+        if(btn){ btn.disabled = true; btn.textContent = "Solicitud ya enviada"; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(btn){ btn.disabled = false; btn.textContent = "Enviar"; }
+        return false;
+      }
+    }
+
+    function applyAllianceLockState(){
+      const locked = isLocked(LOCK_KEYS.alianza);
+      const wrap = document.getElementById("allyFieldsWrap");
+      const actions = document.getElementById("allyActions");
+      const note = document.getElementById("allyNote");
+      const send = document.getElementById("allySendBtn");
+      const clear = document.getElementById("allyClearBtn");
+
+      if(locked){
+        if(wrap) wrap.style.display = "none";
+        if(actions) actions.style.display = "none";
+        if(note) note.textContent = `✅ Alianza recibida desde este dispositivo (bloqueo ${FORM_LOCK_TTL_HOURS}h). Te contactamos pronto.`;
+        if(send){ send.disabled = true; send.textContent = "Enviado"; }
+        if(clear){ clear.disabled = true; }
+        return true;
+      }else{
+        if(wrap) wrap.style.display = "block";
+        if(actions) actions.style.display = "flex";
+        if(send){ send.disabled = false; send.textContent = "Enviar"; }
+        if(clear){ clear.disabled = false; }
+        return false;
+      }
+    }
 
     /***** HORARIO CHILE (America/Santiago) *****/
     function nowChileISO(){
