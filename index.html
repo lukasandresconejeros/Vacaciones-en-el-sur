@@ -1374,86 +1374,105 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    /***** CONFIG *****/
-    const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
-    const HERO_VIDEO_URL = "video/video.mp4";
-    /***** HORARIO CHILE (America/Santiago) *****/
-    function nowChileISO(){
-      const s = new Date().toLocaleString("sv-SE", { timeZone: "America/Santiago" });
-      return s.replace(" ", "T"); // "YYYY-MM-DDTHH:mm:ss"
-    }
+/***** CONFIG *****/
+const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
+const HERO_VIDEO_URL = "video/video.mp4";
 
-    /* ✅ FECHAS YYYY-MM-DD SEGÚN CHILE + offset días */
-    function chileDateYMDPlus(days=0){
-      const dstr = new Date().toLocaleDateString("sv-SE", { timeZone: "America/Santiago" }); // YYYY-MM-DD
-      const parts = String(dstr).split("-").map(Number);
-      const y = parts[0], m = parts[1], d = parts[2];
-      const dt = new Date(Date.UTC(y, m-1, d + (days||0)));
-      return dt.toISOString().slice(0,10);
-    }
+/* ✅ SINGLE SUBMIT (sin 24h) */
+const LOCK_KEYS = {
+  reserva:  "vds_lock_reserva",
+  reunion:  "vds_lock_reunion",
+  alianza:  "vds_lock_alianza"
+};
 
-    function minDateForTipo(tipo){
-      if(tipo === "Tour fluvial") return chileDateYMDPlus(0);
-      if(tipo === "Tour terrestre" || tipo === "Alojamiento") return chileDateYMDPlus(1);
-      return chileDateYMDPlus(0);
-    }
+function isLocked(key){
+  try{ return !!localStorage.getItem(key); }catch(e){ return false; }
+}
 
-    /***** META PIXEL HELPERS (eventos) *****/
-    const META_CURRENCY = "CLP";
+function writeLock(key, data){
+  try{
+    localStorage.setItem(key, JSON.stringify({ ...(data||{}), at: nowChileISO() }));
+  }catch(e){}
+}
 
-    function trackMeta(eventName, params){
-      try{
-        if(typeof fbq === "function") fbq("track", eventName, params || {});
-      }catch(e){}
-    }
+function clearLock(key){
+  try{ localStorage.removeItem(key); }catch(e){}
+}
 
-    function getNumericValueFromTour(t){
-      const v = Number(t?.precio_adulto);
-      return Number.isFinite(v) && v > 0 ? v : null;
-    }
+function applyReserveLockState(){
+  const locked = isLocked(LOCK_KEYS.reserva);
+  const wrap = document.getElementById("reserveFieldsWrap");
+  const actions = document.getElementById("reserveActions");
+  const note = document.getElementById("reserveNote");
 
-    /***** LOCK SCROLL (iOS/Android friendly) *****/
-    let __lockCount = 0;
-    let __scrollY = 0;
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note) note.textContent = "✅ Solicitud ya enviada. Te contactamos por WhatsApp.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
 
-    function lockScroll(){
-      __lockCount++;
-      if(__lockCount > 1) return;
+function applyMeetLockState(){
+  const locked = isLocked(LOCK_KEYS.reunion);
+  const wrap = document.getElementById("meetFieldsWrap");
+  const actions = document.getElementById("meetActions");
+  const note = document.getElementById("meetNote");
 
-      __scrollY = window.scrollY || 0;
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${__scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-    }
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note) note.textContent = "✅ Solicitud ya enviada. Te contactamos por WhatsApp.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
 
-    function unlockScroll(){
-      __lockCount = Math.max(0, __lockCount - 1);
-      if(__lockCount > 0) return;
+function applyAllianceLockState(){
+  const locked = isLocked(LOCK_KEYS.alianza);
+  const wrap = document.getElementById("allyFieldsWrap");
+  const actions = document.getElementById("allyActions");
+  const note = document.getElementById("allyNote");
 
-      const root = document.documentElement;
-      const prev = root.style.scrollBehavior;
-      root.style.scrollBehavior = "auto";
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note && !note.textContent) note.textContent = "✅ Formulario enviado. Te contactamos para coordinar.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
 
-      const y = __scrollY;
+function submissionId(){
+  return "sub_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+}
 
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
+async function postJSON(url, payload, timeoutMs=12000){
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeoutMs);
 
-      window.scrollTo({ top: y, left: 0, behavior: "auto" });
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal: ctrl.signal
+  }).finally(() => clearTimeout(t));
 
-      requestAnimationFrame(() => { root.style.scrollBehavior = prev; });
-    }
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  return res.text();
+}
 
-    function resetModalScroll(backdropId){
-      const b = document.getElementById(backdropId);
-      const body = b ? b.querySelector(".modal-body") : null;
-      if(body) body.scrollTop = 0;
-    }
+/* 👇 desde aquí sigue TODO tu JS normal (HORARIO CHILE, DATA, render(), etc)
+   sin volver a pegar otro <script> y sin redeclarar WEBHOOK_URL/HERO_VIDEO_URL */
+</script>
+
 
     /***** CONDICIONES (catálogo terrestre) — sin datos bancarios públicos *****/
     const CONDICIONES_RESERVA_TERRESTRES = [
@@ -2544,6 +2563,7 @@
   </script>
 </body>
 </html>
+
 
 
 
