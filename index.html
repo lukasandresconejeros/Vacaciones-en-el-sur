@@ -1377,6 +1377,104 @@
     /***** CONFIG *****/
     const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
     const HERO_VIDEO_URL = "video/video.mp4";
+    <script>
+/***** CONFIG *****/
+const WEBHOOK_URL = "https://n8n-n8n.bvil2a.easypanel.host/webhook/2e98cf7f-b5fb-490c-8dac-05274a1d59e8";
+const HERO_VIDEO_URL = "video/video.mp4";
+
+/* ✅ SINGLE SUBMIT (sin 24h) — vuelve a habilitar lo que rompiste */
+const LOCK_KEYS = {
+  reserva:  "vds_lock_reserva",
+  reunion:  "vds_lock_reunion",
+  alianza:  "vds_lock_alianza"
+};
+
+function isLocked(key){
+  try{ return !!localStorage.getItem(key); }catch(e){ return false; }
+}
+
+function writeLock(key, data){
+  try{
+    localStorage.setItem(key, JSON.stringify({ ...(data||{}), at: nowChileISO() }));
+  }catch(e){}
+}
+
+function clearLock(key){
+  try{ localStorage.removeItem(key); }catch(e){}
+}
+
+function applyReserveLockState(){
+  const locked = isLocked(LOCK_KEYS.reserva);
+  const wrap = document.getElementById("reserveFieldsWrap");
+  const actions = document.getElementById("reserveActions");
+  const note = document.getElementById("reserveNote");
+
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note) note.textContent = "✅ Solicitud ya enviada. Te contactamos por WhatsApp.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
+
+function applyMeetLockState(){
+  const locked = isLocked(LOCK_KEYS.reunion);
+  const wrap = document.getElementById("meetFieldsWrap");
+  const actions = document.getElementById("meetActions");
+  const note = document.getElementById("meetNote");
+
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note) note.textContent = "✅ Solicitud ya enviada. Te contactamos por WhatsApp.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
+
+function applyAllianceLockState(){
+  const locked = isLocked(LOCK_KEYS.alianza);
+  const wrap = document.getElementById("allyFieldsWrap");
+  const actions = document.getElementById("allyActions");
+  const note = document.getElementById("allyNote");
+
+  if(locked){
+    if(wrap) wrap.style.display = "none";
+    if(actions) actions.style.display = "none";
+    if(note && !note.textContent) note.textContent = "✅ Formulario enviado. Te contactamos para coordinar.";
+  }else{
+    if(wrap) wrap.style.display = "block";
+    if(actions) actions.style.display = "flex";
+  }
+  return locked;
+}
+
+function submissionId(){
+  return "sub_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+}
+
+async function postJSON(url, payload, timeoutMs=12000){
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeoutMs);
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal: ctrl.signal
+  }).finally(() => clearTimeout(t));
+
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  return res.text(); // n8n a veces responde vacío
+}
+
+/* 👇 el resto de tu script sigue igual... */
+</script>
 
    
 
@@ -2547,4 +2645,5 @@
   </script>
 </body>
 </html>
+
 
