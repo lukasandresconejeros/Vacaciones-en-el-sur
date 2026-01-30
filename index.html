@@ -1106,6 +1106,13 @@
         </div>
       </section>
 
+            <section hidden id="quienes-somos-movil-wrap">
+        <div class="side-card">
+          <div id="quienes-somos-slot"></div>
+        </div>
+      </section>
+
+
       <section id="alianza">
         <div class="section-head">
           <div>
@@ -2562,6 +2569,40 @@
 
     render();
     initHeroVideo();
+        /***** ✅ MOVER “QUIÉNES SOMOS” SOLO EN MÓVIL (<=980px) *****/
+    (function(){
+      const mq = window.matchMedia("(max-width: 980px)");
+      const quienes = document.getElementById("quienes-somos");
+      const wrap = document.getElementById("quienes-somos-movil-wrap");
+      const slot = document.getElementById("quienes-somos-slot");
+
+      if(!quienes || !wrap || !slot) return;
+
+      const originalParent = quienes.parentElement;
+      const originalNext = quienes.nextElementSibling; // (puede ser null, ok)
+
+      function applyMove(){
+        if(mq.matches){
+          wrap.hidden = false;
+          if(quienes.parentElement !== slot) slot.appendChild(quienes);
+        }else{
+          wrap.hidden = true;
+          if(quienes.parentElement === slot){
+            if(originalNext && originalNext.parentElement === originalParent){
+              originalParent.insertBefore(quienes, originalNext);
+            }else{
+              originalParent.appendChild(quienes);
+            }
+          }
+        }
+      }
+
+      if(mq.addEventListener) mq.addEventListener("change", applyMove);
+      else mq.addListener(applyMove);
+
+      applyMove();
+    })();
+
 
     // ✅ asegura formularios visibles al cargar
     applyAllianceLockState();
@@ -2571,6 +2612,7 @@
 </body>
 </html>
 ```
+
 
 
 
