@@ -146,7 +146,7 @@
       display: block;
       object-fit: cover;          /* recorta sin deformar */
       object-position: center;    /* centra el contenido */
-      transform: scale(1.18);     /* “zoom” para comerse bordes blancos */
+      transform: scale(1.18);     /* "zoom" para comerse bordes blancos */
     }
 
     .brand h1{
@@ -939,7 +939,7 @@
                     <button class="video-play" id="heroPlayBtn" type="button">▶ Ver video</button>
                     <button class="video-sound" id="heroSoundBtn" type="button">🔊 Sonido</button>
                   </div>
-                  <p class="video-hint">Video vertical. <b>Tocas “Ver video”</b> y se abre en formato reels.</p>
+                  <p class="video-hint">Video vertical. <b>Tocas "Ver video"</b> y se abre en formato reels.</p>
                 </div>
               </div>
 
@@ -1230,6 +1230,16 @@
               <label for="r_fecha">Fecha tentativa (opcional)</label>
               <input id="r_fecha" type="date" />
             </div>
+          </div>
+
+          <!-- ✅ PISO EMBARCACIÓN: solo visible para fluv-1 (Corral–Mancera) -->
+          <div id="pisoRow" style="display:none;margin-top:6px;">
+            <label for="r_piso">Ubicación en embarcación</label>
+            <select id="r_piso">
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="35000">Primer piso - $35.000</option>
+              <option value="40000">Segundo piso - $40.000</option>
+            </select>
           </div>
 
           <!-- ✅ ALOJAMIENTO: preguntas extra (sin cuna / sin movilidad reducida) -->
@@ -1553,8 +1563,8 @@
             "Once sureña a bordo"
           ],
           valores: [
-            "1er piso: $30.000",
-            "2do piso: $35.000",
+            "1er piso: $35.000",
+            "2do piso: $40.000",
             "Niños 5 a 10 años: 20% dcto"
           ],
           notas: [
@@ -1727,7 +1737,7 @@
           horarios: "Salida: 07:30–08:00 h • Regreso: 20:20 h (aprox.)",
           incluye: ["Almuerzo (plato principal)","Entrada a portales","Minibús (traslados)","Guía turístico"],
           valores: ["Adultos: $63.000","Niños: $58.000"],
-          notas: ["En el catálogo aparece “Regreso 08:20 h”, pero corresponde a 20:20 h aprox."]
+          notas: ["En el catálogo aparece \"Regreso 08:20 h\", pero corresponde a 20:20 h aprox."]
         }
       },
       {
@@ -2062,6 +2072,9 @@
       document.getElementById("r_fecha").value = "";
       document.getElementById("r_msg").value = "";
 
+      // ✅ reset piso embarcación
+      document.getElementById("r_piso").value = "";
+
       // ✅ reset alojamiento fields
       document.getElementById("s_checkin").value = "";
       document.getElementById("s_checkout").value = "";
@@ -2075,8 +2088,13 @@
       // ✅ mostrar/ocultar según tipo
       const tipo = payload?.tipo || "Solicitud";
       const isStay = (tipo === "Alojamiento");
+      const isFluv1 = (payload?.id === "fluv-1");
+
       document.getElementById("tourFieldsRow").style.display = isStay ? "none" : "grid";
       document.getElementById("stayFields").style.display = isStay ? "block" : "none";
+
+      // ✅ mostrar selector de piso solo para el tour Corral–Mancera (fluv-1)
+      document.getElementById("pisoRow").style.display = isFluv1 ? "block" : "none";
 
       // ✅ min dates
       const min = minDateForTipo(tipo);
@@ -2150,8 +2168,22 @@
 
       const tipo = selected?.tipo || "Solicitud";
       const item = selected?.nombre || "Consulta";
-
       const isStay = (tipo === "Alojamiento");
+      const isFluv1 = (selected?.id === "fluv-1");
+
+      // ✅ Validación y captura del piso (solo fluv-1)
+      let pisoValue = null;
+      let pisoLabel = null;
+      if(isFluv1){
+        const pisoEl = document.getElementById("r_piso");
+        pisoValue = (pisoEl?.value || "").trim();
+        if(!pisoValue){
+          showToast("Por favor selecciona la ubicación en la embarcación (1er o 2do piso).");
+          return;
+        }
+        const selectedOption = pisoEl.options[pisoEl.selectedIndex];
+        pisoLabel = selectedOption ? selectedOption.text : pisoValue;
+      }
 
       // ✅ Tour fields
       const personasRaw = (document.getElementById("r_personas").value || "").trim();
@@ -2228,6 +2260,13 @@
       const t = selected?.id ? getTourById(selected.id) : null;
       const pricePack = buildPricePayload(tipo, t);
 
+      // ✅ Si es fluv-1, sobreescribir precio_adulto y precio_display con la elección del piso
+      if(isFluv1 && pisoValue){
+        pricePack.precio_adulto = Number(pisoValue);
+        pricePack.precio_display = pisoLabel || fmtCLP(Number(pisoValue));
+        pricePack.piso_embarcacion = pisoLabel;
+      }
+
       // ✅ fecha estándar: en tours usa fecha tentativa; en alojamiento usa check-in
       const fecha = isStay ? (checkin || null) : (fechaRaw || null);
 
@@ -2266,6 +2305,10 @@
           `Alojamiento | ${nombre} | ${telefono} | ${checkin || "—"} | ${checkout || "—"} | Adultos:${(stayAdultos!=null?stayAdultos:"—")} | Niños:${(stayNinos!=null?stayNinos:"—")} | Zona:${sZona||"—"} | Tipo:${sTipo||"—"} | Presupuesto:${sPres||"—"} | Mascotas:${sMasc||"—"} | ${mensaje || "—"}`;
       }else{
         payload.resumen_ordenado = orderedSummary({ tipo, item, nombre, telefono, fecha, personas, ninos, mensaje });
+        // ✅ Agregar piso al resumen_ordenado si es fluv-1
+        if(isFluv1 && pisoLabel){
+          payload.resumen_ordenado += ` | Piso:${pisoLabel}`;
+        }
       }
 
       __sendingReserve = true;
@@ -2569,7 +2612,7 @@
 
     render();
     initHeroVideo();
-        /***** ✅ MOVER “QUIÉNES SOMOS” SOLO EN MÓVIL (<=980px) *****/
+        /***** ✅ MOVER "QUIÉNES SOMOS" SOLO EN MÓVIL (<=980px) *****/
     (function(){
       const mq = window.matchMedia("(max-width: 980px)");
       const quienes = document.getElementById("quienes-somos");
@@ -2611,9 +2654,3 @@
   </script>
 </body>
 </html>
-```
-
-
-
-
-
