@@ -999,6 +999,73 @@
       text-transform: uppercase; color: var(--ocean); margin-bottom: 6px;
     }
     .info-box p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ============================================================
+       FLOATING SOCIAL BUTTONS
+    ============================================================ */
+    .float-btns {
+      position: fixed;
+      bottom: 24px; right: 20px;
+      z-index: 50;
+      display: flex; flex-direction: column; gap: 12px;
+      align-items: center;
+    }
+    .float-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: none; cursor: pointer;
+      display: grid; place-items: center;
+      box-shadow: 0 6px 24px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.14);
+      transition: transform .20s cubic-bezier(.22,1,.36,1), box-shadow .20s;
+      text-decoration: none;
+      position: relative;
+    }
+    .float-btn:hover {
+      transform: scale(1.12) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.28), 0 4px 12px rgba(0,0,0,.16);
+    }
+    .float-btn:active { transform: scale(.96); }
+    .float-btn svg { display: block; }
+
+    /* WhatsApp */
+    .float-btn-wsp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+    }
+    /* Instagram */
+    .float-btn-ig {
+      background: linear-gradient(135deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888);
+    }
+
+    /* Tooltip labels */
+    .float-btn::before {
+      content: attr(data-label);
+      position: absolute; right: calc(100% + 10px);
+      background: rgba(7,23,40,.88);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 600;
+      padding: 5px 10px; border-radius: 8px;
+      white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transform: translateX(6px);
+      transition: opacity .18s, transform .18s;
+    }
+    .float-btn:hover::before {
+      opacity: 1; transform: translateX(0);
+    }
+
+    /* Pulse ring on WhatsApp */
+    .float-btn-wsp::after {
+      content: "";
+      position: absolute; inset: -5px;
+      border-radius: 50%;
+      border: 2px solid rgba(37,211,102,.45);
+      animation: wsp-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes wsp-pulse {
+      0%,100% { transform: scale(1); opacity: .7; }
+      50%      { transform: scale(1.18); opacity: 0; }
+    }
   </style>
 </head>
 
@@ -1548,6 +1615,30 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- FLOATING SOCIAL BUTTONS -->
+<div class="float-btns" aria-label="Redes sociales">
+  <a class="float-btn float-btn-ig"
+     href="https://www.instagram.com/vacacionesenelsurdechile"
+     target="_blank" rel="noopener"
+     aria-label="Instagram"
+     data-label="Instagram">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="white" stroke-width="2"/>
+      <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="2"/>
+      <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+    </svg>
+  </a>
+  <a class="float-btn float-btn-wsp"
+     href="https://wa.me/56951413131"
+     target="_blank" rel="noopener"
+     aria-label="WhatsApp"
+     data-label="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 2C6.495 2 2 6.495 2 12.05c0 1.867.487 3.619 1.338 5.144L2 22l4.957-1.299A9.99 9.99 0 0012.05 22C17.605 22 22 17.505 22 12.05S17.605 2 12.05 2z"/>
+    </svg>
+  </a>
+</div>
 
 <!-- ====================================================
      JAVASCRIPT
@@ -2277,6 +2368,55 @@
   render();
   initHeroVideo();
   initReveal();
+
+  /* ---- MOBILE SECTION REORDER ----
+     En móvil (<= 860px): mover "Quiénes somos" y "Grupos/Empresas"
+     debajo de la sección Tours Terrestres.
+  ---- */
+  (function(){
+    const mq = window.matchMedia("(max-width: 860px)");
+
+    const quienes = document.getElementById("quienes-somos");        // div dentro del hero-info-scroll
+    const gruposSection = document.getElementById("grupos-empresas"); // section completa
+    const terrestresSection = document.getElementById("tours-terrestres");
+
+    if(!quienes || !gruposSection || !terrestresSection) return;
+
+    // Guardar referencias originales
+    const quienesParentOrig = quienes.parentElement;
+    const quienesNextOrig   = quienes.nextElementSibling;
+    const gruposParentOrig  = gruposSection.parentElement;
+    const gruposNextOrig    = gruposSection.nextElementSibling;
+
+    function applyOrder(){
+      const after = terrestresSection; // insertaremos después de esta sección
+
+      if(mq.matches){
+        // Insertar quiénes somos después de tours terrestres
+        after.insertAdjacentElement("afterend", quienes);
+        // Insertar grupos después de quiénes somos
+        quienes.insertAdjacentElement("afterend", gruposSection);
+      } else {
+        // Restaurar quiénes somos a su posición original (dentro del hero-info-scroll)
+        if(quienesNextOrig && quienesNextOrig.parentElement === quienesParentOrig){
+          quienesParentOrig.insertBefore(quienes, quienesNextOrig);
+        } else {
+          quienesParentOrig.appendChild(quienes);
+        }
+        // Restaurar grupos a su posición original
+        if(gruposNextOrig && gruposNextOrig.parentElement === gruposParentOrig){
+          gruposParentOrig.insertBefore(gruposSection, gruposNextOrig);
+        } else {
+          gruposParentOrig.appendChild(gruposSection);
+        }
+      }
+    }
+
+    if(mq.addEventListener) mq.addEventListener("change", applyOrder);
+    else mq.addListener(applyOrder);
+
+    applyOrder();
+  })();
 </script>
 </body>
 </html>
